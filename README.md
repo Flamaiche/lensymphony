@@ -72,6 +72,17 @@ interface Note {
     + {abstract} getDuration(tempo: int): int
 }
 
+class MusicalNote implements Note {
+    - pitch: NotePitch
+    - noteValue: NoteValue
+    + MusicalNote(pitch: NotePitch, noteValue: NoteValue)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+
+}
+
+
+
 interface AbstractNoteFactory {
     + {abstract} createRest(value: NoteValue): Note
     + {abstract} createNote(pitch: NotePitch, value: NoteValue): Note
@@ -151,6 +162,7 @@ Example --> NoteSynthesizer : << uses >>
 LenSymphony --> AbstractNoteFactory : << uses >>
 LenSymphony --> MusicXMLSaxParser : << uses >>
 LenSymphony --> NoteSynthesizer : << uses >>
+AbstractNoteFactory --> MusicalNote : << creates >>
 ```
 
 ## Feature list
