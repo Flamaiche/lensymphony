@@ -44,6 +44,8 @@ public class TestPureTone {
         synthesizer.synthesize();
         synthesizer.play();
 
+        // TODO : A finir
+
         System.out.println("Pure tone sound synthesis test passed.");
 
         } catch (Exception e) {
