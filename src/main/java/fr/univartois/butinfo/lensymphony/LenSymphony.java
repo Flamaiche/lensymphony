@@ -30,6 +30,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import fr.univartois.butinfo.lensymphony.musicxml.MusicXMLSaxParser;
 import fr.univartois.butinfo.lensymphony.notes.AbstractNoteFactory;
+import fr.univartois.butinfo.lensymphony.notes.NoteFactory;
+import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.PureTone;
 import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.SimpleMusicSynthesizer;
@@ -47,15 +49,13 @@ public final class LenSymphony {
 
     /**
      * The note factory used to create notes.
-     * TODO: You have to set it with your own implementation.
      */
-    private static AbstractNoteFactory noteFactory = null;
+    private static AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
 
     /**
      * The note synthesizer used to synthesize notes.
-     * TODO: You have to set it with your own implementation.
      */
-    private static NoteSynthesizer noteSynthesizer = null;
+    private static NoteSynthesizer noteSynthesizer = PureTone.getInstance();
 
     /**
      * Disables instantiation.

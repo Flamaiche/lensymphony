@@ -72,12 +72,16 @@ interface Note {
     + {abstract} getDuration(tempo: int): int
 }
 
-class Rest implements Note {
-    -noteValue: NoteValue
-    +Rest(noteValue: NoteValue)
-    +getFrequency(): double
-    +getDuration(tempo: int): int
+class MusicalNote implements Note {
+    - pitch: NotePitch
+    - noteValue: NoteValue
+    + MusicalNote(pitch: NotePitch, noteValue: NoteValue)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+
 }
+
+
 
 interface AbstractNoteFactory {
     + {abstract} createRest(value: NoteValue): Note
@@ -158,36 +162,37 @@ Example --> NoteSynthesizer : << uses >>
 LenSymphony --> AbstractNoteFactory : << uses >>
 LenSymphony --> MusicXMLSaxParser : << uses >>
 LenSymphony --> NoteSynthesizer : << uses >>
+AbstractNoteFactory --> MusicalNote : << creates >>
 ```
 
 ## Feature list
 
-| Features                                               | Design Pattern(s) (?)       | Author(s)    |
-|--------------------------------------------------------|-----------------------------|--------------|
-| Representation of a note's pitch (name + octave)       |                             |              |
-| Representation of a note/silence value                 |                             |              |
-| Representation of a musical note                       |                             |              |
-| Representation of a silence                            |                             |              |
-| Representation of a point on a note                    |                             |              |
-| Representation of a tie between notes                  |                             |              |
-| Representation of a staff                              |                             |              |
-| Traversal of notes/silences in a staff                 |                             |              |
-| Representation of a musical piece                      |                             |              |
-| Creation of musical elements (notes, silences)         |                             |              |
-| Generation of the "pure" sound for a note              | Strategy                    | Hugo Richard |
-| Addition of harmonics to the sound of a note           |                             |              |
-| Application of an ADSR envelope to the sound of a note |                             |              |
-| Application of a vibrato to the sound of a note        |                             |              |
-| Addition of random noise to the sound of a note        |                             |              |
-| Synthesis of the bass drum sound                       |                             |              |
-| Synthesis of the snare drum sound                      |                             |              |
-| Synthesis of the cymbal sound                          |                             |              |
-| Synthesis of the triangle sound                        |                             |              |
-| Synthesis of the timpani sound                         |                             |              |
-| Synthesis of the xylophone sound                       |                             |              |
-| Definition of virtual instruments                      |                             |              |
-| Synthesis of the ensemble piece sound                  |                             |              |
-| Command line management                                |                             |              |
+| Features                                               | Design Pattern(s) (?) | Author(s)      |
+|--------------------------------------------------------|-----------------------|----------------|
+| Representation of a note's pitch (name + octave)       |                       |                |
+| Representation of a note/silence value                 |                       |                |
+| Representation of a musical note                       | Composite             | Jabir Danoun   |
+| Representation of a silence                            | Composite             | Matheo Popieul |
+| Representation of a point on a note                    |                       |                |
+| Representation of a tie between notes                  |                       |                |
+| Representation of a staff                              |                       |                |
+| Traversal of notes/silences in a staff                 |                       |                |
+| Representation of a musical piece                      |                       |                |
+| Creation of musical elements (notes, silences)         |                       |                |
+| Generation of the "pure" sound for a note              |                       |                |
+| Addition of harmonics to the sound of a note           |                       |                |
+| Application of an ADSR envelope to the sound of a note |                       |                |
+| Application of a vibrato to the sound of a note        |                       |                |
+| Addition of random noise to the sound of a note        |                       |                |
+| Synthesis of the bass drum sound                       |                       |                |
+| Synthesis of the snare drum sound                      |                       |                |
+| Synthesis of the cymbal sound                          |                       |                |
+| Synthesis of the triangle sound                        |                       |                |
+| Synthesis of the timpani sound                         |                       |                |
+| Synthesis of the xylophone sound                       |                       |                |
+| Definition of virtual instruments                      |                       |                |
+| Synthesis of the ensemble piece sound                  |                       |                |
+| Command line management                                |                       |                |
 
 ## Team
 
