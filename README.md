@@ -179,7 +179,7 @@ AbstractNoteFactory --> MusicalNote : << creates >>
 | Traversal of notes/silences in a staff                 |                       |                |
 | Representation of a musical piece                      |                       |                |
 | Creation of musical elements (notes, silences)         |                       |                |
-| Generation of the "pure" sound for a note              |                       |                |
+| Generation of the "pure" sound for a note              | Strategy              | Hugo Richard   |
 | Addition of harmonics to the sound of a note           |                       |                |
 | Application of an ADSR envelope to the sound of a note |                       |                |
 | Application of a vibrato to the sound of a note        |                       |                |
