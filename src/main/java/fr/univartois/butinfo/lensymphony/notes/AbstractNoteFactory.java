@@ -44,7 +44,9 @@ public interface AbstractNoteFactory {
      *
      * @return The created rest.
      */
-    Note createRest(NoteValue value);
+    default Note createRest(NoteValue value) {
+        return new Rest(value);
+    }
 
     /**
      * Creates a note with the given pitch and value.
@@ -54,7 +56,9 @@ public interface AbstractNoteFactory {
      *
      * @return The created note.
      */
-    Note createNote(NotePitch pitch, NoteValue value);
+    default Note createNote(NotePitch pitch, NoteValue value) {
+        return new MusicalNote(pitch, value);
+    }
 
     /**
      * Creates a dotted note from the given existing note.

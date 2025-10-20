@@ -69,6 +69,13 @@ public interface MusicSynthesizer {
     int getTempo();
 
     /**
+     * Returns the volume level for the notes (between 0.0 and 1.0).
+     *
+     * @return The volume level.
+     */
+    double getVolume();
+
+    /**
      * Returns the synthesized audio data as a byte array.
      * If the audio stream has not been synthesized yet, this method returns an empty
      * array.

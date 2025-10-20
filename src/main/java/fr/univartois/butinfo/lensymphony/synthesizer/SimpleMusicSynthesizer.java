@@ -115,4 +115,9 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
         return tempo;
     }
 
+    @Override
+    public double getVolume() {
+        return 0;
+    }
+
 }
