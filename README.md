@@ -72,13 +72,6 @@ interface Note {
     + {abstract} getDuration(tempo: int): int
 }
 
-class Rest implements Note {
-    -noteValue: NoteValue
-    +Rest(noteValue: NoteValue)
-    +getFrequency(): double
-    +getDuration(tempo: int): int
-}
-
 interface AbstractNoteFactory {
     + {abstract} createRest(value: NoteValue): Note
     + {abstract} createNote(pitch: NotePitch, value: NoteValue): Note
