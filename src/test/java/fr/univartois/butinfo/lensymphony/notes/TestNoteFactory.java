@@ -5,11 +5,30 @@ import fr.univartois.butinfo.lensymphony.notes.element.Rest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link NoteFactory} singleton.
+ * <p>
+ * These tests verify that the factory correctly creates basic musical notes
+ * ({@link MusicalNote}) and rests ({@link Rest}) using the default methods
+ * defined in {@link AbstractNoteFactory}.
+ * </p>
+ * <p>
+ * Methods that are not implemented in Sprint 1, such as dotted notes and fermata,
+ * are also tested to ensure they return {@code null} as expected.
+ * </p>
+ *
+ * <p>Author: [Your Name]</p>
+ * <p>Version: 0.1.0</p>
+ */
 public class TestNoteFactory {
 
-    // On récupère l'instance unique du singleton
+    /** Singleton instance of the note factory used in the tests. */
     private final AbstractNoteFactory factory = NoteFactory.getINSTANCE();
 
+    /**
+     * Tests that {@link AbstractNoteFactory#createNote(NotePitch, NoteValue)}
+     * creates a {@link MusicalNote} with the correct frequency and duration.
+     */
     @Test
     public void testCreateNoteMusical() {
         NotePitch pitch = NotePitch.of(PitchClass.A, 4); // A4 = 440 Hz
@@ -24,6 +43,10 @@ public class TestNoteFactory {
                 "Duration should match NoteValue with given tempo");
     }
 
+    /**
+     * Tests that {@link AbstractNoteFactory#createRest(NoteValue)}
+     * creates a {@link Rest} with the correct duration and zero frequency.
+     */
     @Test
     public void testCreateRest() {
         NoteValue value = NoteValue.HALF;
@@ -37,6 +60,10 @@ public class TestNoteFactory {
                 "Duration should match NoteValue with given tempo");
     }
 
+    /**
+     * Tests that {@link AbstractNoteFactory#createDottedNote(Note)}
+     * returns {@code null} as it is not implemented in Sprint 1.
+     */
     @Test
     public void testCreateDottedNoteReturnsNull() {
         NotePitch pitch = NotePitch.of(PitchClass.C, 4);
@@ -45,6 +72,10 @@ public class TestNoteFactory {
         assertNull(factory.createDottedNote(note), "Dotted notes not implemented yet, should return null");
     }
 
+    /**
+     * Tests that {@link AbstractNoteFactory#createFermataOn(Note)}
+     * returns {@code null} as it is not implemented in Sprint 1.
+     */
     @Test
     public void testCreateFermataOnReturnsNull() {
         NotePitch pitch = NotePitch.of(PitchClass.C, 4);
