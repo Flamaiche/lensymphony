@@ -72,6 +72,13 @@ interface Note {
     + {abstract} getDuration(tempo: int): int
 }
 
+class Rest implements Note {
+    -noteValue: NoteValue
+    +Rest(noteValue: NoteValue)
+    +getFrequency(): double
+    +getDuration(tempo: int): int
+}
+
 class MusicalNote implements Note {
     - pitch: NotePitch
     - noteValue: NoteValue
