@@ -3,12 +3,20 @@ package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 import fr.univartois.butinfo.lensymphony.notes.Note;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 
+/**
+ * The type Pure tone.
+ */
 public class PureTone implements NoteSynthesizer {
 
     private static PureTone instance;
 
     private PureTone() {}
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static PureTone getInstance() {
         if (instance == null) {
             instance = new PureTone();
