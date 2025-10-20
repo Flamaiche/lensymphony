@@ -1,25 +1,29 @@
 package fr.univartois.butinfo.lensymphony.notes.element;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
+import fr.univartois.butinfo.lensymphony.notes.NotePitch;
+import fr.univartois.butinfo.lensymphony.notes.NoteValue;
 
 public class MusicalNote implements Note {
-    private final double frequency;
-    private final int duration;
+
+    private final NotePitch pitch;
+
+    private final NoteValue noteValue;
 
 
-    public MusicalNote(int duration, double frequency) {
-        this.frequency = frequency;
-        this.duration = duration;
+    public MusicalNote(NotePitch pitch, NoteValue noteValue) {
+        this.pitch = pitch;
+        this.noteValue = noteValue;
     }
 
     @Override
     public double getFrequency() {
-        return this.frequency;
+        return pitch.frequency();
     }
 
     @Override
     public int getDuration(int tempo) {
-        return this.duration;
+        return noteValue.duration(tempo);
     }
 
 
