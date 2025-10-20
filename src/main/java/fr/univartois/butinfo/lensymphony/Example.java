@@ -26,6 +26,7 @@ package fr.univartois.butinfo.lensymphony;
 import java.util.List;
 
 import fr.univartois.butinfo.lensymphony.notes.*;
+import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.PureTone;
 import fr.univartois.butinfo.lensymphony.synthesizer.SimpleMusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
@@ -49,7 +50,7 @@ public final class Example {
      * The note synthesizer used to synthesize notes.
      * TODO: You have to set it with your own implementation.
      */
-    private static NoteSynthesizer noteSynthesizer = null;
+    private static NoteSynthesizer noteSynthesizer = PureTone.getInstance();
 
     /**
      * Disables instantiation.
