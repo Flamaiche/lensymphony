@@ -72,12 +72,16 @@ interface Note {
     + {abstract} getDuration(tempo: int): int
 }
 
-class Rest implements Note {
-    -noteValue: NoteValue
-    +Rest(noteValue: NoteValue)
-    +getFrequency(): double
-    +getDuration(tempo: int): int
+class MusicalNote implements Note {
+    - pitch: NotePitch
+    - noteValue: NoteValue
+    + MusicalNote(pitch: NotePitch, noteValue: NoteValue)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+
 }
+
+
 
 interface AbstractNoteFactory {
     + {abstract} createRest(value: NoteValue): Note
@@ -158,6 +162,7 @@ Example --> NoteSynthesizer : << uses >>
 LenSymphony --> AbstractNoteFactory : << uses >>
 LenSymphony --> MusicXMLSaxParser : << uses >>
 LenSymphony --> NoteSynthesizer : << uses >>
+AbstractNoteFactory --> MusicalNote : << creates >>
 ```
 
 ## Feature list
@@ -166,7 +171,7 @@ LenSymphony --> NoteSynthesizer : << uses >>
 |--------------------------------------------------------|-----------------------|----------------|
 | Representation of a note's pitch (name + octave)       |                       |                |
 | Representation of a note/silence value                 |                       |                |
-| Representation of a musical note                       |                       |                |
+| Representation of a musical note                       | Composite             | Jabir Danoun   |
 | Representation of a silence                            | Composite             | Matheo Popieul |
 | Representation of a point on a note                    |                       |                |
 | Representation of a tie between notes                  |                       |                |
