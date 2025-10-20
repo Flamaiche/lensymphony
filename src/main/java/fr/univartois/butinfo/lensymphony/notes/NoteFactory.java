@@ -8,6 +8,8 @@ import java.util.List;
 public class NoteFactory implements AbstractNoteFactory {
     private static final NoteFactory INSTANCE = new NoteFactory();
 
+    private NoteFactory() {}
+
     public static NoteFactory getINSTANCE() {
         return INSTANCE;
     }
