@@ -23,6 +23,8 @@
 
 package fr.univartois.butinfo.lensymphony.notes;
 
+import fr.univartois.butinfo.lensymphony.notes.element.Rest;
+
 import java.util.List;
 
 /**
@@ -41,7 +43,9 @@ public interface AbstractNoteFactory {
      *
      * @return The created rest.
      */
-    Note createRest(NoteValue value);
+    default Note createRest(NoteValue value) {
+        return null;
+    }
 
     /**
      * Creates a note with the given pitch and value.
@@ -51,7 +55,9 @@ public interface AbstractNoteFactory {
      *
      * @return The created note.
      */
-    Note createNote(NotePitch pitch, NoteValue value);
+    default Note createNote(NotePitch pitch, NoteValue value) {
+        return null;
+    }
 
     /**
      * Creates a dotted note from the given existing note.
