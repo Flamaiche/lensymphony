@@ -96,6 +96,11 @@ interface NoteSynthesizer {
     + {abstract} synthesize(note: Note, tempo: int, volume: double): double[]
 }
 
+class PureTone implements NoteSynthesizer {
+    + getInstance(): PureTone
+    + synthesize(note: Note, tempo: int, volume: double): double[]
+}
+
 interface MusicSynthesizer {
     + {abstract} synthesize(): void
     + {abstract} getSamples(): double[]
