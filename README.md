@@ -186,7 +186,7 @@ LenSymphony --> NoteSynthesizer : << uses >>
 
 This project has been developed by:
 
-- Your Name Here
-- Your Name Here
-- Your Name Here
-- Your Name Here
+- Babahamou Malik
+- Danoun Jabir
+- Popieul Matheo
+- Richard Hugo
