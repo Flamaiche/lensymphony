@@ -23,6 +23,9 @@
 
 package fr.univartois.butinfo.lensymphony.notes;
 
+import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
+import fr.univartois.butinfo.lensymphony.notes.element.Rest;
+
 import java.util.List;
 
 /**
