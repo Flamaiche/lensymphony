@@ -19,14 +19,22 @@ public class PureTone implements NoteSynthesizer {
     @Override
     public double[] synthesize(Note note, int tempo, double volume) {
         double f = note.getFrequency();
-        double duration = note.getDuration(tempo);
+
+        // La durée retournée par note.getDuration(tempo) est en millisecondes → conversion en secondes
+        double durationMillis = note.getDuration(tempo);
+        double duration = durationMillis / 1000.0;
+
+        // Nombre total d’échantillons à générer
         int totalSamples = (int) (SAMPLE_RATE * duration);
 
+        // Création du tableau d’échantillons
         double[] samples = new double[totalSamples];
+
         for (int i = 0; i < totalSamples; i++) {
             double t = i / (double) SAMPLE_RATE;
             samples[i] = volume * Math.sin(2 * Math.PI * f * t);
         }
+
         return samples;
     }
 }
