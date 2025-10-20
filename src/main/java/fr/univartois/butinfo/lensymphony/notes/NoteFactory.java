@@ -1,5 +1,8 @@
 package fr.univartois.butinfo.lensymphony.notes;
 
+import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
+import fr.univartois.butinfo.lensymphony.notes.element.Rest;
+
 import java.util.List;
 
 public class NoteFactory implements AbstractNoteFactory {
@@ -11,12 +14,12 @@ public class NoteFactory implements AbstractNoteFactory {
 
     @Override
     public Note createRest(NoteValue value) {
-        return AbstractNoteFactory.super.createRest(value);
+        return new Rest(value);
     }
 
     @Override
     public Note createNote(NotePitch pitch, NoteValue value) {
-        return AbstractNoteFactory.super.createNote(pitch, value);
+        return new MusicalNote(pitch, value);
     }
 
     @Override
