@@ -23,6 +23,7 @@
 
 package fr.univartois.butinfo.lensymphony.notes;
 
+import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
 import fr.univartois.butinfo.lensymphony.notes.element.Rest;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public interface AbstractNoteFactory {
      * @return The created rest.
      */
     default Note createRest(NoteValue value) {
-        return null;
+        return new Rest(value);
     }
 
     /**
@@ -56,7 +57,7 @@ public interface AbstractNoteFactory {
      * @return The created note.
      */
     default Note createNote(NotePitch pitch, NoteValue value) {
-        return null;
+        return new MusicalNote(pitch, value);
     }
 
     /**
