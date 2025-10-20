@@ -48,7 +48,6 @@ public final class Example {
 
     /**
      * The note synthesizer used to synthesize notes.
-     * TODO: You have to set it with your own implementation.
      */
     private static NoteSynthesizer noteSynthesizer = PureTone.getInstance();
 
