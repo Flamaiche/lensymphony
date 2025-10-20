@@ -11,25 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestAbstractNoteFactory {
 
     // Creating an instance to test default methods
-    private final AbstractNoteFactory factory = new AbstractNoteFactory() {
-
-        // Override methode with no-default temp. To have no error
-
-        @Override
-        public Note createDottedNote(Note note) {
-            return null;
-        }
-
-        @Override
-        public Note createFermataOn(Note note) {
-            return null;
-        }
-
-        @Override
-        public Note createTiedNotes(List<Note> notes) {
-            return null;
-        }
-    };
+    private final AbstractNoteFactory factory = NoteFactory.getINSTANCE();
 
     @Test
     public void testCreateNoteMusical() {
@@ -39,7 +21,7 @@ public class TestAbstractNoteFactory {
         Note note = factory.createNote(pitch, value);
 
         assertNotNull(note, "createNote should not return null");
-        assertTrue(note instanceof MusicalNote, "Should return a MusicalNote instance");
+        assertInstanceOf(MusicalNote.class, note, "Should return a MusicalNote instance");
         assertEquals(pitch.frequency(), note.getFrequency(), 1e-6, "Frequency should match pitch");
         assertEquals(value.duration(120), note.getDuration(120), "Duration should match NoteValue with tempo");
     }
@@ -51,7 +33,7 @@ public class TestAbstractNoteFactory {
         Note rest = factory.createRest(value);
 
         assertNotNull(rest, "createRest should not return null");
-        assertTrue(rest instanceof Rest, "Should return a Rest instance");
+        assertInstanceOf(Rest.class, rest, "Should return a Rest instance");
         assertEquals(0.0, rest.getFrequency(), "Rest should have frequency 0");
         assertEquals(value.duration(100), rest.getDuration(100), "Duration should match NoteValue with tempo");
     }
