@@ -1,0 +1,152 @@
+@startuml
+
+' ----- Notes -----
+class NotePitch {
+    -name: NoteName
+    -octave: int
+    +getFrequency(): double
+}
+
+enum NoteName {
+    DO
+    DO_SHARP_RE_FLAT
+    RE
+    RE_SHARP_MI_FLAT
+    MI
+    FA
+    SOL
+    SOL_SHARP_LA_FLAT
+    LA
+    LA_SHARP_SI_FLAT
+    SI
+}
+
+class NoteValue {
+    -value: NoteValueEnum
+    -dots: int
+    +getDuration(tempo: int): double
+}
+
+enum NoteValueEnum {
+    RONDE
+    BLANCHE
+    NOIRE
+    CROCHE
+    DOUBLE_CROCHE
+}
+
+' ----- Composite of note -----
+interface MusicalElement {
+    +getDuration(tempo: int): double
+    +play(): double[]
+}
+
+class Note implements MusicalElement {
+    -pitch: NotePitch
+    -value: NoteValue
+}
+
+class Rest implements MusicalElement {
+    -value: NoteValue
+}
+
+class Tie implements MusicalElement {
+    -notes: List<Note>
+}
+
+class Measure implements MusicalElement {
+    -elements: List<MusicalElement>
+}
+
+class Score implements MusicalElement {
+    -measures: List<Measure>
+    -tempo: int
+}
+
+Score *- Measure
+Measure *- MusicalElement
+
+' ----- Iterator -----
+interface Iterator {
+    +hasNext(): boolean
+    +next(): MusicalElement
+}
+
+Measure --> Iterator : iterates internal elements
+Score --> Iterator : iterates internal measures
+
+' ----- Decorator -----
+abstract class NoteDecorator implements MusicalElement {
+    -element: MusicalElement
+    +play(): double[]
+}
+
+NoteDecorator <|-- Dot
+NoteDecorator <|- Harmonics
+NoteDecorator <|-- ADSREnvelope
+NoteDecorator <|- Vibrato
+NoteDecorator <|-- Noise
+
+' recursive relations wraps
+NoteDecorator --> MusicalElement : wraps
+
+' ----- Sound Synthesis and Strategy -----
+interface SoundSynthesis {
+    +synthesize(note: Note): double[]
+}
+
+class PureTone implements SoundSynthesis
+class Kick implements SoundSynthesis
+class Snare implements SoundSynthesis
+class Cymbal implements SoundSynthesis
+class Triangle implements SoundSynthesis
+class Timpani implements SoundSynthesis
+class Xylophone implements SoundSynthesis
+
+Note --> SoundSynthesis : uses
+' Le implement fait automatiquement la relation
+'Kick ..|> SoundSynthesis
+'Snare ..|> SoundSynthesis
+'Cymbal ..|> SoundSynthesis
+'Triangle ..|> SoundSynthesis
+'Timpani ..|> SoundSynthesis
+'Xylophone ..|> SoundSynthesis
+'PureTone ..|> SoundSynthesis
+
+' ----- Abstract Factory -----
+interface MusicFactory {
+    +createNote(...): Note
+    +createRest(...): Rest
+    +createInstrument(...): Instrument
+}
+
+class InstrumentFactory implements MusicFactory
+InstrumentFactory --> Instrument : creates
+
+' ----- Singleton command line management -----
+class CommandLineManager {
+    -instance: CommandLineManager
+    +getInstance(): CommandLineManager
+}
+
+' ----- Instruments -----
+abstract class Instrument {
+    -name: String
+    +synthesize(note: Note): double[]
+}
+
+class VirtualInstrument extends Instrument {
+    -harmonics: Harmonics
+    -adsr: ADSREnvelope
+    -vibrato: Vibrato
+    -noise: Noise
+}
+
+class PercussionInstrument extends Instrument
+
+VirtualInstrument --> Harmonics
+VirtualInstrument --> ADSREnvelope
+VirtualInstrument --> Vibrato
+VirtualInstrument --> Noise
+
+@enduml
