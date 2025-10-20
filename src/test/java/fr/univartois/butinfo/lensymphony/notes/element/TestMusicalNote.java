@@ -29,4 +29,24 @@ public class TestMusicalNote {
         assertTrue(note2.getDuration(120) > note1.getDuration(120));
     }
 
+    @Test
+    void testGetFrequency() {
+        NotePitch pitch = NotePitch.of(PitchClass.C, 4);
+        MusicalNote note = new MusicalNote(pitch, NoteValue.QUARTER);
+
+        assertEquals(pitch.frequency(), note.getFrequency(), 0.001,
+                "getFrequency() did not return the correct frequency from NotePitch");
+    }
+
+    @Test
+    void testGetDuration() {
+        NotePitch pitch = NotePitch.of(PitchClass.A, 4);
+        MusicalNote note = new MusicalNote(pitch, NoteValue.HALF);
+        int tempo = 120;
+
+        assertEquals(NoteValue.HALF.duration(tempo), note.getDuration(tempo),
+                "getDuration() did not return the correct duration from NoteValue");
+
+    }
+
 }
