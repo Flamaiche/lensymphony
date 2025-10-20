@@ -62,6 +62,13 @@ public interface MusicSynthesizer {
     double[] getSamples();
 
     /**
+     * Returns the tempo of the music in beats per minute (BPM).
+     *
+     * @return The tempo in BPM.
+     */
+    int getTempo();
+
+    /**
      * Returns the synthesized audio data as a byte array.
      * If the audio stream has not been synthesized yet, this method returns an empty
      * array.

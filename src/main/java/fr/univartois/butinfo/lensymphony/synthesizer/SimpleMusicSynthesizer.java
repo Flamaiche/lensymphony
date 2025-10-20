@@ -105,4 +105,14 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
         return samples;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.univartois.butinfo.lensymphony.synthesizer.IMusicSynthesizer#getTempo()
+     */
+    @Override
+    public int getTempo() {
+        return tempo;
+    }
+
 }
