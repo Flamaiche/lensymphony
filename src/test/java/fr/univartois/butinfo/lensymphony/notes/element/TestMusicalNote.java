@@ -8,7 +8,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Unit tests for the MusicalNote class.
+ * Tests the basic behavior of musical notes, including creation,
+ * frequency, and duration.
+ *
+ * @author Jabir
+ */
+
 public class TestMusicalNote {
+
+    /**
+     * Tests that a MusicalNote object can be created and has the correct
+     * frequency and duration.
+     */
 
     @Test
     void testCreateNote() {
@@ -20,6 +33,11 @@ public class TestMusicalNote {
         assertEquals(value.duration(120), note.getDuration(120));
     }
 
+    /**
+     * Tests that different NoteValues result in different durations
+     * for the same pitch.
+     */
+
     @Test
     void testDifferentNoteValues() {
         NotePitch pitch = NotePitch.of(PitchClass.A, 4);
@@ -29,6 +47,11 @@ public class TestMusicalNote {
         assertTrue(note2.getDuration(120) > note1.getDuration(120));
     }
 
+    /**
+     * Tests that getFrequency() returns the correct frequency
+     * from the NotePitch.
+     */
+
     @Test
     void testGetFrequency() {
         NotePitch pitch = NotePitch.of(PitchClass.C, 4);
@@ -37,6 +60,11 @@ public class TestMusicalNote {
         assertEquals(pitch.frequency(), note.getFrequency(), 0.001,
                 "getFrequency() did not return the correct frequency from NotePitch");
     }
+
+    /**
+     * Tests that getDuration() returns the correct duration
+     * from the NoteValue given a specific tempo.
+     */
 
     @Test
     void testGetDuration() {
