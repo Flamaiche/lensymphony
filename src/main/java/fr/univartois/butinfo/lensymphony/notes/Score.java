@@ -14,7 +14,7 @@ import java.util.List;
  * la partition.
  * </p>
  *
- * @author [Ton Nom]
+ * @author Babahamou Malik
  * @version 1.0
  */
 public class Score implements Iterable<Staff> {
