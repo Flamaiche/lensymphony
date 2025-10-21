@@ -15,12 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for {@link NoteFactory} singleton.
  *
  * <p>These tests verify the creation of various types of notes using the factory,
- * including basic notes, rests, dotted notes, fermata notes, and tied notes.</p>
+ * including basic notes, rests, dotted notes, fermata notes, tied notes,
+ * and error handling for invalid inputs.</p>
  *
  * <p>The tests also check the behavior of stacked decorators (e.g., dotted + fermata).</p>
  *
  * <p>Author: [Your Name]</p>
- * <p>Version: 0.1.0</p>
+ * <p>Version: 0.1.1</p>
  */
 public class TestNoteFactory {
 
@@ -144,5 +145,29 @@ public class TestNoteFactory {
 
         int expectedDuration = (int)(baseNote.getDuration(120) * 1.5) * 2;
         assertEquals(expectedDuration, fermata.getDuration(120));
+    }
+
+    /**
+     * Tests that creating tied notes using varargs with null or empty input
+     * throws an {@link IllegalArgumentException}.
+     */
+    @Test
+    public void testCreateTiedNotesVarargsNullOrEmpty() {
+        // Null input
+        assertThrows(IllegalArgumentException.class, () -> factory.createTiedNotes((Note[]) null));
+        // Empty input
+        assertThrows(IllegalArgumentException.class, () -> factory.createTiedNotes());
+    }
+
+    /**
+     * Tests that creating tied notes using a list with null or empty input
+     * throws an {@link IllegalArgumentException}.
+     */
+    @Test
+    public void testCreateTiedNotesListNullOrEmpty() {
+        // Null list
+        assertThrows(IllegalArgumentException.class, () -> factory.createTiedNotes((List<Note>) null));
+        // Empty list
+        assertThrows(IllegalArgumentException.class, () -> factory.createTiedNotes(List.of()));
     }
 }
