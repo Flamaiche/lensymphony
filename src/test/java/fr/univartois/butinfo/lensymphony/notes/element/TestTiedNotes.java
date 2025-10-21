@@ -38,4 +38,14 @@ public class TestTiedNotes {
         assertEquals("Tied notes list cannot be null or empty", thrown.getMessage());
     }
 
+    @Test
+    void testTiedNotesNullListThrowsException() {
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> new TiedNotes(null),
+                "Expected constructor to throw for null list"
+        );
+        assertEquals("Tied notes list cannot be null or empty", thrown.getMessage());
+    }
+
 }
