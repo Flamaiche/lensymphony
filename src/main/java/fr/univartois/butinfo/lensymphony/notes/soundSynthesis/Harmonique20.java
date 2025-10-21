@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
+import fr.univartois.butinfo.lensymphony.notes.decorator.HarmonicsDecorator;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 
 /**
@@ -12,8 +13,7 @@ public class Harmonique20 implements NoteSynthesizer {
     private NoteSynthesizer harmonics;
 
     private Harmonique20() {
-        // TODO a changer en fonction de ce que matheo a fait HarmoniqueDecorator
-        harmonics = new HarmonicDecorator(PureTone.getInstance(), 20);
+        harmonics = new HarmonicsDecorator(PureTone.getInstance(), 20);
     }
 
     /**
