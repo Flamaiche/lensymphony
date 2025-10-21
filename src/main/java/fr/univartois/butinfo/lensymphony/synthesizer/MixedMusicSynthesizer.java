@@ -43,11 +43,21 @@ class MixedMusicSynthesizer implements MusicSynthesizer {
         return new double[0];
     }
 
+    /**
+     * Returns the tempo used by this synthesizer.
+     *
+     * @return The tempo in beats per minute (BPM).
+     */
     @Override
     public int getTempo() {
-        return 0;
+        return tempo;
     }
 
+    /**
+     * Returns the default volume level.
+     *
+     * @return The volume (0 by default, can be adjusted if needed).
+     */
     @Override
     public double getVolume() {
         return 0;
