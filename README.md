@@ -89,6 +89,12 @@ class MusicalNote implements Note {
 }
 
 
+class TiedNotes implements Note {
+    - listTiedNotes: List<Note>
+    + TiedNotes(tiedNotes: List<Note>)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+}
 
 interface AbstractNoteFactory {
     + {abstract} createRest(value: NoteValue): Note
@@ -181,7 +187,7 @@ AbstractNoteFactory --> MusicalNote : << creates >>
 | Representation of a musical note                       | Composite             | Jabir Danoun   |
 | Representation of a silence                            | Composite             | Matheo Popieul |
 | Representation of a point on a note                    |                       |                |
-| Representation of a tie between notes                  |                       |                |
+| Representation of a tie between notes                  | Composite             | Jabir Danoun   |
 | Representation of a staff                              |                       |                |
 | Traversal of notes/silences in a staff                 |                       |                |
 | Representation of a musical piece                      |                       |                |
