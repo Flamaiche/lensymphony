@@ -45,6 +45,6 @@ public class FermataOn extends DecoratorNote {
 
     @Override
     public int getDuration(int tempo) {
-        return note.getDuration(tempo);
+        return note.getDuration(tempo) * 2;
     }
 }
