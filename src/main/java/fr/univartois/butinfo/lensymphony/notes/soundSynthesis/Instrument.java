@@ -10,7 +10,8 @@ public enum Instrument {
     /**
      * Pure tone instrument.
      */
-    PURE_TONE(PureTone.getInstance());
+    PURE_TONE(PureTone.getInstance()),
+    HARMONIQUE20(Harmonique20.getInstance());
 
     private final NoteSynthesizer synthesizer;
 
