@@ -11,7 +11,7 @@ public class Harmonic implements NoteSynthesizer {
 
     private static Harmonic instance;
     private NoteSynthesizer harmonics;
-    public static int octave = 20;
+    private static int octave = 20;
 
     public Harmonic(int octave) {
         harmonics = new HarmonicsDecorator(PureTone.getInstance(), octave);
