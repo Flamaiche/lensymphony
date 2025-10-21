@@ -34,7 +34,9 @@ import fr.univartois.butinfo.lensymphony.notes.AbstractNoteFactory;
 import fr.univartois.butinfo.lensymphony.notes.Note;
 import fr.univartois.butinfo.lensymphony.notes.NoteFactory;
 import fr.univartois.butinfo.lensymphony.Score;
+import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.PureTone;
+import fr.univartois.butinfo.lensymphony.synthesizer.MixedMusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.SimpleMusicSynthesizer;
@@ -91,21 +93,22 @@ public final class LenSymphony {
 
 
         // Create a staff and add all parsed notes
-        Staff staff = new Staff(null); // No instrument assigned for now
+        Staff staff = new Staff(Instrument.PURE_TONE);
         for (Note note : handler.getNotes()) {
-            if (note == null) continue;
-            staff.add(note);
+            if (note != null) {
+                staff.add(note);
+            }
         }
 
-        // Create the score
+        // Création du Score contenant toutes les voix (ici une seule pour l'exemple)
         Score score = new Score(List.of(staff));
 
-        // Synthesize and play
-        for (Staff s : score) {
-            MusicSynthesizer musicSynthesizer = new SimpleMusicSynthesizer(handler.getTempo(), s, noteSynthesizer);
-            musicSynthesizer.synthesize();
-            musicSynthesizer.play();
-        }
+        // Création du MixedMusicSynthesizer à partir du Score et du tempo
+        MusicSynthesizer mixedSynth = new MixedMusicSynthesizer(score, handler.getTempo());
+
+        // Synthèse et lecture
+        mixedSynth.synthesize();
+        mixedSynth.play();
 
     }
 
