@@ -81,9 +81,7 @@ public interface AbstractNoteFactory {
      *
      * @return The created tied note.
      */
-    default Note createTiedNotes(Note... notes) {
-        return createTiedNotes(List.of(notes));
-    }
+    Note createTiedNotes(Note... notes);
 
     /**
      * Creates a note representing the tie of the given notes.
