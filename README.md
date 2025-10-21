@@ -236,6 +236,7 @@ class LenSymphony {
     + {static} main(args: String[]): void
 }
 
+
 Example --> AbstractNoteFactory : << uses >>
 Example --> MusicXMLSaxParser : << uses >>
 Example --> NoteSynthesizer : << uses >>
