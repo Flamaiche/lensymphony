@@ -5,9 +5,9 @@ import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 
 public abstract class DecoratorNoteSynthesizer implements NoteSynthesizer {
 
-    private final NoteSynthesizer base;
+    protected final NoteSynthesizer base;
 
-    public DecoratorNoteSynthesizer(NoteSynthesizer base) {
+    protected DecoratorNoteSynthesizer(NoteSynthesizer base) {
         this.base = base;
     }
 
