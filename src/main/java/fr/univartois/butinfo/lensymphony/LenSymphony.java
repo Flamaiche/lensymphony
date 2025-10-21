@@ -24,7 +24,9 @@
 package fr.univartois.butinfo.lensymphony;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -79,37 +81,46 @@ public final class LenSymphony {
      */
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
-            // The command line is invalid.
             throw new IllegalArgumentException("MusicXML file is required as single argument");
         }
 
-        // Creating the SAX parser.
+        // Create SAX parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
 
-        // Parsing the MusicXML file.
+        // Parsing files MusicXML
         MusicXMLSaxParser handler = new MusicXMLSaxParser(noteFactory);
         saxParser.parse(new File(args[0]), handler);
 
+        // get and create staffs
+        List<Staff> staffs = new ArrayList<>();
+        for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
+            String partId = entry.getKey();
+            List<Note> notes = entry.getValue();
 
-        // Create a staff and add all parsed notes
-        Staff staff = new Staff(Instrument.PURE_TONE);
-        for (Note note : handler.getNotes()) {
-            if (note != null) {
+            // default value : PURE_TONE
+            Instrument instrument = Instrument.PURE_TONE;
+
+            // TODO: (after) get the instrument from the XML
+
+            Staff staff = new Staff(instrument);
+            for (Note note : notes) {
+                if (note == null) continue;
                 staff.add(note);
             }
+            staffs.add(staff);
         }
 
-        // Création du Score contenant toutes les voix (ici une seule pour l'exemple)
-        Score score = new Score(List.of(staff));
+        // creating score containing all staffs
+        Score score = new Score(staffs);
 
-        // Création du MixedMusicSynthesizer à partir du Score et du tempo
+        // creating musicSynthesizer for all voice
         MusicSynthesizer mixedSynth = new MixedMusicSynthesizer(score, handler.getTempo());
 
-        // Synthèse et lecture
+        // synth and read
         mixedSynth.synthesize();
         mixedSynth.play();
-
     }
+
 
 }
