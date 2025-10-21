@@ -95,13 +95,16 @@ public final class LenSymphony {
         // get and create staffs
         List<Staff> staffs = new ArrayList<>();
         for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
-            String partId = entry.getKey();
+            String partId = entry.getKey(); // e.g., "P1.1" or "P1.0"
             List<Note> notes = entry.getValue();
 
-            // default value : PURE_TONE
             Instrument instrument = Instrument.PURE_TONE;
 
-            // TODO: (after) get the instrument from the XML
+            // Retrieve the <instrument-name> from MusicXML
+            String instrumentName = handler.getInstrumentName(partId.split("\\.")[0]); // remove staff number
+            if (instrumentName != null) {
+                instrument = getInstrumentByName(instrumentName); // Convert String to enum
+            }
 
             Staff staff = new Staff(instrument);
             for (Note note : notes) {
@@ -120,6 +123,15 @@ public final class LenSymphony {
         // synth and read
         mixedSynth.synthesize();
         mixedSynth.play();
+    }
+
+    private static Instrument getInstrumentByName(String instrumentName) {
+        for (Instrument instrument : Instrument.values()) {
+            if (instrumentName.equals(instrument.name())) {
+                return instrument;
+            }
+        }
+        return Instrument.PURE_TONE;
     }
 
 

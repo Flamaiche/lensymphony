@@ -165,6 +165,43 @@ public final class MusicXMLSaxParser extends DefaultHandler {
             Map.entry("note", this::endNote));
 
     /**
+     * The map associating each part (given by its ID) to its instrument name.
+     */
+    private Map<String, String> instrumentNames = new TreeMap<>();
+
+    /**
+     * The ID of the current <score-instrument> being parsed.
+     */
+    private String currentScoreInstrumentId = null;
+
+    // --- startElement handler for <score-instrument> ---
+    private void startScoreInstrument(Attributes attributes) {
+        currentScoreInstrumentId = attributes.getValue("id"); // e.g., "P1-I1"
+    }
+
+    // --- endElement handler for <instrument-name> ---
+    private void endInstrumentName() {
+        String name = textBuffer.toString().trim();
+        if (currentScoreInstrumentId != null && currentPartId != null) {
+            // Extract part ID from score-instrument ID (e.g., "P1-I1" -> "P1")
+            String partId = currentScoreInstrumentId.split("-")[0];
+            instrumentNames.put(partId, name);
+        }
+        currentScoreInstrumentId = null;
+    }
+
+    /**
+     * Returns the instrument name associated with the given part ID.
+     *
+     * @param partId The ID of the part (e.g., "P1").
+     * @return The instrument name of the part, or {@code null} if not specified.
+     */
+    public String getInstrumentName(String partId) {
+        return instrumentNames.get(partId);
+    }
+
+
+    /**
      * Creates a new MusicXMLSaxParser.
      *
      * @param noteFactory The factory to create the notes of the parsed music.
