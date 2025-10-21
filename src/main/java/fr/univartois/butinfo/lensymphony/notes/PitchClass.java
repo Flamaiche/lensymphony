@@ -106,16 +106,16 @@ public enum PitchClass {
     public static PitchClass fromName(String name) {
         return switch (name.toUpperCase()) {
             case "C" -> C;
-            case "C#", "Db" -> C_SHARP_D_FLAT;
+            case "C#", "DB" -> C_SHARP_D_FLAT;
             case "D" -> D;
-            case "D#", "Eb" -> D_SHARP_E_FLAT;
+            case "D#", "EB" -> D_SHARP_E_FLAT;
             case "E" -> E;
             case "F" -> F;
-            case "F#", "Gb" -> F_SHARP_G_FLAT;
+            case "F#", "GB" -> F_SHARP_G_FLAT;
             case "G" -> G;
-            case "G#", "Ab" -> G_SHARP_A_FLAT;
+            case "G#", "AB" -> G_SHARP_A_FLAT;
             case "A" -> A;
-            case "A#", "Bb" -> A_SHARP_B_FLAT;
+            case "A#", "BB" -> A_SHARP_B_FLAT;
             case "B" -> B;
             default -> throw new IllegalArgumentException("No PitchClass with name " + name);
         };
