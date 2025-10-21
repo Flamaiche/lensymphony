@@ -1,6 +1,7 @@
-package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
+package fr.univartois.butinfo.lensymphony;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
+import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 
 import java.util.ArrayList;
 import java.util.Iterator;
