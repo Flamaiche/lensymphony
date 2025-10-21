@@ -88,6 +88,17 @@ class MusicalNote implements Note {
 
 }
 
+abstract class DecoratorNote implements Note {
+    - note: Note
+    + DecoratorNote(note: Note)
+}
+
+class DottedNotes extends DecoratorNote {
+    + DottedNotes(note: Note)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+}
+
 
 class TiedNotes implements Note {
     - listTiedNotes: List<Note>
@@ -202,7 +213,7 @@ AbstractNoteFactory --> MusicalNote : << creates >>
 | Representation of a note/silence value                 |                       |                |
 | Representation of a musical note                       | Composite             | Jabir Danoun   |
 | Representation of a silence                            | Composite             | Matheo Popieul |
-| Representation of a point on a note                    |                       |                |
+| Representation of a point on a note                    | Decorator             | Matheo Popieul |
 | Representation of a tie between notes                  | Composite             | Jabir Danoun   |
 | Representation of a staff                              | Iterator              | Hugo Richard   |
 | Traversal of notes/silences in a staff                 |                       |                |
