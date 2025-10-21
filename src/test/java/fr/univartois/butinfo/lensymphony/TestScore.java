@@ -1,6 +1,6 @@
 package fr.univartois.butinfo.lensymphony;
 
-import fr.univartois.butinfo.lensymphony.notes.Score;
+import fr.univartois.butinfo.lensymphony.Score;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
