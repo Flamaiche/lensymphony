@@ -23,4 +23,10 @@ public class Staff implements Iterable<Note> {
     public Iterator<Note> iterator() {
         return notes.iterator();
     }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
+
+
 }
