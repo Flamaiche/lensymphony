@@ -55,8 +55,8 @@ public class MixedMusicSynthesizer implements MusicSynthesizer {
      */
     @Override
     public void synthesize() {
-        for (MusicSynthesizer ms : synthesizers) {
-            ms.synthesize();
+        for (MusicSynthesizer synthesizer : synthesizers) {
+            synthesizer.synthesize();
         }
     }
 
@@ -78,8 +78,8 @@ public class MixedMusicSynthesizer implements MusicSynthesizer {
         }
 
         int maxLength = 0;
-        for (MusicSynthesizer ms : synthesizers) {
-            maxLength = Math.max(maxLength, ms.getSamples().length);
+        for (MusicSynthesizer synthesizer : synthesizers) {
+            maxLength = Math.max(maxLength, synthesizer.getSamples().length);
         }
 
         double[] mixed = new double[maxLength];
