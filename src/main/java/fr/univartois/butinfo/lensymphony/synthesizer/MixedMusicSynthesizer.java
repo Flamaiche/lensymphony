@@ -84,8 +84,8 @@ public class MixedMusicSynthesizer implements MusicSynthesizer {
 
         double[] mixed = new double[maxLength];
 
-        for (MusicSynthesizer ms : synthesizers) {
-            double[] samples = ms.getSamples();
+        for (MusicSynthesizer synthesizer : synthesizers) {
+            double[] samples = synthesizer.getSamples();
             for (int i = 0; i < samples.length; i++) {
                 mixed[i] += samples[i];
             }
