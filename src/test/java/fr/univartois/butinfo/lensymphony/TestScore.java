@@ -1,6 +1,8 @@
-package fr.univartois.butinfo.lensymphony.notes;
+package fr.univartois.butinfo.lensymphony;
 
 import fr.univartois.butinfo.lensymphony.Staff;
+import fr.univartois.butinfo.lensymphony.notes.Score;
+import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,10 +14,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Classe de test pour {@link Score}.
+ * Unit tests for the {@link Score} class.
  * <p>
- * Vérifie la création d'une partition et le bon fonctionnement de l'itération
- * sur les portées qui la composent.
+ * Ensures correct initialization, iteration, and behavior
+ * of a musical score containing multiple {@link Staff} instances.
  * </p>
  */
 public class TestScore {
@@ -24,50 +26,62 @@ public class TestScore {
     private Score score;
 
     /**
-     * Initialise les objets utilisés dans les tests avant chaque exécution.
+     * Sets up a test score with several staffs using the same instrument.
      */
     @BeforeEach
     void setUp() {
         staffs = new ArrayList<>();
-        staffs.add(new Staff("Piano"));
-        staffs.add(new Staff("Violin"));
-        staffs.add(new Staff("Flute"));
+        staffs.add(new Staff(Instrument.PURE_TONE));
+        staffs.add(new Staff(Instrument.PURE_TONE));
+        staffs.add(new Staff(Instrument.PURE_TONE));
+
         score = new Score(staffs);
     }
 
     @Test
-    @DisplayName("Test du constructeur Score(List<Staff>)")
+    @DisplayName("Constructor should initialize Score correctly")
     void testConstructor() {
-        assertNotNull(score, "L'objet Score ne doit pas être null.");
+        assertNotNull(score, "The Score object should not be null.");
     }
 
     @Test
-    @DisplayName("Test que les portées sont bien conservées dans la partition")
-    void testStaffsContent() {
+    @DisplayName("Iterator should return all Staff objects in correct order")
+    void testIteratorOrder() {
         Iterator<Staff> iterator = score.iterator();
 
-        assertTrue(iterator.hasNext(), "La partition doit contenir au moins une portée.");
-        assertEquals("Piano", iterator.next().getName(), "La première portée doit être 'Piano'.");
-        assertEquals("Violin", iterator.next().getName(), "La deuxième portée doit être 'Violin'.");
-        assertEquals("Flute", iterator.next().getName(), "La troisième portée doit être 'Flute'.");
+        assertTrue(iterator.hasNext(), "The Score should contain at least one Staff.");
+
+        int index = 0;
+        while (iterator.hasNext()) {
+            Staff staff = iterator.next();
+            assertNotNull(staff, "Each Staff should be non-null.");
+            assertEquals(Instrument.PURE_TONE, staff.getInstrument(),
+                    "Each Staff should use the PURE_TONE instrument.");
+            index++;
+        }
+
+        assertEquals(3, index, "The Score should contain exactly 3 Staff objects.");
     }
 
     @Test
-    @DisplayName("Test de l'itérateur : doit parcourir toutes les portées")
-    void testIterator() {
+    @DisplayName("Enhanced for-loop should iterate over all Staff objects")
+    void testForEachLoop() {
         int count = 0;
         for (Staff s : score) {
-            assertNotNull(s, "Chaque portée doit être non nulle.");
+            assertEquals(Instrument.PURE_TONE, s.getInstrument(),
+                    "Each Staff should have the PURE_TONE instrument.");
             count++;
         }
-        assertEquals(3, count, "La partition doit contenir exactement 3 portées.");
+        assertEquals(3, count, "The for-each loop should iterate over 3 Staff objects.");
     }
 
     @Test
-    @DisplayName("Test du comportement avec une liste vide")
+    @DisplayName("Empty Score should behave correctly")
     void testEmptyScore() {
         Score emptyScore = new Score(new ArrayList<>());
         Iterator<Staff> iterator = emptyScore.iterator();
-        assertFalse(iterator.hasNext(), "Une partition vide ne doit pas avoir d'éléments à parcourir.");
+
+        assertNotNull(iterator, "The iterator of an empty Score should not be null.");
+        assertFalse(iterator.hasNext(), "An empty Score should have no Staff objects.");
     }
 }
