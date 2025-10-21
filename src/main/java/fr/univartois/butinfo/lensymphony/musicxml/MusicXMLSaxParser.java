@@ -144,7 +144,8 @@ public final class MusicXMLSaxParser extends DefaultHandler {
             "part", this::startPart,
             "tie", this::startTie,
             "rest", this::startRest,
-            "note", this::startNote);
+            "note", this::startNote,
+            "score-instrument", this::startScoreInstrument);
 
     /**
      * The map of handlers for the end of XML elements.
@@ -162,7 +163,8 @@ public final class MusicXMLSaxParser extends DefaultHandler {
             Map.entry("dot", this::endDot),
             Map.entry("fermata", this::endFermata),
             Map.entry("staff", this::endStaff),
-            Map.entry("note", this::endNote));
+            Map.entry("note", this::endNote),
+            Map.entry("instrument-name", this::endInstrumentName));
 
     /**
      * The map associating each part (given by its ID) to its instrument name.
@@ -182,13 +184,14 @@ public final class MusicXMLSaxParser extends DefaultHandler {
     // --- endElement handler for <instrument-name> ---
     private void endInstrumentName() {
         String name = textBuffer.toString().trim();
-        if (currentScoreInstrumentId != null && currentPartId != null) {
+        if (currentScoreInstrumentId != null) {
             // Extract part ID from score-instrument ID (e.g., "P1-I1" -> "P1")
             String partId = currentScoreInstrumentId.split("-")[0];
             instrumentNames.put(partId, name);
         }
         currentScoreInstrumentId = null;
     }
+
 
     /**
      * Returns the instrument name associated with the given part ID.
