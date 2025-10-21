@@ -1,5 +1,6 @@
 package fr.univartois.butinfo.lensymphony.notes;
 
+import fr.univartois.butinfo.lensymphony.notes.decorator.FermataOn;
 import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
 import fr.univartois.butinfo.lensymphony.notes.element.Rest;
 import fr.univartois.butinfo.lensymphony.notes.element.TiedNotes;
@@ -92,7 +93,7 @@ public class NoteFactory implements AbstractNoteFactory {
      */
     @Override
     public Note createFermataOn(Note note) {
-        return null;
+        return new FermataOn(note);
     }
 
     /**
