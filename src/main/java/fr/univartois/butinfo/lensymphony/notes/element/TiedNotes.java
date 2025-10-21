@@ -15,7 +15,7 @@ public class TiedNotes implements Note {
     /**
      * The list of tied notes
      */
-    private final List<Note> tiedNotes;
+    private final List<Note> listTiedNotes;
 
     /**
      * Creates a tied note from the given list of notes
@@ -28,7 +28,7 @@ public class TiedNotes implements Note {
         if (tiedNotes == null || tiedNotes.isEmpty()) {
             throw new IllegalArgumentException("Tied notes list cannot be null or empty");
         }
-        this.tiedNotes = tiedNotes;
+        this.listTiedNotes = tiedNotes;
     }
 
     /**
@@ -39,7 +39,7 @@ public class TiedNotes implements Note {
 
     @Override
     public double getFrequency() {
-        return tiedNotes.get(0).getFrequency();
+        return listTiedNotes.get(0).getFrequency();
     }
 
     /**
@@ -52,7 +52,7 @@ public class TiedNotes implements Note {
     @Override
     public int getDuration(int tempo) {
         int total = 0;
-        for (Note note : tiedNotes) {
+        for (Note note : listTiedNotes) {
             total += note.getDuration(tempo);
         }
         return total;

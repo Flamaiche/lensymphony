@@ -88,7 +88,24 @@ class MusicalNote implements Note {
 
 }
 
+abstract class DecoratorNote implements Note {
+    - note: Note
+    + DecoratorNote(note: Note)
+}
 
+class DottedNotes extends DecoratorNote {
+    + DottedNotes(note: Note)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+}
+
+
+class TiedNotes implements Note {
+    - listTiedNotes: List<Note>
+    + TiedNotes(tiedNotes: List<Note>)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+}
 
 interface AbstractNoteFactory {
     + {abstract} createRest(value: NoteValue): Note
@@ -122,6 +139,22 @@ MusicXMLSaxParser --> AbstractNoteFactory : << uses >>
 interface NoteSynthesizer {
     + {static} SAMPLE_RATE: int
     + {abstract} synthesize(note: Note, tempo: int, volume: double): double[]
+}
+
+class PureTone implements NoteSynthesizer {
++ static getInstance(): PureTone
++ synthesize(note: Note, tempo: int, volume: double): double[]
+}
+
+enum Instrument {
+ + PURE_TONE
+ + getSynthesizer(): NoteSynthesizer
+}
+
+class Staff implements Iterable<Note> {
+    + Staff(notes: List<Note>)
+    + iterator(): Iterator<Note>
+    + getInstrument(): Instrument
 }
 
 interface MusicSynthesizer {
@@ -180,9 +213,9 @@ AbstractNoteFactory --> MusicalNote : << creates >>
 | Representation of a note/silence value                 |                       |                |
 | Representation of a musical note                       | Composite             | Jabir Danoun   |
 | Representation of a silence                            | Composite             | Matheo Popieul |
-| Representation of a point on a note                    |                       |                |
-| Representation of a tie between notes                  |                       |                |
-| Representation of a staff                              |                       |                |
+| Representation of a point on a note                    | Decorator             | Matheo Popieul |
+| Representation of a tie between notes                  | Composite             | Jabir Danoun   |
+| Representation of a staff                              | Iterator              | Hugo Richard   |
 | Traversal of notes/silences in a staff                 |                       |                |
 | Representation of a musical piece                      |                       |                |
 | Creation of musical elements (notes, silences)         |                       |                |
