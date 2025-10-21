@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * the duration is correctly increased by 50%.
  */
 
-class DottedNotesTest {
+class TestDottedNotes {
 
     @Test
     void testFrequencyUnchanged() {
