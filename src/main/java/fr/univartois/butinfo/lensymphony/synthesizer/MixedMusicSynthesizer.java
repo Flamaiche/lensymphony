@@ -24,10 +24,10 @@ import java.util.List;
 public class MixedMusicSynthesizer implements MusicSynthesizer {
 
     /** The tempo in beats per minute (BPM). */
-    private int tempo;
+    private final int tempo;
 
     /** The list of internal synthesizers, one per voice/Staff. */
-    private List<MusicSynthesizer> synthesizers = new ArrayList<>();
+    private final List<MusicSynthesizer> synthesizers = new ArrayList<>();
 
     /**
      * Constructs a MixedMusicSynthesizer from a {@link Score}.
