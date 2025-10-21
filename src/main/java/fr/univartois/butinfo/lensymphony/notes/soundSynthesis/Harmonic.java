@@ -5,15 +5,16 @@ import fr.univartois.butinfo.lensymphony.notes.decorator.HarmonicsDecorator;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 
 /**
- * The type Harmonique 20.
+ * The type Harmonic 20.
  */
-public class Harmonique20 implements NoteSynthesizer {
+public class Harmonic implements NoteSynthesizer {
 
-    private static Harmonique20 instance;
+    private static Harmonic instance;
     private NoteSynthesizer harmonics;
+    public static int octave = 20;
 
-    private Harmonique20() {
-        harmonics = new HarmonicsDecorator(PureTone.getInstance(), 20);
+    public Harmonic(int octave) {
+        harmonics = new HarmonicsDecorator(PureTone.getInstance(), octave);
     }
 
     /**
@@ -21,9 +22,13 @@ public class Harmonique20 implements NoteSynthesizer {
      *
      * @return the instance
      */
-    public static Harmonique20 getInstance() {
-        if (instance == null) instance = new Harmonique20();
+    public static Harmonic getInstance() {
+        if (instance == null) instance = new Harmonic(octave);
         return instance;
+    }
+
+    public void setOctave(int octave) {
+        this.octave = octave;
     }
 
     @Override
