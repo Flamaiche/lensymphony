@@ -180,6 +180,18 @@ interface MusicSynthesizer {
     + {abstract} save(filename: String): void
 }
 
+class MixedMusicSynthesizer implements MusicSynthesizer {
+    - score: Score
+    - tempo: int
+    - samples: double[]
+    + MixedMusicSynthesizer(score: Score, tempo: int)
+    + synthesize(): void
+    + getSamples(): double[]
+    + getAudioData(): byte[]
+    + play(): void
+    + save(filename: String): void
+}
+
 class SimpleMusicSynthesizer implements MusicSynthesizer {
     - {static} DEFAULT_VOLUME: double
     - notes: Iterable<Note>
@@ -218,6 +230,10 @@ LenSymphony --> AbstractNoteFactory : << uses >>
 LenSymphony --> MusicXMLSaxParser : << uses >>
 LenSymphony --> NoteSynthesizer : << uses >>
 AbstractNoteFactory --> MusicalNote : << creates >>
+
+MixedMusicSynthesizer o-- "*" Score
+LenSymphony --> MixedMusicSynthesizer : << uses >>
+
 ```
 
 ## Feature list
