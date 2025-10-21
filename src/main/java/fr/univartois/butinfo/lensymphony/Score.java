@@ -1,4 +1,4 @@
-package fr.univartois.butinfo.lensymphony.notes;
+package fr.univartois.butinfo.lensymphony;
 
 import fr.univartois.butinfo.lensymphony.Staff;
 
