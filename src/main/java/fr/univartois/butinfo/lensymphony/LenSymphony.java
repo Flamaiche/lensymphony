@@ -24,7 +24,9 @@
 package fr.univartois.butinfo.lensymphony;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -34,7 +36,9 @@ import fr.univartois.butinfo.lensymphony.notes.AbstractNoteFactory;
 import fr.univartois.butinfo.lensymphony.notes.Note;
 import fr.univartois.butinfo.lensymphony.notes.NoteFactory;
 import fr.univartois.butinfo.lensymphony.Score;
+import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.PureTone;
+import fr.univartois.butinfo.lensymphony.synthesizer.MixedMusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.SimpleMusicSynthesizer;
@@ -77,36 +81,77 @@ public final class LenSymphony {
      */
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
-            // The command line is invalid.
             throw new IllegalArgumentException("MusicXML file is required as single argument");
         }
 
-        // Creating the SAX parser.
+        // Create SAX parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
 
-        // Parsing the MusicXML file.
+        // Parsing files MusicXML
         MusicXMLSaxParser handler = new MusicXMLSaxParser(noteFactory);
         saxParser.parse(new File(args[0]), handler);
 
+        // get and create staffs
+        List<Staff> staffs = new ArrayList<>();
+        for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
+            String partId = entry.getKey(); // e.g., "P1.1" or "P1.0"
+            List<Note> notes = entry.getValue();
 
-        // Create a staff and add all parsed notes
-        Staff staff = new Staff(null); // No instrument assigned for now
-        for (Note note : handler.getNotes()) {
-            if (note == null) continue;
-            staff.add(note);
+            Instrument instrument = Instrument.PURE_TONE;
+
+            // Retrieve the <instrument-name> from MusicXML
+            String instrumentName = handler.getInstrumentName(partId.split("\\.")[0]); // remove staff number
+            if (instrumentName != null) {
+                instrument = getInstrumentByName(instrumentName); // Convert String to enum
+            }
+
+            Staff staff = new Staff(instrument);
+            for (Note note : notes) {
+                if (note == null) continue;
+                staff.add(note);
+            }
+            staffs.add(staff);
         }
 
-        // Create the score
-        Score score = new Score(List.of(staff));
+        // creating score containing all staffs
+        Score score = new Score(staffs);
 
-        // Synthesize and play
-        for (Staff s : score) {
-            MusicSynthesizer musicSynthesizer = new SimpleMusicSynthesizer(handler.getTempo(), s, noteSynthesizer);
-            musicSynthesizer.synthesize();
-            musicSynthesizer.play();
-        }
+        // creating musicSynthesizer for all voice
+        MusicSynthesizer mixedSynth = new MixedMusicSynthesizer(score, handler.getTempo());
 
+        // synth and read
+        mixedSynth.synthesize();
+        mixedSynth.play();
     }
+
+    /**
+     * Retrieves an {@link Instrument} instance based on the given instrument name.
+     * <p>
+     * The comparison is case-insensitive and ignores leading or trailing whitespace.
+     * If the provided name does not match any known instrument, the method defaults
+     * to returning {@link Instrument#PURE_TONE}.
+     * </p>
+     *
+     * @param instrumentName The name of the instrument as read from the MusicXML file.
+     *                       May contain extra spaces or case variations (e.g., "piano", " Piano ").
+     * @return The matching {@link Instrument} if found, or {@link Instrument#PURE_TONE} otherwise.
+     */
+    private static Instrument getInstrumentByName(String instrumentName) {
+        if (instrumentName == null) return Instrument.PURE_TONE;
+
+        String name = instrumentName.trim().toUpperCase();
+
+        for (Instrument instrument : Instrument.values()) {
+            if (name.equals(instrument.name())) {
+                return instrument;
+            }
+        }
+
+        return Instrument.PURE_TONE;
+    }
+
+
+
 
 }
