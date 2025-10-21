@@ -192,7 +192,6 @@ public final class MusicXMLSaxParser extends DefaultHandler {
         currentScoreInstrumentId = null;
     }
 
-
     /**
      * Returns the instrument name associated with the given part ID.
      *
