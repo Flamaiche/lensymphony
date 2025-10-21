@@ -1,17 +1,15 @@
 package fr.univartois.butinfo.lensymphony;
 
-import fr.univartois.butinfo.lensymphony.Staff;
-
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * La classe {@code Score} représente une partition musicale complète,
- * composée d'une liste de portées ({@link Staff}).
+ * The {@code Score} class represents a complete musical score,
+ * composed of a list of staves ({@link Staff}).
  * <p>
- * Chaque portée peut correspondre à une voix ou un instrument distinct.
- * Cette classe permet d'itérer sur l'ensemble des portées qui composent
- * la partition.
+ * Each staff can correspond to a distinct voice or instrument.
+ * This class allows iteration over all the staves that make up
+ * the score.
  * </p>
  *
  * @author Babahamou Malik
@@ -20,28 +18,28 @@ import java.util.List;
 public class Score implements Iterable<Staff> {
 
     /**
-     * La liste des portées constituant la partition.
+     * The list of staves that make up the score.
      */
     private final List<Staff> staffs;
 
     /**
-     * Crée une nouvelle instance de {@code Score} avec la liste de portées spécifiée.
+     * Creates a new {@code Score} instance with the specified list of staves.
      *
-     * @param staffs La liste des portées qui composent cette partition.
-     *               Elle ne doit pas être {@code null}.
+     * @param staffs The list of staves that compose this score.
+     *               It must not be {@code null}.
      */
     public Score(List<Staff> staffs) {
         this.staffs = staffs;
     }
 
     /**
-     * Retourne un itérateur sur les portées de la partition.
+     * Returns an iterator over the staves in the score.
      * <p>
-     * Cela permet d'utiliser la boucle « for-each » pour parcourir
-     * les différentes portées.
+     * This allows the use of a “for-each” loop to iterate through
+     * the different staves.
      * </p>
      *
-     * @return Un itérateur sur les objets {@link Staff} de la partition.
+     * @return An iterator over the {@link Staff} objects in the score.
      */
     @Override
     public Iterator<Staff> iterator() {
