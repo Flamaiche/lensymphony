@@ -10,7 +10,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Unit tests for the TiedNotes class.
+ * Tests the behavior of tied notes, including creation, frequency,
+ * total duration, and constructor validation for null or empty lists.
+ *
+ * @author Jabir
+ */
+
 public class TestTiedNotes {
+
+    /**
+     * Tests that a TiedNotes object correctly calculates the frequency
+     * and total duration from a list of notes.
+     */
 
     @Test
     void testTiedNotesFrequencyAndDuration() {
@@ -27,7 +40,10 @@ public class TestTiedNotes {
         int expectedDuration = note1.getDuration(tempo) + note2.getDuration(tempo);
         assertEquals(expectedDuration, tied.getDuration(tempo));
     }
-
+    /**
+     * Tests that constructing a TiedNotes object with an empty list
+     * throws an IllegalArgumentException.
+     */
     @Test
     void testTiedNotesEmptyListThrowsException() {
         IllegalArgumentException thrown = assertThrows(
@@ -37,6 +53,11 @@ public class TestTiedNotes {
         );
         assertEquals("Tied notes list cannot be null or empty", thrown.getMessage());
     }
+
+    /**
+     * Tests that constructing a TiedNotes object with a null list
+     * throws an IllegalArgumentException.
+     */
 
     @Test
     void testTiedNotesNullListThrowsException() {
