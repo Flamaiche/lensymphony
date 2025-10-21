@@ -32,10 +32,18 @@ class MixedMusicSynthesizer implements MusicSynthesizer {
         }
     }
 
-
+    /**
+     * Synthesizes all voices simultaneously.
+     * <p>
+     * This method calls {@link MusicSynthesizer#synthesize()} on each internal
+     * {@link SimpleMusicSynthesizer}.
+     * </p>
+     */
     @Override
     public void synthesize() {
-
+        for (MusicSynthesizer synthesizer : synthesizers) {
+            synthesizer.synthesize();
+        }
     }
 
     @Override
