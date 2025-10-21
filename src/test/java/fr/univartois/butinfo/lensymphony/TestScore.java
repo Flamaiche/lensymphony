@@ -1,6 +1,5 @@
 package fr.univartois.butinfo.lensymphony;
 
-import fr.univartois.butinfo.lensymphony.Staff;
 import fr.univartois.butinfo.lensymphony.notes.Score;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,17 +15,41 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the {@link Score} class.
  * <p>
- * Ensures correct initialization, iteration, and behavior
- * of a musical score containing multiple {@link Staff} instances.
+ * This test suite validates the correct behavior of the {@code Score} class,
+ * which represents a musical composition consisting of multiple {@link Staff} instances.
+ * It verifies object initialization, iteration behavior, and handling of edge cases.
  * </p>
+ *
+ * <p>Test coverage includes:</p>
+ * <ul>
+ *   <li>Proper instantiation of a {@code Score} object</li>
+ *   <li>Correct iteration through {@code Staff} elements</li>
+ *   <li>Compatibility with enhanced for-loops</li>
+ *   <li>Graceful behavior when the {@code Score} contains no {@code Staff}</li>
+ * </ul>
+ *
+ * @author [Your Name]
+ * @version 1.0
  */
 public class TestScore {
 
+    /**
+     * The list of {@link Staff} objects used to initialize the {@link Score} under test.
+     */
     private List<Staff> staffs;
+
+    /**
+     * The {@link Score} instance under test.
+     */
     private Score score;
 
     /**
-     * Sets up a test score with several staffs using the same instrument.
+     * Initializes a test environment before each test method execution.
+     * <p>
+     * This method creates a list of three {@link Staff} objects,
+     * each using the {@link Instrument#PURE_TONE} synthesizer,
+     * and initializes a {@link Score} instance containing them.
+     * </p>
      */
     @BeforeEach
     void setUp() {
@@ -38,12 +61,25 @@ public class TestScore {
         score = new Score(staffs);
     }
 
+    /**
+     * Verifies that the {@link Score} constructor properly initializes a new instance.
+     * <p>
+     * Ensures that the created {@code Score} object is not {@code null}.
+     * </p>
+     */
     @Test
     @DisplayName("Constructor should initialize Score correctly")
     void testConstructor() {
         assertNotNull(score, "The Score object should not be null.");
     }
 
+    /**
+     * Verifies that the iterator returned by {@link Score#iterator()} iterates
+     * over all {@link Staff} objects in the correct order.
+     * <p>
+     * Ensures that each {@link Staff} is non-null and uses the expected instrument.
+     * </p>
+     */
     @Test
     @DisplayName("Iterator should return all Staff objects in correct order")
     void testIteratorOrder() {
@@ -63,6 +99,13 @@ public class TestScore {
         assertEquals(3, index, "The Score should contain exactly 3 Staff objects.");
     }
 
+    /**
+     * Verifies that the enhanced for-loop syntax works correctly
+     * with the {@link Score} class, confirming its {@link Iterable} implementation.
+     * <p>
+     * Ensures that each {@link Staff} returned by iteration has the correct instrument.
+     * </p>
+     */
     @Test
     @DisplayName("Enhanced for-loop should iterate over all Staff objects")
     void testForEachLoop() {
@@ -75,6 +118,12 @@ public class TestScore {
         assertEquals(3, count, "The for-each loop should iterate over 3 Staff objects.");
     }
 
+    /**
+     * Verifies that an empty {@link Score} behaves correctly.
+     * <p>
+     * Ensures that the iterator is non-null and contains no elements.
+     * </p>
+     */
     @Test
     @DisplayName("Empty Score should behave correctly")
     void testEmptyScore() {
