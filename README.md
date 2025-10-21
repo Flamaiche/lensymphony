@@ -157,6 +157,14 @@ class Staff implements Iterable<Note> {
     + getInstrument(): Instrument
 }
 
+class Score implements Iterable<Staff> {
+    - staffs: List<Staff>
+    + Score(staffs: List<Staff>)
+    + iterator(): Iterator<Staff>
+}
+
+Score o-- "*" Staff
+
 interface MusicSynthesizer {
     + {abstract} synthesize(): void
     + {abstract} getSamples(): double[]
