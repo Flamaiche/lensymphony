@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestTiedNotes {
 
@@ -25,6 +26,16 @@ public class TestTiedNotes {
         int tempo = 120;
         int expectedDuration = note1.getDuration(tempo) + note2.getDuration(tempo);
         assertEquals(expectedDuration, tied.getDuration(tempo));
+    }
+
+    @Test
+    void testTiedNotesEmptyListThrowsException() {
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> new TiedNotes(List.of()),
+                "Expected constructor to throw for empty list"
+        );
+        assertEquals("Tied notes list cannot be null or empty", thrown.getMessage());
     }
 
 }
