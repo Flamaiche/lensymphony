@@ -2,40 +2,30 @@ package fr.univartois.butinfo.lensymphony.notes.decorator;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
 
-public class DottedNotes implements Note {
+/**
+ * A decorator that adds a single dot to a note.
+ * The dot increases the note's duration by half.
+ */
+public class DottedNotes extends DecoratorNote {
 
-    private final Note note;
-    private final int exponent;
-
+    /**
+     * Creates a dotted note based on another note.
+     *
+     * @param note the note to decorate
+     */
     public DottedNotes(Note note) {
-        int nextExponent = 1;
-        if(note instanceof DottedNotes dotted) {
-            nextExponent=dotted.getExponent()+1;
-        }
-        if(nextExponent>3) {
-            throw new IllegalArgumentException("The note can't have more than 3 dots");
-        }
-        this.note = note;
-        this.exponent = nextExponent;
+        super(note);
     }
 
+    /** Returns the note’s frequency (unchanged). */
     @Override
     public double getFrequency() {
         return note.getFrequency();
     }
 
+    /** Returns the duration of the note with one dot applied. */
     @Override
     public int getDuration(int tempo) {
-        double baseDuration = note.getDuration(tempo);
-        double additionnal = baseDuration / Math.pow(2, exponent);
-        return (int) Math.round(baseDuration + additionnal);
-    }
-
-    public int getExponent() {
-        return exponent;
-    }
-
-    public Note getNote() {
-        return note;
+        return (int)(note.getDuration(tempo) * 1.5);
     }
 }
