@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author [Your Name]
  * @version 1.0
  */
-public class TestScore {
+class TestScore {
 
     /**
      * The list of {@link Staff} objects used to initialize the {@link Score} under test.
