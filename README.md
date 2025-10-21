@@ -99,6 +99,13 @@ class DottedNotes extends DecoratorNote {
     + getDuration(tempo: int): int
 }
 
+class FermataOn extends DecoratorNote {
+    + FermataOn(note: Note)
+    + getFrequency(): double
+    + getDuration(tempo: int): int
+}
+
+
 
 class TiedNotes implements Note {
     - listTiedNotes: List<Note>
@@ -226,6 +233,7 @@ AbstractNoteFactory --> MusicalNote : << creates >>
 | Representation of a staff                              | Iterator              | Hugo Richard    |
 | Traversal of notes/silences in a staff                 |                       |                 |
 | Representation of a musical piece                      | Iterator              | Malik Babahamou |
+| Representation of a point on a note                    | Decorator             | Jabir Danoun    |
 | Creation of musical elements (notes, silences)         |                       |                 |
 | Generation of the "pure" sound for a note              | Strategy              | Hugo Richard    |
 | Addition of harmonics to the sound of a note           |                       |                 |
