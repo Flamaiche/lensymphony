@@ -24,13 +24,16 @@
 package fr.univartois.butinfo.lensymphony;
 
 import java.io.File;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import fr.univartois.butinfo.lensymphony.musicxml.MusicXMLSaxParser;
 import fr.univartois.butinfo.lensymphony.notes.AbstractNoteFactory;
+import fr.univartois.butinfo.lensymphony.notes.Note;
 import fr.univartois.butinfo.lensymphony.notes.NoteFactory;
+import fr.univartois.butinfo.lensymphony.notes.Score;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.PureTone;
 import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
@@ -86,14 +89,24 @@ public final class LenSymphony {
         MusicXMLSaxParser handler = new MusicXMLSaxParser(noteFactory);
         saxParser.parse(new File(args[0]), handler);
 
-        // Creating a musical score from the parsed data.
-        // TODO: Instantiate your representation of a musical score here.
 
-        // Synthesizing and playing the music.
-        // TODO: Use the musical score instead of the parsed data directly.
-        MusicSynthesizer musicSynthetizer = new SimpleMusicSynthesizer(handler.getTempo(), handler.getNotes(), noteSynthesizer);
-        musicSynthetizer.synthesize();
-        musicSynthetizer.play();
+        // Create a staff and add all parsed notes
+        Staff staff = new Staff(null); // No instrument assigned for now
+        for (Note note : handler.getNotes()) {
+            if (note == null) continue;
+            staff.add(note);
+        }
+
+        // Create the score
+        Score score = new Score(List.of(staff));
+
+        // Synthesize and play
+        for (Staff s : score) {
+            MusicSynthesizer musicSynthesizer = new SimpleMusicSynthesizer(handler.getTempo(), s, noteSynthesizer);
+            musicSynthesizer.synthesize();
+            musicSynthesizer.play();
+        }
+
     }
 
 }
