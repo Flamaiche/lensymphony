@@ -2,7 +2,10 @@ package fr.univartois.butinfo.lensymphony.notes;
 
 import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
 import fr.univartois.butinfo.lensymphony.notes.element.Rest;
+import fr.univartois.butinfo.lensymphony.notes.element.TiedNotes;
+import fr.univartois.butinfo.lensymphony.notes.decorator.DottedNotes;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,7 +78,7 @@ public class NoteFactory implements AbstractNoteFactory {
      */
     @Override
     public Note createDottedNote(Note note) {
-        return null;
+        return new DottedNotes(note);
     }
 
     /**
@@ -103,7 +106,10 @@ public class NoteFactory implements AbstractNoteFactory {
      */
     @Override
     public Note createTiedNotes(Note... notes) {
-        return AbstractNoteFactory.super.createTiedNotes(notes);
+        if (notes == null || notes.length == 0) {
+            throw new IllegalArgumentException("Notes must not be empty");
+        }
+        return new TiedNotes(Arrays.stream(notes).toList());
     }
 
     /**
@@ -117,6 +123,9 @@ public class NoteFactory implements AbstractNoteFactory {
      */
     @Override
     public Note createTiedNotes(List<Note> notes) {
-        return null;
+        if (notes == null || notes.isEmpty()) {
+            throw new IllegalArgumentException("Notes must not be empty");
+        }
+        return new  TiedNotes(notes);
     }
 }
