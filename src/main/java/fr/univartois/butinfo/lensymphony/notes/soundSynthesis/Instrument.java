@@ -56,4 +56,31 @@ public enum Instrument {
     public NoteSynthesizer getSynthesizer() {
         return synthesizer;
     }
+
+
+    /**
+     * Retrieves an {@link Instrument} instance based on the given instrument name.
+     * <p>
+     * The comparison is case-insensitive and ignores leading or trailing whitespace.
+     * If the provided name does not match any known instrument, the method defaults
+     * to returning {@link Instrument#PURE_TONE}.
+     * </p>
+     *
+     * @param instrumentName The name of the instrument as read from the MusicXML file.
+     *                       May contain extra spaces or case variations (e.g., "piano", " Piano ").
+     * @return The matching {@link Instrument} if found, or {@link Instrument#PURE_TONE} otherwise.
+     */
+    public static Instrument getInstrumentByName(String instrumentName) {
+        if (instrumentName == null) return PURE_TONE;
+
+        String name = instrumentName.trim().toUpperCase();
+
+        for (Instrument instrument : Instrument.values()) {
+            if (name.equals(instrument.name())) {
+                return instrument;
+            }
+        }
+
+        return PURE_TONE;
+    }
 }
