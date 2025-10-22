@@ -197,26 +197,49 @@ interface NoteSynthesizer {
 }
 
 class PureTone implements NoteSynthesizer {
-+ static getInstance(): PureTone
-+ synthesize(note: Note, tempo: int, volume: double): double[]
-}
-
-class Harmonic implements NoteSynthesizer {
-    - static instance : Harmonic
-    - harmonics : NoteSynthesizer
-    - static octave : int
-    --
-    + Harmonic(octave : int)
-    + Harmonic()
-    + static getInstance() : Harmonic
-    + setOctave(octave : int) : void
+    - static final INSTANCE : PureTone
+    - PureTone()
+    + static getINSTANCE() : PureTone
     + synthesize(note : Note, tempo : int, volume : double) : double[]
 }
+
+
+class Harmonic implements NoteSynthesizer {
+    - harmonics : NoteSynthesizer
+    --
+    + Harmonic(octave : int)
+    + synthesize(note : Note, tempo : int, volume : double) : double[]
+}
+
     
 enum Instrument {
- + PURE_TONE
- + getSynthesizer(): NoteSynthesizer
+
+    + PURE_TONE
+    + CONTRABASS
+    + VIOLIN
+    + GUITAR
+    + PIANO
+    + FLUTE
+    + TRIANGLE
+    + BASS_DRUM
+    + SNARE_DRUM
+    + CYMBAL
+    + PICCOLO
+    + CLARINET
+    + ALTO_SAXOPHONE
+    + TENOR_SAXOPHONE
+    + TRUMPET
+    + HORN_IN_F
+    + EUPHONIUM
+    + TROMBONE
+    + TUBA
+
+    - synthesizer: NoteSynthesizer
+
+    + getSynthesizer(): NoteSynthesizer
+    + getInstrumentByName(instrumentName: String): Instrument
 }
+
 
 class Staff implements Iterable<Note> {
     + Staff(notes: List<Note>)
@@ -316,7 +339,7 @@ LenSymphony --> MixedMusicSynthesizer : << uses >>
 | Addition of harmonics to the sound of a note           | Decorator             | Matheo Popieul  |
 | Application of an ADSR envelope to the sound of a note | Decorator             | Matheo Popieul  |
 | Application of a vibrato to the sound of a note        | Decorator             | Jabir Danoun    |
-| Addition of random noise to the sound of a note        |                       |                 |
+| Addition of random noise to the sound of a note        | Decorator             | Malik Babahamou |
 | Synthesis of the bass drum sound                       |                       |                 |
 | Synthesis of the snare drum sound                      |                       |                 |
 | Synthesis of the cymbal sound                          |                       |                 |
