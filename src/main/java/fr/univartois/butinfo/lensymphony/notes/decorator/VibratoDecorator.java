@@ -42,8 +42,8 @@ public class VibratoDecorator extends DecoratorNoteSynthesizer{
 
     public VibratoDecorator(NoteSynthesizer base) {
         super(base);
-        this.depth = 5;
-        this.speed = 5;
+        this.depth = 0.05;
+        this.speed = 0.05;
     }
 
     /**
