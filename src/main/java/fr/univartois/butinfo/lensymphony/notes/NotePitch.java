@@ -52,17 +52,17 @@ public final class NotePitch {
     /**
      * The pitch class of the note (C, D, E, etc.).
      */
-    private PitchClass pitchClass;
+    private final PitchClass pitchClass;
 
     /**
      * The octave of the note (0 to 8).
      */
-    private int octave;
+    private final int octave;
 
     /**
      * The frequency of the note (in Hz), calculated from the pitch class and octave.
      */
-    private double frequency;
+    private final double frequency;
 
     /**
      * Creates a new NotePitch.

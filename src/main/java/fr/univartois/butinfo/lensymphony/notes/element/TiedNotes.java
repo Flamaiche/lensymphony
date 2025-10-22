@@ -39,7 +39,7 @@ public class TiedNotes implements Note {
 
     @Override
     public double getFrequency() {
-        return listTiedNotes.get(0).getFrequency();
+        return listTiedNotes.getFirst().getFrequency();
     }
 
     /**

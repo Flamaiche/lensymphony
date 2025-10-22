@@ -10,7 +10,7 @@ public enum Instrument {
     /**
      * Pure tone instrument.
      */
-    PURE_TONE(PureTone.getInstance()),
+    PURE_TONE(PureTone.getINSTANCE()),
 
     /**
      * Harmonic instrument with 20 harmonics (generic).
