@@ -81,7 +81,7 @@ public class AdsrDecorator extends DecoratorNoteSynthesizer {
      * @param totalTime   The total duration of the note in seconds.
      * @return The envelope multiplier (0.0 to 1.0) for the current sample.
      */
-    private double getEnvelopeValue(double currentTime, double totalTime) {
+    protected double getEnvelopeValue(double currentTime, double totalTime) {
         if (currentTime < 0 || currentTime > totalTime) {
             return 0.0;
         } else if (currentTime < a) {
