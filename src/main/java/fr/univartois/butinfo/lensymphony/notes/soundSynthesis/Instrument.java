@@ -77,6 +77,31 @@ public enum Instrument {
             base -> new AdsrDecorator(base, 0.09, 0.0, 1.0, 0.3),
             base -> new WhiteNoiseDecorator(base, 0.003),
             base -> new VibratoDecorator(base, 0.01, 5)
+    ),
+
+    /** Triangle with high-frequency noise and short ADSR envelope. */
+    TRIANGLE(
+            PureTone.getINSTANCE(),
+            base -> new AdsrDecorator(base, 0.01, 0.05, 0.7, 0.3),
+            base -> new WhiteNoiseDecorator(base, 0.005)
+    ),
+
+    /** Bass drum with low-frequency sound and short ADSR envelope. */
+    BASS_DRUM(
+            PureTone.getINSTANCE(),
+            base -> new AdsrDecorator(base, 0.0, 0.05, 0.5, 0.3)
+    ),
+
+    /** Snare drum with mid-frequency noise and very short ADSR envelope. */
+    SNARE_DRUM(
+            PureTone.getINSTANCE(),
+            base -> new AdsrDecorator(base, 0.0, 0.01, 0.5, 0.2)
+    ),
+
+    /** Cymbal with high-frequency noise and quick attack/decay ADSR envelope. */
+    CYMBAL(
+            PureTone.getINSTANCE(),
+            base -> new AdsrDecorator(base, 0.01, 0.2, 0.0, 0.0)
     );
 
     /** The final synthesizer after applying all decorators for this instrument. */
