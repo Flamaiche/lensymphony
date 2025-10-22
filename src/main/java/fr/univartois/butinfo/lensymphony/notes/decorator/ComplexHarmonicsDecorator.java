@@ -15,6 +15,14 @@ public class ComplexHarmonicsDecorator extends DecoratorNoteSynthesizer {
     private final IntUnaryOperator frequencyMultiplierFunction;
     private final BiFunction<Integer, Double, Double> harmonicAmplitudeFunction;
 
+    /**
+     * Instantiates a new Complex harmonics decorator.
+     *
+     * @param base                        the base
+     * @param numHarmonics                the num harmonics
+     * @param frequencyMultiplierFunction the frequency multiplier function
+     * @param harmonicAmplitudeFunction   the harmonic amplitude function
+     */
     public ComplexHarmonicsDecorator(NoteSynthesizer base,
                                      int numHarmonics,
                                      IntUnaryOperator frequencyMultiplierFunction,
@@ -34,7 +42,7 @@ public class ComplexHarmonicsDecorator extends DecoratorNoteSynthesizer {
         double freq = note.getFrequency();
         double[] result = samples.clone();
 
-        for (int i = 1; i <= numHarmonics; i++) {
+        for (int i = 2; i <= numHarmonics; i++) {
             int multiplier = frequencyMultiplierFunction.applyAsInt(i);
             for (int j = 0; j < n; j++) {
                 double time = j / (double) NoteSynthesizer.SAMPLE_RATE;
