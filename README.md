@@ -90,20 +90,31 @@ class MusicalNote implements Note {
 
 
 abstract class DecoratorNoteSynthesizer implements NoteSynthesizer {
-    - base: NoteSynthesizer
+    * base: NoteSynthesizer
     + DecoratorNoteSynthesizer(base: NoteSynthesizer)
     + synthesize(note: Note, tempo: int, volume: double): double[]
+    * abstract applyEffect(samples : double [] ,note: Note,tempo : int , volume : double) : double []  
 }
 
 class HarmonicsDecorator extends DecoratorNoteSynthesizer {
     - nHarmonics: int
     + HarmonicsDecorator(base: NoteSynthesizer, harmonics: int)
-    + synthesize(note: Note, tempo: int, volume: double): double[]
+    * applyEffect(samples: double[], note: Note, tempo: int,volume : double): double[]
+}
+
+class AdsrDecorator extends DecoratorNoteSynthesizer{
+     - a : double
+     - d : double
+     - s : double
+     - r : double
+     +AdsrDecorator(base: NoteSynthesizer,a:double,d:double,s:double,r:double)
+     * applyEffect(samples: double[], note: Note, tempo: int,volume : double): double[]
+
 }
 
 abstract class DecoratorNote implements Note {
-    - note: Note
-    + DecoratorNote(note: Note)
+    * note: Note
+    * DecoratorNote(note: Note)
 }
 
 class DottedNotes extends DecoratorNote {
@@ -279,7 +290,7 @@ LenSymphony --> MixedMusicSynthesizer : << uses >>
 | Creation of musical elements (notes, silences)         |                       |                 |
 | Generation of the "pure" sound for a note              | Strategy              | Hugo Richard    |
 | Addition of harmonics to the sound of a note           | Decorator             | Matheo Popieul  |
-| Application of an ADSR envelope to the sound of a note |                       |                 |
+| Application of an ADSR envelope to the sound of a note | Decorator             | Matheo Popieul  |
 | Application of a vibrato to the sound of a note        |                       |                 |
 | Addition of random noise to the sound of a note        |                       |                 |
 | Synthesis of the bass drum sound                       |                       |                 |
