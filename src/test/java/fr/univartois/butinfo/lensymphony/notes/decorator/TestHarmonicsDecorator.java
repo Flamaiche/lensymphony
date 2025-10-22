@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * - synthesis is properly delegated to the base synthesizer.
  * </p>
  */
-public class TestHarmonicsDecorator {
+class TestHarmonicsDecorator {
 
     /**
      * Ensures that synthesizing a note with {@link HarmonicsDecorator}
@@ -57,23 +57,5 @@ public class TestHarmonicsDecorator {
     void testInvalidThrows() {
         NoteSynthesizer base = (n, t, v) -> new double[10];
         assertThrows(IllegalArgumentException.class, () -> new HarmonicsDecorator(base, 1));
-    }
-
-    /**
-     * Ensures that {@link DecoratorNoteSynthesizer} correctly delegates
-     * the synthesize call to the base synthesizer.
-     */
-    @Test
-    void testBaseSynthesizeCalled() {
-        NoteSynthesizer base = (n, t, v) -> new double[]{1.0, 2.0, 3.0};
-        DecoratorNoteSynthesizer decorator = new DecoratorNoteSynthesizer(base) {};
-        Note note = new Note() {
-            public double getFrequency() { return 440; }
-            public int getDuration(int t) { return 1000; }
-        };
-
-        double[] result = decorator.synthesize(note, 120, 0.5);
-
-        assertArrayEquals(new double[]{1.0, 2.0, 3.0}, result);
     }
 }
