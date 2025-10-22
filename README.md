@@ -112,6 +112,16 @@ class AdsrDecorator extends DecoratorNoteSynthesizer{
 
 }
 
+class VibratoDecorator extends DecoratorNoteSynthesizer {
+    - depth: double
+    - speed: double
+    + VibratoDecorator(base: NoteSynthesizer, depth: double, speed: double)
+    + VibratoDecorator(base: NoteSynthesizer)
+    * applyEffect(samples: double[], note: Note, tempo: int, volume: double): double[]
+    + getDepth(): double
+    + getSpeed(): double
+}
+
 abstract class DecoratorNote implements Note {
     * note: Note
     * DecoratorNote(note: Note)
@@ -291,7 +301,7 @@ LenSymphony --> MixedMusicSynthesizer : << uses >>
 | Generation of the "pure" sound for a note              | Strategy              | Hugo Richard    |
 | Addition of harmonics to the sound of a note           | Decorator             | Matheo Popieul  |
 | Application of an ADSR envelope to the sound of a note | Decorator             | Matheo Popieul  |
-| Application of a vibrato to the sound of a note        |                       |                 |
+| Application of a vibrato to the sound of a note        | Decorator             | Jabir Danoun    |
 | Addition of random noise to the sound of a note        |                       |                 |
 | Synthesis of the bass drum sound                       |                       |                 |
 | Synthesis of the snare drum sound                      |                       |                 |
