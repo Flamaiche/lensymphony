@@ -55,7 +55,7 @@ public final class LenSymphony {
     /**
      * The note factory used to create notes.
      */
-    private static AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
+    private static final AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
 
     /**
      * The note synthesizer used to synthesize notes.
