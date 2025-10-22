@@ -9,30 +9,10 @@ import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
  */
 public class Harmonic implements NoteSynthesizer {
 
-    private static Harmonic instance;
-    private NoteSynthesizer harmonics;
-    private static int octave = 20;
+    private final NoteSynthesizer harmonics;
 
     public Harmonic(int octave) {
-        harmonics = new HarmonicsDecorator(PureTone.getInstance(), octave);
-    }
-
-    public Harmonic() {
-        this(20);
-    }
-
-    /**
-     * Gets instance.
-     *
-     * @return the instance
-     */
-    public static Harmonic getInstance() {
-        if (instance == null) instance = new Harmonic(octave);
-        return instance;
-    }
-
-    public void setOctave(int octave) {
-        this.octave = octave;
+        harmonics = new HarmonicsDecorator(PureTone.getINSTANCE(), octave);
     }
 
     @Override

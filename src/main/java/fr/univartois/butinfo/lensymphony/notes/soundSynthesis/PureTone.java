@@ -8,7 +8,7 @@ import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
  */
 public class PureTone implements NoteSynthesizer {
 
-    private static PureTone instance;
+    private static final PureTone INSTANCE = new PureTone();
 
     private PureTone() {}
 
@@ -17,11 +17,8 @@ public class PureTone implements NoteSynthesizer {
      *
      * @return the instance
      */
-    public static PureTone getInstance() {
-        if (instance == null) {
-            instance = new PureTone();
-        }
-        return instance;
+    public static PureTone getINSTANCE() {
+        return INSTANCE;
     }
 
     @Override

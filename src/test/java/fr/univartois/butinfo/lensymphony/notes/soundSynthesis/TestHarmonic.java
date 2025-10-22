@@ -27,28 +27,6 @@ class TestHarmonic {
     }
 
     @Test
-    void testDefaultConstructor() {
-        Harmonic defaultHarmonic = new Harmonic();
-        assertNotNull(defaultHarmonic, "Default Harmonic constructor should work");
-    }
-
-    @Test
-    void testGetInstanceSingleton() {
-        Harmonic first = Harmonic.getInstance();
-        Harmonic second = Harmonic.getInstance();
-
-        assertSame(first, second, "getInstance() should return the same instance");
-    }
-
-    @Test
-    void testSetOctaveAffectsNewInstances() {
-        Harmonic first = Harmonic.getInstance();
-        first.setOctave(15);
-        Harmonic second = Harmonic.getInstance();
-
-        assertEquals(first, second, "Singleton instance should remain the same after octave change");
-    }
-    @Test
     void testSynthesizeNotNull() {
         // Création d'une note musicale : pitch = C4, valeur = QUARTER
         MusicalNote testNote = new MusicalNote(NotePitch.of(PitchClass.C, 4), NoteValue.QUARTER);

@@ -109,13 +109,4 @@ public class MixedMusicSynthesizer implements MusicSynthesizer {
         return tempo;
     }
 
-    /**
-     * Returns the default volume level.
-     *
-     * @return The volume (0 by default, can be adjusted if needed).
-     */
-    @Override
-    public double getVolume() {
-        return 0;
-    }
 }

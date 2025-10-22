@@ -89,13 +89,13 @@ class MusicalNote implements Note {
 }
 
 
-abstract class DecoratorNoteSynthesizer {
+abstract class DecoratorNoteSynthesizer implements NoteSynthesizer {
     - base: NoteSynthesizer
     + DecoratorNoteSynthesizer(base: NoteSynthesizer)
     + synthesize(note: Note, tempo: int, volume: double): double[]
 }
 
-class HarmonicsDecorator {
+class HarmonicsDecorator extends DecoratorNoteSynthesizer {
     - nHarmonics: int
     + HarmonicsDecorator(base: NoteSynthesizer, harmonics: int)
     + synthesize(note: Note, tempo: int, volume: double): double[]
@@ -166,6 +166,18 @@ class PureTone implements NoteSynthesizer {
 + synthesize(note: Note, tempo: int, volume: double): double[]
 }
 
+class Harmonic implements NoteSynthesizer {
+    - static instance : Harmonic
+    - harmonics : NoteSynthesizer
+    - static octave : int
+    --
+    + Harmonic(octave : int)
+    + Harmonic()
+    + static getInstance() : Harmonic
+    + setOctave(octave : int) : void
+    + synthesize(note : Note, tempo : int, volume : double) : double[]
+}
+    
 enum Instrument {
  + PURE_TONE
  + getSynthesizer(): NoteSynthesizer

@@ -49,7 +49,7 @@ public final class Example {
     /**
      * The note synthesizer used to synthesize notes.
      */
-    private static NoteSynthesizer noteSynthesizer = PureTone.getInstance();
+    private static NoteSynthesizer noteSynthesizer = PureTone.getINSTANCE();
 
     /**
      * Disables instantiation.

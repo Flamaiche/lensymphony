@@ -28,7 +28,7 @@ public class TestInstrument {
         assertNotNull(synth, "The synthesizer of PURE_TONE must not be null.");
         assertTrue(synth instanceof PureTone,
                 "The synthesizer of PURE_TONE must be an instance of PureTone.");
-        assertSame(PureTone.getInstance(), synth,
+        assertSame(PureTone.getINSTANCE(), synth,
                 "The synthesizer of PURE_TONE must be the singleton instance from PureTone.getInstance().");
     }
 
