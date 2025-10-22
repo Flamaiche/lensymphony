@@ -4,10 +4,10 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 
 /**
- * A decorator for a NoteSynthesizer that adds harmonics to the sound of a note.
+ * A decorator for a {@link NoteSynthesizer} that adds harmonics to the sound of a note.
  * <p>
- * The decorator adds multiple harmonics to enrich the note's sound.
- * Each harmonic has a lower amplitude than the fundamental frequency.
+ * This decorator enriches the synthesized sound by adding a number of harmonics.
+ * Each harmonic has a lower amplitude than the base frequency.
  * </p>
  */
 public class HarmonicsDecorator extends DecoratorNoteSynthesizer {
@@ -16,11 +16,11 @@ public class HarmonicsDecorator extends DecoratorNoteSynthesizer {
     private final int nHarmonics;
 
     /**
-     * Creates a HarmonicsDecorator that adds harmonics to a base synthesizer.
+     * Creates a new HarmonicsDecorator.
      *
-     * @param base the base NoteSynthesizer to decorate
-     * @param harmonics the number of harmonics to add (must be > 1)
-     * @throws IllegalArgumentException if harmonics is less than or equal to 1
+     * @param base      The base NoteSynthesizer to decorate.
+     * @param harmonics The number of harmonics to add (must be > 1).
+     * @throws IllegalArgumentException if harmonics ≤ 1.
      */
     public HarmonicsDecorator(NoteSynthesizer base, int harmonics) {
         super(base);
@@ -31,19 +31,19 @@ public class HarmonicsDecorator extends DecoratorNoteSynthesizer {
     }
 
     /**
-     * Synthesizes a note including the specified number of harmonics.
+     * Applies the harmonic enrichment effect to the given sound samples.
      *
-     * @param note the note to synthesize
-     * @param tempo the tempo in beats per minute (BPM)
-     * @param volume the volume (0.0 to 1.0)
-     * @return an array of audio samples including the harmonics
+     * @param samples The base sound samples.
+     * @param note The note being synthesized.
+     * @param tempo The tempo in beats per minute (BPM).
+     * @param volume The volume (0.0 to 1.0).
+     * @return The samples with added harmonics.
      */
     @Override
-    public double[] synthesize(Note note, int tempo, double volume) {
-        double[] baseSound = base.synthesize(note, tempo, volume);
-        int n = baseSound.length;
+    protected double[] applyEffect(double[] samples, Note note, int tempo, double volume) {
+        int n = samples.length;
         double freq = note.getFrequency();
-        double[] soundWithHarmonics = baseSound.clone();
+        double[] soundWithHarmonics = samples.clone();
 
         for (int i = 2; i <= nHarmonics; i++) {
             double amplitude = volume / nHarmonics;
