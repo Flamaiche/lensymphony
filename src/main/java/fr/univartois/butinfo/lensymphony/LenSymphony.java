@@ -35,13 +35,11 @@ import fr.univartois.butinfo.lensymphony.musicxml.MusicXMLSaxParser;
 import fr.univartois.butinfo.lensymphony.notes.AbstractNoteFactory;
 import fr.univartois.butinfo.lensymphony.notes.Note;
 import fr.univartois.butinfo.lensymphony.notes.NoteFactory;
-import fr.univartois.butinfo.lensymphony.Score;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.PureTone;
 import fr.univartois.butinfo.lensymphony.synthesizer.MixedMusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
-import fr.univartois.butinfo.lensymphony.synthesizer.SimpleMusicSynthesizer;
 
 /**
  * The LenSymphony class provides a simple application to synthesize and play music from a
@@ -62,7 +60,7 @@ public final class LenSymphony {
     /**
      * The note synthesizer used to synthesize notes.
      */
-    private static NoteSynthesizer noteSynthesizer = PureTone.getInstance();
+    private static NoteSynthesizer noteSynthesizer = PureTone.getINSTANCE();
 
     /**
      * Disables instantiation.
