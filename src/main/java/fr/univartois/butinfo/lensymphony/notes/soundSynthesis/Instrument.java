@@ -1,86 +1,104 @@
 package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 
+import fr.univartois.butinfo.lensymphony.notes.decorator.*;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
+import java.util.function.UnaryOperator;
 
 /**
- * The enum Instrument.
+ * Defines musical instruments as combinations of synthesizers and sound effects (decorators).
+ * Each instrument can apply one or more decorators (ADSR, reverb, vibrato, etc.)
+ * in sequence using lambda expressions.
  */
 public enum Instrument {
 
     /**
-     * Pure tone instrument.
+     * Simple pure tone instrument (no effects).
      */
     PURE_TONE(PureTone.getINSTANCE()),
 
     /**
-     * Harmonic instrument with 20 harmonics (generic).
+     * Harmonic instrument with 20 harmonics.
      */
     HARMONIQUE20(new Harmonic(20)),
 
     /**
-     * Contrabass – very low frequency instrument (around 2–3 octaves below middle C).
+     * Contrabass – deep tone with mild ADSR and reverb.
      */
-    CONTRABASS(new Harmonic(2)),
+    CONTRABASS(
+            PureTone.getINSTANCE(),
+            base -> new AdsrDecorator(base, 0.2, 0.3, 0.8, 0.4)
+    ),
 
     /**
-     * Violoncello (Cello) – low to mid register instrument (about 3 octaves range).
+     * Violin – bright and expressive, with vibrato and harmonics.
      */
-    VIOLONCELLO(new Harmonic(3)),
+    VIOLIN(
+            new Harmonic(5),
+            base -> new AdsrDecorator(base, 0.1, 0.2, 0.7, 0.2),
+            VibratoDecorator::new,
+            base -> new HarmonicsDecorator(base, 3)
+    ),
 
     /**
-     * Viola – mid register instrument (slightly above cello).
+     * Piano – soft ADSR and light reverb.
      */
-    VIOLA(new Harmonic(4)),
+    PIANO(
+            new Harmonic(4),
+            base -> new AdsrDecorator(base, 0.05, 0.2, 0.6, 0.3)
+    ),
 
     /**
-     * Violin – higher register string instrument.
+     * Experimental pad with rich effects.
      */
-    VIOLIN(new Harmonic(5)),
+    SPACE_PAD(
+            new Harmonic(8),
+            base -> new AdsrDecorator(base, 0.5, 0.7, 0.9, 1.0),
+            base -> new HarmonicsDecorator(base, 2),
+            VibratoDecorator::new
+    );
 
-    /**
-     * Piano – wide range instrument (uses middle reference octave).
-     */
-    PIANO(new Harmonic(4));
-
+    /** The final synthesizer for this instrument (with effects applied). */
     private final NoteSynthesizer synthesizer;
 
-    Instrument(NoteSynthesizer synthesizer) {
-        this.synthesizer = synthesizer;
+    /**
+     * Constructs an instrument with one or more decorator effects.
+     *
+     * @param base The base synthesizer (e.g., PureTone, Harmonic).
+     * @param effects A variable number of decorators to apply in sequence.
+     */
+    @SafeVarargs
+    Instrument(NoteSynthesizer base, UnaryOperator<NoteSynthesizer>... effects) {
+        NoteSynthesizer result = base;
+        for (UnaryOperator<NoteSynthesizer> effect : effects) {
+            result = effect.apply(result);
+        }
+        this.synthesizer = result;
     }
 
     /**
-     * Gets the synthesizer associated with this instrument.
+     * Gets the final synthesizer of this instrument (after all effects).
      *
-     * @return the note synthesizer
+     * @return The fully decorated {@link NoteSynthesizer}.
      */
     public NoteSynthesizer getSynthesizer() {
         return synthesizer;
     }
 
-
     /**
-     * Retrieves an {@link Instrument} instance based on the given instrument name.
-     * <p>
-     * The comparison is case-insensitive and ignores leading or trailing whitespace.
-     * If the provided name does not match any known instrument, the method defaults
-     * to returning {@link Instrument#PURE_TONE}.
-     * </p>
+     * Retrieves an {@link Instrument} based on its name (case-insensitive).
      *
-     * @param instrumentName The name of the instrument as read from the MusicXML file.
-     *                       May contain extra spaces or case variations (e.g., "piano", " Piano ").
-     * @return The matching {@link Instrument} if found, or {@link Instrument#PURE_TONE} otherwise.
+     * @param instrumentName The name of the instrument.
+     * @return The corresponding {@link Instrument}, or {@link Instrument#PURE_TONE} if not found.
      */
     public static Instrument getInstrumentByName(String instrumentName) {
         if (instrumentName == null) return PURE_TONE;
 
         String name = instrumentName.trim().toUpperCase();
-
         for (Instrument instrument : Instrument.values()) {
             if (name.equals(instrument.name())) {
                 return instrument;
             }
         }
-
         return PURE_TONE;
     }
 }
