@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Staff implements Iterable<Note> {
-    private ArrayList<Note> notes;
-    private Instrument instrument;
+    private final ArrayList<Note> notes;
+    private final Instrument instrument;
 
     public Staff(Instrument instrument) {
         this.notes = new ArrayList<>();

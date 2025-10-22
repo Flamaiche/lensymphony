@@ -46,17 +46,17 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
     /**
      * The tempo of the music in beats per minute (BPM).
      */
-    private int tempo;
+    private final int tempo;
 
     /**
      * The sequence of notes to play in the audio stream.
      */
-    private Iterable<Note> notes;
+    private final Iterable<Note> notes;
 
     /**
      * The note synthesizer used to generate the audio samples for each note.
      */
-    private NoteSynthesizer synthesizer;
+    private final NoteSynthesizer synthesizer;
 
     /**
      * The synthesized audio samples as a double array.
@@ -113,11 +113,6 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
     @Override
     public int getTempo() {
         return tempo;
-    }
-
-    @Override
-    public double getVolume() {
-        return 0;
     }
 
 }

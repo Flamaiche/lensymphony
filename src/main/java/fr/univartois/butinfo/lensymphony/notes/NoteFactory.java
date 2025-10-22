@@ -21,7 +21,7 @@ import java.util.List;
  * accessible via {@link #getINSTANCE()}.
  * </p>
  *
- * @author
+ * @author Babahamou Malik
  * @version 0.1.0
  */
 public class NoteFactory implements AbstractNoteFactory {

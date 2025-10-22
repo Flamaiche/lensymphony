@@ -23,9 +23,6 @@
 
 package fr.univartois.butinfo.lensymphony.notes;
 
-import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
-import fr.univartois.butinfo.lensymphony.notes.element.Rest;
-
 import java.util.List;
 
 /**
@@ -81,9 +78,7 @@ public interface AbstractNoteFactory {
      *
      * @return The created tied note.
      */
-    default Note createTiedNotes(Note... notes) {
-        return createTiedNotes(List.of(notes));
-    }
+    Note createTiedNotes(Note... notes);
 
     /**
      * Creates a note representing the tie of the given notes.
