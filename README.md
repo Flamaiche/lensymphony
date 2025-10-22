@@ -112,6 +112,20 @@ class AdsrDecorator extends DecoratorNoteSynthesizer{
 
 }
 
+class WhiteNoiseDecorator extends DecoratorNoteSynthesizer {
+    - noiseLevel: double
+    + WhiteNoiseDecorator(base: NoteSynthesizer, noiseLevel: double)
+    # applyEffect(samples: double[], note: Note, tempo: int, volume: double): double[]
+}
+
+class ComplexHarmonicsDecorator extends DecoratorNoteSynthesizer {
+    - numHarmonics: int
+    - frequencyMultiplierFunction: IntUnaryOperator
+    - harmonicAmplitudeFunction: BiFunction<Integer, Double, Double>
+    + ComplexHarmonicsDecorator(base: NoteSynthesizer, numHarmonics: int, frequencyMultiplierFunction: IntUnaryOperator, harmonicAmplitudeFunction: BiFunction<Integer, Double, Double>)
+    # applyEffect(samples: double[], note: Note, tempo: int, volume: double): double[]
+}
+
 class VibratoDecorator extends DecoratorNoteSynthesizer {
     - depth: double
     - speed: double
