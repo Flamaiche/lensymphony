@@ -56,7 +56,7 @@ public enum Instrument {
                     (i, t) -> 1.0 / (3 * i - 1)
             ),
             base -> new AdsrDecorator(base, 0.09, 0.0, 1.0, 0.3),
-//            base -> new NoiseDecorator(base, 0.003),
+            base -> new WhiteNoiseDecorator(base, 0.003),
             base -> new VibratoDecorator(base, 0.01, 5)
     );
 
