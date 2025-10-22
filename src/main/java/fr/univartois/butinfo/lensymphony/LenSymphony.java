@@ -58,11 +58,6 @@ public final class LenSymphony {
     private static final AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
 
     /**
-     * The note synthesizer used to synthesize notes.
-     */
-    private static NoteSynthesizer noteSynthesizer = PureTone.getINSTANCE();
-
-    /**
      * Disables instantiation.
      */
     private LenSymphony() {
