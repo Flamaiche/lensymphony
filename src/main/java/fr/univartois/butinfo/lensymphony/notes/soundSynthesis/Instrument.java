@@ -215,6 +215,18 @@ public enum Instrument {
                     ),
                     0.08, 0.15, 0.6, 0.35
             )
+    ),
+
+    TRIANGLE(
+            new AdsrDecorator(
+                    new ComplexHarmonicsDecorator(
+                            PureTone.getINSTANCE(),
+                            7,
+                            i -> 2000 + 800 * i,
+                            (i, t) -> Math.exp(-5 * (0.5 + 0.3 * i))
+                    ),
+                    0.01, 0.05, 0.7, 0.2
+            )
     );
 
     /** The final synthesizer after all decorators are applied. */
@@ -246,13 +258,14 @@ public enum Instrument {
      * @return Corresponding {@link Instrument} or {@link #PURE_TONE}.
      */
     public static Instrument getInstrumentByName(String instrumentName) {
-        if (instrumentName == null) return PURE_TONE;
-        String normalized = instrumentName.trim().replace(' ', '_').toUpperCase();
-        for (Instrument instrument : Instrument.values()) {
-            if (normalized.equals(instrument.name())) {
-                return instrument;
-            }
-        }
-        return PURE_TONE;
+        return TRIANGLE;
+//        if (instrumentName == null) return PURE_TONE;
+//        String normalized = instrumentName.trim().replace(' ', '_').toUpperCase();
+//        for (Instrument instrument : Instrument.values()) {
+//            if (normalized.equals(instrument.name())) {
+//                return instrument;
+//            }
+//        }
+//        return PURE_TONE;
     }
 }
