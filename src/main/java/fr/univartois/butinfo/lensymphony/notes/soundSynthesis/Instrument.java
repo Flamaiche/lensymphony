@@ -222,10 +222,10 @@ public enum Instrument {
                     new ComplexHarmonicsDecorator(
                             PureTone.getINSTANCE(),
                             7,                          // nombre de partiels
-                            i -> 1000 + 400 * i,        // fréquences plus basses → son moins sec
-                            (i, t) -> Math.exp(-2.0 * (0.3 + 0.2 * i)) // décroissance des harmoniques inchangée
+                            i -> 1200 + 400 * i,        // fréquences légèrement plus aiguës → son clair
+                            (i, t) -> Math.exp(-1.8 * (0.3 + 0.2 * i)) // décroissance douce des harmoniques
                     ),
-                    0.001, 0.05, 0.4, 4.0          // ADSR : attaque ultra courte, decay court, sustain moyen, release très long
+                    0.001, 0.05, 0.5, 4.0          // ADSR : attaque très courte, decay court, sustain moyen, release long
             )
     );
 
