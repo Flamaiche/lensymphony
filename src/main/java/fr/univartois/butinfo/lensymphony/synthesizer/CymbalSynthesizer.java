@@ -47,12 +47,14 @@ public class CymbalSynthesizer extends AbstractPercussionSynthesizer {
      * The sound is based on high-frequency noise modulated by a sine function.
      * </p>
      *
-     * @param note the {@link Note} being played
-     * @param t    the time in seconds since the start of the note
+     * @param note  the {@link Note} being played
+     * @param t     the time in seconds since the start of the note
+     * @param tempo
      * @return the raw sample value at time t
      */
     @Override
-    public double computeRawSample(Note note, double t) {
+    public double computeRawSample(Note note, double t, int tempo) {
+        // TODO : Ne pas faire Math.random() voir le cours et la class WhiteNoise (d'après Wallon)
         double random = 2 * Math.random() - 1;
         return random * Math.sin(4000 * Math.PI * t);
     }

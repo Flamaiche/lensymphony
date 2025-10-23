@@ -43,7 +43,7 @@ class TestTimbales {
             public double getFrequency() { return 440; }
         };
 
-        double sample = timbales.computeRawSample(note, 0.5);
+        double sample = timbales.computeRawSample(note, 0.5, tempo);
         assertTrue(sample >= -1 && sample <= 1);
     }
 

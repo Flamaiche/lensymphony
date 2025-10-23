@@ -6,7 +6,7 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
  * Base class for percussion instruments.
  * <p>
  * Provides an attack/decay envelope and calls
- * {@link #computeRawSample(Note, double)} for the actual sound.
+ * {@link #computeRawSample(Note, double, int)} for the actual sound.
  * </p>
  */
 public abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
@@ -37,7 +37,7 @@ public abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
         for (int i = 0; i < totalSamples; i++) {
             double t = i / (double) SAMPLE_RATE;
             double env = envelope(t);
-            samples[i] = volume * env * computeRawSample(note, t);
+            samples[i] = volume * env * computeRawSample(note, t, tempo);
         }
         return samples;
     }
@@ -58,9 +58,10 @@ public abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
      * Computes the raw sample of the instrument at time t.
      * Must be implemented by subclasses.
      *
-     * @param note the note
-     * @param t    time in seconds
+     * @param note  the note
+     * @param t     time in seconds
+     * @param tempo
      * @return raw sample value
      */
-    protected abstract double computeRawSample(Note note, double t);
+    public abstract double computeRawSample(Note note, double t, int tempo);
 }

@@ -37,7 +37,7 @@ class TestSnarDrum {
             public double getFrequency() { return 1; }
         };
         for (int i = 0; i < 100; i++) {
-            double sample = drum.computeRawSample(stubNote, i / 1000.0);
+            double sample = drum.computeRawSample(stubNote, i / 1000.0, tempo);
             assertTrue(sample >= -1.0 && sample <= 1.0, "Raw sample out of range");
         }
     }

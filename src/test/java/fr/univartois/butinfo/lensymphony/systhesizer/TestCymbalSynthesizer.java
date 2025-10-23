@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.lensymphony.systhesizer;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
+import fr.univartois.butinfo.lensymphony.synthesizer.AbstractPercussionSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.CymbalSynthesizer;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +33,7 @@ class TestCymbalSynthesizer {
     }
 
     /**
-     * Tests that {@link CymbalSynthesizer#computeRawSample(Note, double)} returns
+     * Tests that {@link AbstractPercussionSynthesizer#computeRawSample(Note, double, int)} returns
      * a value within the expected range for a given time.
      */
 
@@ -42,7 +43,7 @@ class TestCymbalSynthesizer {
         Note note = new DummyNote();
 
         double t = 0.01;
-        double sample = synth.computeRawSample(note, t);
+        double sample = synth.computeRawSample(note, t, );
 
         double maxPossible = Math.sin(4000 * Math.PI * t);
         assertTrue(sample >= -Math.abs(maxPossible) && sample <= Math.abs(maxPossible));

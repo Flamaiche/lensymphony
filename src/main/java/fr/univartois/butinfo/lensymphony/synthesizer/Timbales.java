@@ -43,17 +43,18 @@ public class Timbales extends AbstractPercussionSynthesizer {
      * Computes the raw audio sample at a given time t.
      * The frequency interpolates from the note's frequency to 60% of it.
      *
-     * @param note the note being played
-     * @param t the current time in seconds
+     * @param note  the note being played
+     * @param t     the current time in seconds
+     * @param tempo
      * @return the raw sample value
      */
 
     @Override
-    public double computeRawSample(Note note, double t) {
+    public double computeRawSample(Note note, double t, int tempo) {
         double fStart = note.getFrequency();
         double fEnd = fStart * 0.6;
 
-        double durationSec = note.getDuration(120) / 1000.0;
+        double durationSec = note.getDuration(tempo) / 1000.0;
         double freq = fStart + (fEnd - fStart) * (t / durationSec);
         return Math.sin(2 * Math.PI * freq * t);
 
