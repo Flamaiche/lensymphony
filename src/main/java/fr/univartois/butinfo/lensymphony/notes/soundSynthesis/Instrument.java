@@ -2,10 +2,7 @@ package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 
 import com.sun.source.tree.ReturnTree;
 import fr.univartois.butinfo.lensymphony.notes.decorator.*;
-import fr.univartois.butinfo.lensymphony.synthesizer.CymbalSynthesizer;
-import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
-import fr.univartois.butinfo.lensymphony.synthesizer.SnareDrum;
-import fr.univartois.butinfo.lensymphony.synthesizer.Timbales;
+import fr.univartois.butinfo.lensymphony.synthesizer.*;
 
 /**
  * Represents musical instruments by directly wrapping base synthesizers
@@ -227,6 +224,10 @@ public enum Instrument {
 
     SNARE_DRUM(
             SnareDrum.getInstance()
+    ),
+
+    BASS_DRUM(
+            BassDrumSynthesizer.getInstance()
     ),
 
     TIMBALES(
