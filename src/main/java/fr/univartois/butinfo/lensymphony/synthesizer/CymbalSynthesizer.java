@@ -2,6 +2,8 @@ package fr.univartois.butinfo.lensymphony.synthesizer;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
 
+import java.util.Random;
+
 /**
  * CymbalSynthesizer is a singleton class that generates the sound of a cymbal.
  * <p>
@@ -23,6 +25,8 @@ public class CymbalSynthesizer extends AbstractPercussionSynthesizer {
 
     /** The single instance of CymbalSynthesizer. */
     private static final CymbalSynthesizer INSTANCE = new CymbalSynthesizer();
+
+    private static final Random rand =  new Random();
 
     /**
      * Private constructor to prevent instantiation outside the class.
@@ -54,8 +58,7 @@ public class CymbalSynthesizer extends AbstractPercussionSynthesizer {
      */
     @Override
     public double computeRawSample(Note note, double t, int tempo) {
-        // TODO : Ne pas faire Math.random() voir le cours et la class WhiteNoise (d'après Wallon)
-        double random = 2 * Math.random() - 1;
+        double random = rand.nextDouble(-1, 1);
         return random * Math.sin(4000 * Math.PI * t);
     }
 }

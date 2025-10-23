@@ -43,7 +43,8 @@ class TestCymbalSynthesizer {
         Note note = new DummyNote();
 
         double t = 0.01;
-        double sample = synth.computeRawSample(note, t, );
+        int tempo = 120;
+        double sample = synth.computeRawSample(note, t, tempo);
 
         double maxPossible = Math.sin(4000 * Math.PI * t);
         assertTrue(sample >= -Math.abs(maxPossible) && sample <= Math.abs(maxPossible));
