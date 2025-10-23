@@ -233,6 +233,7 @@ enum Instrument {
     + EUPHONIUM
     + TROMBONE
     + TUBA
+    + TRIANGLE
 
     - synthesizer: NoteSynthesizer
 
