@@ -35,6 +35,7 @@ class TestCymbalSynthesizer {
      * Tests that {@link CymbalSynthesizer#computeRawSample(Note, double)} returns
      * a value within the expected range for a given time.
      */
+
     @Test
     void testComputeRawSample() {
         CymbalSynthesizer synth = CymbalSynthesizer.getINSTANCE();
