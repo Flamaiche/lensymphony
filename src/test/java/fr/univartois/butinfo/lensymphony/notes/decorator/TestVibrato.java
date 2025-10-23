@@ -53,8 +53,8 @@ public class TestVibrato {
     void testDefaultConstructorValues() {
         NoteSynthesizer baseSynth = (n, tempo, volume) -> new double[]{1.0};
         VibratoDecorator vibrato = new VibratoDecorator(baseSynth);
-        assertEquals(5, vibrato.getDepth(), 0.001);
-        assertEquals(5, vibrato.getSpeed(), 0.001);
+        assertEquals(.5, vibrato.getDepth(), 0.001);
+        assertEquals(200, vibrato.getSpeed(), 0.001);
     }
 
     /**
