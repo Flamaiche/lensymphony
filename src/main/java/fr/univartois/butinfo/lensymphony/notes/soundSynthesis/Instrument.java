@@ -220,11 +220,10 @@ public enum Instrument {
             )
     ),
 
-<<<<<<< src/main/java/fr/univartois/butinfo/lensymphony/notes/soundSynthesis/Instrument.java
     CYMBAL(
             CymbalSynthesizer.getINSTANCE()
     ),
-=======
+
     SNARE_DRUM(
             SnareDrum.getInstance()
     ),
@@ -242,7 +241,6 @@ public enum Instrument {
                     0.85,
                     4.0
             )
->>>>>>> src/main/java/fr/univartois/butinfo/lensymphony/notes/soundSynthesis/Instrument.java
     );
 
     /** The final synthesizer after all decorators are applied. */
