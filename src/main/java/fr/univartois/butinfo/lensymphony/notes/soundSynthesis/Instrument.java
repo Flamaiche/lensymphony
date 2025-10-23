@@ -229,6 +229,10 @@ public enum Instrument {
             SnareDrum.getInstance()
     ),
 
+    TIMBALES(
+            Timbales.getInstance()
+    ),
+
     TRIANGLE(new AdsrDecorator(Triangle.getINSTANCE(), 0.05, 0.1, 1, 0.5));
 
     /** The final synthesizer after all decorators are applied. */
