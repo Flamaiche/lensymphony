@@ -1,6 +1,8 @@
 package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 
+import com.sun.source.tree.ReturnTree;
 import fr.univartois.butinfo.lensymphony.notes.decorator.*;
+import fr.univartois.butinfo.lensymphony.synthesizer.CymbalSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 
 /**
@@ -215,6 +217,10 @@ public enum Instrument {
                     ),
                     0.08, 0.15, 0.6, 0.35
             )
+    ),
+
+    CYMBAL(
+            CymbalSynthesizer.getINSTANCE()
     );
 
     /** The final synthesizer after all decorators are applied. */
