@@ -55,8 +55,12 @@ public class Timbales extends AbstractPercussionSynthesizer {
         double fEnd = fStart * 0.6;
 
         double durationSec = note.getDuration(tempo) / 1000.0;
-        double freq = fStart + (fEnd - fStart) * (t / durationSec);
-        return Math.sin(2 * Math.PI * freq * t);
+        if (durationSec <= 0) return 0.0;
 
+        double frac = Math.min(t / durationSec, 1.0);
+        double freq = fStart + (fEnd - fStart) * frac;
+
+        return Math.sin(2 * Math.PI * freq * t);
     }
+
 }

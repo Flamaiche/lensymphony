@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.lensymphony.systhesizer;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
+import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.SnareDrum;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +38,9 @@ class TestSnarDrum {
             public double getFrequency() { return 1; }
         };
         for (int i = 0; i < 100; i++) {
+            int tempo = 120;
             double sample = drum.computeRawSample(stubNote, i / 1000.0, tempo);
+
             assertTrue(sample >= -1.0 && sample <= 1.0, "Raw sample out of range");
         }
     }
@@ -71,7 +74,7 @@ class TestSnarDrum {
             public double getFrequency() { return 1; }
         };
         double[] samples = drum.synthesize(stubNote, 120, 1.0);
-        assertEquals((int)(SnareDrum.SAMPLE_RATE * 0.5), samples.length, "Synthesized sample length mismatch");
+        assertEquals((int)(NoteSynthesizer.SAMPLE_RATE * 0.5), samples.length, "Synthesized sample length mismatch");
     }
 
     /**
