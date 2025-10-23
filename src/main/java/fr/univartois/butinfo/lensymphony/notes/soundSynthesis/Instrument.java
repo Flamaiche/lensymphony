@@ -218,23 +218,16 @@ public enum Instrument {
     ),
 
     TRIANGLE(
-            new WhiteNoiseDecorator(       // bruit léger pour naturel
-                    new VibratoDecorator(      // micro-vibrato rapide
-                            new AdsrDecorator(
-                                    new ComplexHarmonicsDecorator(
-                                            PureTone.getINSTANCE(),
-                                            8,
-                                            i -> 2500 + 900*i + (int)(Math.random()*50 - 25), // petites irrégularités
-                                            (i, t) -> Math.exp(-4.0*(0.4 + 0.25*i))*(0.9 + Math.random()*0.2)
-                                    ),
-                                    0.01, 0.12, 0.9, 0.6   // ADSR pour tenir la note plus longtemps
-                            ),
-                            0.002, 20                  // vibrato très rapide et léger
+            new AdsrDecorator(
+                    new ComplexHarmonicsDecorator(
+                            PureTone.getINSTANCE(),
+                            7,                          // nombre de partiels
+                            i -> 1000 + 400 * i,        // fréquences plus basses → son moins sec
+                            (i, t) -> Math.exp(-2.0 * (0.3 + 0.2 * i)) // décroissance des harmoniques inchangée
                     ),
-                    0.003                         // bruit blanc très subtil
+                    0.001, 0.05, 0.4, 4.0          // ADSR : attaque ultra courte, decay court, sustain moyen, release très long
             )
-    )
-;
+    );
 
     /** The final synthesizer after all decorators are applied. */
     private final NoteSynthesizer synthesizer;
