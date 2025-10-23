@@ -221,11 +221,11 @@ public enum Instrument {
             new AdsrDecorator(
                     new ComplexHarmonicsDecorator(
                             PureTone.getINSTANCE(),
-                            7,
-                            i -> 2000 + 800 * i,
-                            (i, t) -> Math.exp(-5 * (0.5 + 0.3 * i))
+                            8, // nombre de partiels
+                            i -> 1000 + 600 * i, // partiels un peu plus bas et espacés
+                            (i, t) -> Math.exp(-5 * (0.5 + 0.3 * i)) * Math.exp(-3 * t) // décroissance exponentielle dans le temps
                     ),
-                    0.01, 0.05, 0.7, 0.2
+                    0.005, 0.1, 0.8, 1.2 // attaque douce et release long pour la résonance
             )
     );
 
