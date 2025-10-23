@@ -246,13 +246,16 @@ public enum Instrument {
      * @return Corresponding {@link Instrument} or {@link #PURE_TONE}.
      */
     public static Instrument getInstrumentByName(String instrumentName) {
+        Instrument instrument = PURE_TONE;
         if (instrumentName == null) return PURE_TONE;
         String normalized = instrumentName.trim().replace(' ', '_').toUpperCase();
-        for (Instrument instrument : Instrument.values()) {
-            if (normalized.equals(instrument.name())) {
-                return instrument;
+        for (Instrument inst : Instrument.values()) {
+            if (normalized.equals(inst.name())) {
+                instrument = inst;
+                break;
             }
         }
-        return PURE_TONE;
+        System.out.println(instrumentName + " ->  " + instrument.name());
+        return instrument;
     }
 }
