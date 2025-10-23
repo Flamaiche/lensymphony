@@ -1,6 +1,8 @@
 package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 
+import com.sun.source.tree.ReturnTree;
 import fr.univartois.butinfo.lensymphony.notes.decorator.*;
+import fr.univartois.butinfo.lensymphony.synthesizer.CymbalSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.SnareDrum;
 
@@ -218,6 +220,11 @@ public enum Instrument {
             )
     ),
 
+<<<<<<< src/main/java/fr/univartois/butinfo/lensymphony/notes/soundSynthesis/Instrument.java
+    CYMBAL(
+            CymbalSynthesizer.getINSTANCE()
+    ),
+=======
     SNARE_DRUM(
             SnareDrum.getInstance()
     ),
@@ -235,6 +242,7 @@ public enum Instrument {
                     0.85,
                     4.0
             )
+>>>>>>> src/main/java/fr/univartois/butinfo/lensymphony/notes/soundSynthesis/Instrument.java
     );
 
     /** The final synthesizer after all decorators are applied. */
