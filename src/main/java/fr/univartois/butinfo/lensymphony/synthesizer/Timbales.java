@@ -49,7 +49,7 @@ public class Timbales extends AbstractPercussionSynthesizer {
      */
 
     @Override
-    protected double computeRawSample(Note note, double t) {
+    public double computeRawSample(Note note, double t) {
         double fStart = note.getFrequency();
         double fEnd = fStart * 0.6;
 

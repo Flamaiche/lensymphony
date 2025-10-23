@@ -32,7 +32,7 @@ public abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
         return samples;
     }
 
-    protected double envelope(double t) {
+    public double envelope(double t) {
         if (t < a) return t / a;
         return Math.exp((a - t) / d);
     }
