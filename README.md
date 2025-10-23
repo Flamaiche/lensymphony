@@ -288,6 +288,35 @@ class SimpleMusicSynthesizer implements MusicSynthesizer {
     + getSamples(): double[]
 }
 
+
+abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
+    - a : double
+    - d : double
+    + AbstractPercussionSynthesizer(a: double, d: double)
+    + synthesize(note: Note, tempo: int, volume: double): double[]
+    + abstract computeRawSample(note: Note, t: double): double
+    + envelope(t: double): double
+}
+
+class Timbales {
+    - {static} INSTANCE : Timbales
+    - Timbales()
+    + static getInstance(): Timbales
+    + computeRawSample(note: Note, t: double): double
+}
+
+class SnareDrum {
+    - {static} INSTANCE : SnareDrum
+    - SnareDrum()
+    + static getInstance(): SnareDrum
+    + computeRawSample(note: Note, t: double): double
+    + envelope(t: double): double
+}
+
+
+AbstractPercussionSynthesizer <|-- Timbales
+AbstractPercussionSynthesizer <|-- SnareDrum
+
 SimpleMusicSynthesizer o-- "*" Note
 SimpleMusicSynthesizer o-- "1" NoteSynthesizer
 
@@ -342,10 +371,10 @@ LenSymphony --> MixedMusicSynthesizer : << uses >>
 | Application of a vibrato to the sound of a note        | Decorator             | Jabir Danoun    |
 | Addition of random noise to the sound of a note        | Decorator             | Malik Babahamou |
 | Synthesis of the bass drum sound                       |                       |                 |
-| Synthesis of the snare drum sound                      |                       |                 |
+| Synthesis of the snare drum sound                      | Singleton             | Jabir Danoun    |
 | Synthesis of the cymbal sound                          |                       |                 |
 | Synthesis of the triangle sound                        |                       |                 |
-| Synthesis of the timpani sound                         |                       |                 |
+| Synthesis of the timpani sound                         | Singleton             | Jabir Danoun    |
 | Synthesis of the xylophone sound                       |                       |                 |
 | Definition of virtual instruments                      |                       |                 |
 | Synthesis of the ensemble piece sound                  |                       |                 |

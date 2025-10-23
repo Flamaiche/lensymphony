@@ -2,6 +2,9 @@ package fr.univartois.butinfo.lensymphony.synthesizer;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
 
+import java.util.Random;
+
+
 /**
  * Represents a snare drum (caisse claire) synthesizer.
  * The class is a singleton and extends AbstractPercussionSynthesizer.
@@ -19,6 +22,8 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
 
 
 public final class SnareDrum extends AbstractPercussionSynthesizer {
+    private final Random rand = new Random();
+
 
     /** Unique instance of the snare drum */
     private static final SnareDrum INSTANCE = new SnareDrum();
@@ -43,14 +48,17 @@ public final class SnareDrum extends AbstractPercussionSynthesizer {
     /**
      * Computes the raw sample at time t.
      * For snare drum, it is simply random noise between -1 and 1.
-     * @param note the note (atonal, frequency is ignored)
-     * @param t the current time in seconds
+     *
+     * @param note  the note (atonal, frequency is ignored)
+     * @param t     the current time in seconds
+     * @param tempo
      * @return the raw sample value at time t
      */
 
     @Override
-    public double computeRawSample(Note note, double t) {
-        return 2 * Math.random() - 1;
+    public double computeRawSample(Note note, double t, int tempo) {
+        // TODO : Ne pas faire Math.random() voir le cours et la class WhiteNoise (d'après Wallon)
+        return 2 * rand.nextDouble() - 1;
     }
 
     /**
