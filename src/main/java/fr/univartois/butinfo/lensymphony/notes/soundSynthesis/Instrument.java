@@ -215,6 +215,21 @@ public enum Instrument {
                     ),
                     0.08, 0.15, 0.6, 0.35
             )
+    ),
+
+    TRIANGLE(
+            new AdsrDecorator(
+                    new ComplexHarmonicsDecorator(
+                            PureTone.getINSTANCE(),
+                            7,
+                            i -> 1150 + 400 * i,
+                            (i, t) -> Math.exp(-1.6 * (0.3 + 0.2 * i))
+                    ),
+                    0.007,
+                    0.05,
+                    0.5,
+                    4.0
+            )
     );
 
     /** The final synthesizer after all decorators are applied. */
