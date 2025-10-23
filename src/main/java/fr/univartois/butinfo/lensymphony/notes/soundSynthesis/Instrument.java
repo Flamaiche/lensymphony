@@ -229,24 +229,7 @@ public enum Instrument {
             SnareDrum.getInstance()
     ),
 
-    TIMBALES(
-            Timbales.getInstance()
-    ),
-    
-    TRIANGLE(
-            new AdsrDecorator(
-                    new ComplexHarmonicsDecorator(
-                            PureTone.getINSTANCE(),
-                            7,
-                            i -> 1150 + 400 * i,
-                            (i, t) -> Math.exp(-1.6 * (0.3 + 0.2 * i))
-                    ),
-                    0.007,
-                    0.05,
-                    0.85,
-                    4.0
-            )
-    );
+    TRIANGLE(new AdsrDecorator(Triangle.getINSTANCE(), 0.05, 0.1, 1, 0.5));
 
     /** The final synthesizer after all decorators are applied. */
     private final NoteSynthesizer synthesizer;

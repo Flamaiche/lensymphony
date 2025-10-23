@@ -72,7 +72,7 @@ public final class LenSymphony {
      * the {@code <instrument-name>} tag found in the MusicXML file.
      * </p>
      */
-    private static final boolean CHOICE_INSTRUMENT_MANUALLY = true;
+    private static final boolean CHOICE_INSTRUMENT_MANUALLY = false;
 
     /**
      * The list of instruments to use when {@link #CHOICE_INSTRUMENT_MANUALLY} is {@code true}.
@@ -87,7 +87,7 @@ public final class LenSymphony {
             Instrument.PIANO,
             Instrument.PIANO,
             Instrument.TRIANGLE,
-            Instrument.SNARE_DRUM,
+            Instrument.PIANO,
             Instrument.PIANO,
             Instrument.PIANO
     };
