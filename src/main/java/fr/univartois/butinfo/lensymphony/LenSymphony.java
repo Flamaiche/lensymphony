@@ -84,7 +84,7 @@ public final class LenSymphony {
      * </p>
      */
     private static final Instrument[] instruments = {
-            Instrument.TENOR_SAXOPHONE,
+            Instrument.PIANO,
             Instrument.PIANO,
             Instrument.TRIANGLE,
             Instrument.PIANO,
