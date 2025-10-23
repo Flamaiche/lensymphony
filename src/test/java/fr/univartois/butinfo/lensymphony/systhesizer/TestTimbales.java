@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.lensymphony.systhesizer;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
+import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.Timbales;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +44,7 @@ class TestTimbales {
             public double getFrequency() { return 440; }
         };
 
+        int tempo = 120;
         double sample = timbales.computeRawSample(note, 0.5, tempo);
         assertTrue(sample >= -1 && sample <= 1);
     }
@@ -82,7 +84,7 @@ class TestTimbales {
         };
 
         double[] samples = timbales.synthesize(note, 120, 1.0);
-        assertEquals((int)(Timbales.SAMPLE_RATE * 0.5), samples.length);
+        assertEquals((int)(NoteSynthesizer.SAMPLE_RATE * 0.5), samples.length);
         for (double s : samples) {
             assertTrue(s >= -1 && s <= 1);
         }
