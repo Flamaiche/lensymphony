@@ -49,7 +49,7 @@ public final class SnareDrum extends AbstractPercussionSynthesizer {
      */
 
     @Override
-    protected double computeRawSample(Note note, double t) {
+    public double computeRawSample(Note note, double t) {
         return 2 * Math.random() - 1;
     }
 
@@ -60,7 +60,7 @@ public final class SnareDrum extends AbstractPercussionSynthesizer {
      */
 
     @Override
-    protected double envelope(double t) {
+    public double envelope(double t) {
         if (t < a) return t / a;
         return Math.exp(15 * (a - t));
     }
