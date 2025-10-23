@@ -222,13 +222,13 @@ public enum Instrument {
                     new ComplexHarmonicsDecorator(
                             PureTone.getINSTANCE(),
                             7,
-                            i -> 1150 + 400 * i,            // fréquences un peu moins aiguës → premier pic plus naturel
-                            (i, t) -> Math.exp(-1.6 * (0.3 + 0.2 * i)) // décroissance douce des harmoniques
+                            i -> 1150 + 400 * i,
+                            (i, t) -> Math.exp(-1.6 * (0.3 + 0.2 * i))
                     ),
-                    0.007,   // attaque un peu plus longue → adoucit le pic initial
-                    0.05,    // decay court
-                    0.5,     // sustain moyen
-                    4.0      // release long → tintement prolongé
+                    0.007,
+                    0.05,
+                    0.5,
+                    4.0
             )
     );
 
@@ -261,14 +261,13 @@ public enum Instrument {
      * @return Corresponding {@link Instrument} or {@link #PURE_TONE}.
      */
     public static Instrument getInstrumentByName(String instrumentName) {
-        return TRIANGLE;
-//        if (instrumentName == null) return PURE_TONE;
-//        String normalized = instrumentName.trim().replace(' ', '_').toUpperCase();
-//        for (Instrument instrument : Instrument.values()) {
-//            if (normalized.equals(instrument.name())) {
-//                return instrument;
-//            }
-//        }
-//        return PURE_TONE;
+        if (instrumentName == null) return PURE_TONE;
+        String normalized = instrumentName.trim().replace(' ', '_').toUpperCase();
+        for (Instrument instrument : Instrument.values()) {
+            if (normalized.equals(instrument.name())) {
+                return instrument;
+            }
+        }
+        return PURE_TONE;
     }
 }
