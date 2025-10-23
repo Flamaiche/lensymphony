@@ -63,6 +63,37 @@ public final class LenSymphony {
     }
 
     /**
+     * Indicates whether the instrument should be selected manually or automatically.
+     *
+     * <p>
+     * If set to {@code true}, instruments are taken from the {@link #instruments} array
+     * in the order of the parsed MusicXML parts.
+     * If set to {@code false}, each instrument is determined automatically from
+     * the {@code <instrument-name>} tag found in the MusicXML file.
+     * </p>
+     */
+    private static final boolean CHOICE_INSTRUMENT_MANUALLY = true;
+
+    /**
+     * The list of instruments to use when {@link #CHOICE_INSTRUMENT_MANUALLY} is {@code true}.
+     *
+     * <p>
+     * Each element of this array corresponds to a part in the parsed MusicXML file.
+     * If there are more parts than instruments in this array, remaining parts
+     * will use {@link Instrument#PURE_TONE} as a fallback.
+     * </p>
+     */
+    private static final Instrument[] instruments = {
+            Instrument.PIANO,
+            Instrument.PIANO,
+            Instrument.TRIANGLE,
+            Instrument.SNARE_DRUM,
+            Instrument.PIANO,
+            Instrument.PIANO
+    };
+
+
+    /**
      * The main method of the application.
      *
      * @param args The command line arguments, which must contain exactly the path to the
@@ -85,16 +116,26 @@ public final class LenSymphony {
 
         // get and create staffs
         List<Staff> staffs = new ArrayList<>();
+        int instrumentNumber = 0;
         for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
             String partId = entry.getKey(); // e.g., "P1.1" or "P1.0"
             List<Note> notes = entry.getValue();
 
             Instrument instrument = Instrument.PURE_TONE;
 
-            // Retrieve the <instrument-name> from MusicXML
-            String instrumentName = handler.getInstrumentName(partId.split("\\.")[0]); // remove staff number
-            if (instrumentName != null) {
-                instrument = Instrument.getInstrumentByName(instrumentName); // Convert String to enum
+            if (CHOICE_INSTRUMENT_MANUALLY) {
+                try {
+                    instrument = instruments[instrumentNumber++];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Warning: Instrument array index out of bounds!");
+                }
+                System.out.println("Instrument (track " + instrumentNumber + ") : " + instrument.name());
+            } else {
+                // Retrieve the <instrument-name> from MusicXML
+                String instrumentName = handler.getInstrumentName(partId.split("\\.")[0]); // remove staff number
+                if (instrumentName != null) {
+                    instrument = Instrument.getInstrumentByName(instrumentName); // Convert String to enum
+                }
             }
 
             Staff staff = new Staff(instrument);

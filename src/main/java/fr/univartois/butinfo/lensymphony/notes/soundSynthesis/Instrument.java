@@ -4,6 +4,7 @@ import com.sun.source.tree.ReturnTree;
 import fr.univartois.butinfo.lensymphony.notes.decorator.*;
 import fr.univartois.butinfo.lensymphony.synthesizer.CymbalSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
+import fr.univartois.butinfo.lensymphony.synthesizer.SnareDrum;
 
 /**
  * Represents musical instruments by directly wrapping base synthesizers
@@ -219,8 +220,29 @@ public enum Instrument {
             )
     ),
 
+<<<<<<< src/main/java/fr/univartois/butinfo/lensymphony/notes/soundSynthesis/Instrument.java
     CYMBAL(
             CymbalSynthesizer.getINSTANCE()
+    ),
+=======
+    SNARE_DRUM(
+            SnareDrum.getInstance()
+    ),
+    
+    TRIANGLE(
+            new AdsrDecorator(
+                    new ComplexHarmonicsDecorator(
+                            PureTone.getINSTANCE(),
+                            7,
+                            i -> 1150 + 400 * i,
+                            (i, t) -> Math.exp(-1.6 * (0.3 + 0.2 * i))
+                    ),
+                    0.007,
+                    0.05,
+                    0.85,
+                    4.0
+            )
+>>>>>>> src/main/java/fr/univartois/butinfo/lensymphony/notes/soundSynthesis/Instrument.java
     );
 
     /** The final synthesizer after all decorators are applied. */
@@ -252,13 +274,16 @@ public enum Instrument {
      * @return Corresponding {@link Instrument} or {@link #PURE_TONE}.
      */
     public static Instrument getInstrumentByName(String instrumentName) {
+        Instrument instrument = PURE_TONE;
         if (instrumentName == null) return PURE_TONE;
         String normalized = instrumentName.trim().replace(' ', '_').toUpperCase();
-        for (Instrument instrument : Instrument.values()) {
-            if (normalized.equals(instrument.name())) {
-                return instrument;
+        for (Instrument inst : Instrument.values()) {
+            if (normalized.equals(inst.name())) {
+                instrument = inst;
+                break;
             }
         }
-        return PURE_TONE;
+        System.out.println(instrumentName + " ->  " + instrument.name());
+        return instrument;
     }
 }
