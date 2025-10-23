@@ -218,14 +218,20 @@ public enum Instrument {
     ),
 
     TRIANGLE(
-            new AdsrDecorator(
-                    new ComplexHarmonicsDecorator(
-                            PureTone.getINSTANCE(),
-                            8, // nombre de partiels
-                            i -> 1000 + 600 * i, // partiels un peu plus bas et espacés
-                            (i, t) -> Math.exp(-5 * (0.5 + 0.3 * i)) * Math.exp(-3 * t) // décroissance exponentielle dans le temps
+            new WhiteNoiseDecorator( // bruit métallique léger
+                    new VibratoDecorator( // micro instabilités
+                            new AdsrDecorator(
+                                    new ComplexHarmonicsDecorator(
+                                            PureTone.getINSTANCE(),
+                                            9,
+                                            i -> 800 + 550 * i, // plus grave, plus riche
+                                            (i, t) -> Math.exp(-5 * (0.5 + 0.3 * i)) * Math.exp(-4 * t)
+                                    ),
+                                    0.005, 0.1, 0.9, 1.2 // enveloppe de résonance
+                            ),
+                            0.002, 30 // vibrato très rapide, faible amplitude
                     ),
-                    0.005, 0.1, 0.8, 1.2 // attaque douce et release long pour la résonance
+                    0.004 // bruit subtil
             )
     );
 
