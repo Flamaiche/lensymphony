@@ -2,40 +2,22 @@ package fr.univartois.butinfo.lensymphony.synthesizer;
 
 import fr.univartois.butinfo.lensymphony.notes.Note;
 
-public class SnareDrum implements  NoteSynthesizer {
+public final class SnareDrum extends AbstractPercussionSynthesizer {
 
-    private final static double A = 0.01;
-    //private final static  V = 1.0;
+    private static final SnareDrum INSTANCE = new SnareDrum();
 
+    private SnareDrum() { super(0.01, 0.1); }
 
-    private static SnareDrum INSTANCE;
-
-    public static SnareDrum getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new SnareDrum();
-        }
-        return INSTANCE;
-    }
-
+    public static SnareDrum getInstance() { return INSTANCE; }
 
     @Override
-    public double[] synthesize(Note note, int tempo, double volume) {
-        double duration = note.getDuration(tempo);
-        int totalSamples = (int) (duration * SAMPLE_RATE);
+    protected double computeRawSample(Note note, double t) {
+        return 2 * Math.random() - 1;
+    }
 
-        double[] samples = new double[totalSamples];
-
-        for (int i = 0; i < totalSamples; i++) {
-            double t = (double) i / SAMPLE_RATE ;
-
-
-            double envelope;
-            if (t < A){
-                envelope = t / A ;
-            } else {
-                envelope = Math.exp( 15 * (A - t));
-            }
-        }
-        return null;
+    @Override
+    protected double envelope(double t) {
+        if (t < a) return t / a;
+        return Math.exp(15 * (a - t));
     }
 }
