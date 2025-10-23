@@ -221,11 +221,14 @@ public enum Instrument {
             new AdsrDecorator(
                     new ComplexHarmonicsDecorator(
                             PureTone.getINSTANCE(),
-                            7,                          // nombre de partiels
-                            i -> 1200 + 400 * i,        // fréquences légèrement plus aiguës → son clair
-                            (i, t) -> Math.exp(-1.8 * (0.3 + 0.2 * i)) // décroissance douce des harmoniques
+                            7,
+                            i -> 1150 + 400 * i,            // fréquences un peu moins aiguës → premier pic plus naturel
+                            (i, t) -> Math.exp(-1.6 * (0.3 + 0.2 * i)) // décroissance douce des harmoniques
                     ),
-                    0.001, 0.05, 0.5, 4.0          // ADSR : attaque très courte, decay court, sustain moyen, release long
+                    0.007,   // attaque un peu plus longue → adoucit le pic initial
+                    0.05,    // decay court
+                    0.5,     // sustain moyen
+                    4.0      // release long → tintement prolongé
             )
     );
 
