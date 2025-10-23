@@ -2,6 +2,7 @@ package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 
 import fr.univartois.butinfo.lensymphony.notes.decorator.*;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
+import fr.univartois.butinfo.lensymphony.synthesizer.SnareDrum;
 
 /**
  * Represents musical instruments by directly wrapping base synthesizers
@@ -215,6 +216,10 @@ public enum Instrument {
                     ),
                     0.08, 0.15, 0.6, 0.35
             )
+    ),
+
+    SNARE_DRUM(
+            SnareDrum.getInstance()
     );
 
     /** The final synthesizer after all decorators are applied. */
