@@ -87,7 +87,7 @@ public final class LenSymphony {
             Instrument.PIANO,
             Instrument.PIANO,
             Instrument.TRIANGLE,
-            Instrument.PIANO,
+            Instrument.SNARE_DRUM,
             Instrument.PIANO,
             Instrument.PIANO
     };
