@@ -1,35 +1,4 @@
-/**
- * LenSymphony - A simple music synthesizer library developed in Lens, France.
- * Copyright (c) 2025 Romain Wallon - Université d'Artois.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
- * USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 package fr.univartois.butinfo.lensymphony;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import fr.univartois.butinfo.lensymphony.musicxml.MusicXMLSaxParser;
 import fr.univartois.butinfo.lensymphony.notes.AbstractNoteFactory;
@@ -38,115 +7,172 @@ import fr.univartois.butinfo.lensymphony.notes.NoteFactory;
 import fr.univartois.butinfo.lensymphony.notes.soundSynthesis.Instrument;
 import fr.univartois.butinfo.lensymphony.synthesizer.MixedMusicSynthesizer;
 import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.Callable;
 
 /**
- * The LenSymphony class provides a simple application to synthesize and play music from a
- * MusicXML file.
- * This file must be provided as a command line argument to the application.
+ * LenSymphony - Interactive CLI using Picocli.
  *
- * @author Romain Wallon
- * @version 0.1.0
+ * This class provides a command-line interface for synthesizing and optionally
+ * playing MusicXML files. If a required option is not provided via command-line
+ * arguments, the program will prompt the user to enter the value interactively.
+ *
+ * Options:
+ *  -i, --input   : Input MusicXML file.
+ *  -o, --output  : Output file for synthesized sound (optional).
+ *  -p, --play    : Play the music in real time.
+ *  -v, --voice   : Voice-to-track mapping (format: instrument_name).
+ *
+ * Example usage:
+ * java -jar LenSymphony.jar -i song.xml -o -p -v PIANO,VIOLIN
  */
-public final class LenSymphony {
+@Command(name = "lensymphony",
+        mixinStandardHelpOptions = true,
+        version = "LenSymphony 1.0",
+        description = "Synthesizes and optionally plays a MusicXML file.")
+public final class LenSymphony implements Callable<Integer> {
 
-    /**
-     * The note factory used to create notes.
-     */
+    private final Scanner scanner = new Scanner(System.in);
+
+    @Option(names = {"-i", "--input"}, description = "Input MusicXML file.")
+    private File inputFile;
+
+    private final String defaultFile = "take-my-breath";
+
+    private static final String PATH_FOLDER_MUSIC = "examples/";
+    private static final String EXTENSION_MUSIC_FILE = ".xml";
+
+    @Option(names = {"-o", "--output"}, description = "Output file for synthesized sound (optional).")
+    private Boolean output;
+
+    private final boolean defaultOutput = false;
+
+    private File outputFile;
+
+    private static final String PATH_OUTPUT = PATH_FOLDER_MUSIC + "output/";
+
+    @Option(names = {"-p", "--play"}, description = "Play the music in real time.")
+    private Boolean play;
+
+    private final boolean defaultPlay = true;
+
+    @Option(names = {"-v", "--voice"}, description = "Voice-to-track (format: instrument_name).", split = ",")
+    private List<Instrument> voiceList;
+
     private static final AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
 
-    /**
-     * Disables instantiation.
-     */
-    private LenSymphony() {
-        throw new AssertionError("No LenSymphony instances for you!");
-    }
+    @Override
+    public Integer call() throws Exception {
 
-    /**
-     * Indicates whether the instrument should be selected manually or automatically.
-     *
-     * <p>
-     * If set to {@code true}, instruments are taken from the {@link #instruments} array
-     * in the order of the parsed MusicXML parts.
-     * If set to {@code false}, each instrument is determined automatically from
-     * the {@code <instrument-name>} tag found in the MusicXML file.
-     * </p>
-     */
-    private static final boolean CHOICE_INSTRUMENT_MANUALLY = true;
+        String input = "";
+        if (inputFile == null) {
+            // Ask for input file
+            System.out.print("Enter name to input (in : examples/ [ur-input] .xml) file: ");
+            input = scanner.nextLine();
+            if (input.isEmpty()) input = defaultFile;
+            inputFile = new File(PATH_FOLDER_MUSIC + input + EXTENSION_MUSIC_FILE);
 
-    /**
-     * The list of instruments to use when {@link #CHOICE_INSTRUMENT_MANUALLY} is {@code true}.
-     *
-     * <p>
-     * Each element of this array corresponds to a part in the parsed MusicXML file.
-     * If there are more parts than instruments in this array, remaining parts
-     * will use {@link Instrument#PURE_TONE} as a fallback.
-     * </p>
-     */
-    private static final Instrument[] instruments = {
-        Instrument.GUITAR
-    };
-
-
-    /**
-     * The main method of the application.
-     *
-     * @param args The command line arguments, which must contain exactly the path to the        MusicXML file to play.
-     * @throws Exception If any error occurs.
-     */
-    public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            throw new IllegalArgumentException("MusicXML file is required as single argument");
+            if (!inputFile.exists()) {
+                System.err.println("File does not exist: " + inputFile.getAbsolutePath());
+                return 1;
+            }
         }
 
-        // Create SAX parser
+        if (output == null) {
+            // Ask for output file
+            System.out.print("Output file ? (y/n): ");
+            String out = scanner.nextLine();
+            if (out.isEmpty()) output = defaultOutput;
+            else output = out.trim().equalsIgnoreCase("y");
+            if (output) outputFile = new File(PATH_OUTPUT + input);
+        }
+
+        if (play == null) {
+            // Ask for play option
+            System.out.print("Play in real time? (y/n): ");
+            String playIn = scanner.nextLine();
+            if (playIn.isEmpty()) play = defaultPlay;
+            else play = playIn.trim().equalsIgnoreCase("y");
+        }
+
+        // Parse MusicXML
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
-
-        // Parsing files MusicXML
         MusicXMLSaxParser handler = new MusicXMLSaxParser(noteFactory);
-        saxParser.parse(new File(args[0]), handler);
+        saxParser.parse(inputFile, handler);
 
-        // get and create staffs
+        if (voiceList == null) {
+            // Ask for voice mappings if not provided
+            voiceList = new ArrayList<>();
+            System.out.println("Enter voice mappings (format: INSTRUMENT), one per line. Empty line to finish:");
+            int trackNumber = 1;
+            for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
+                String partId = entry.getKey();
+                System.out.print("Track (" + trackNumber++ + ") - ");
+                String instrumentNameFromXML = handler.getInstrumentName(partId.split("\\.")[0]);
+                Instrument instrument = getInstrumentFromUser(instrumentNameFromXML);
+                voiceList.add(instrument);
+            }
+        }
+
+        // Build staffs
         List<Staff> staffs = new ArrayList<>();
-        int instrumentNumber = 0;
+        int i = 0;
         for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
-            String partId = entry.getKey(); // e.g., "P1.1" or "P1.0"
             List<Note> notes = entry.getValue();
 
-            Instrument instrument = Instrument.PURE_TONE;
-
-            if (CHOICE_INSTRUMENT_MANUALLY) {
-                try {
-                    instrument = instruments[instrumentNumber++];
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Warning: Instrument array index out of bounds!");
-                }
-                System.out.println("Instrument (track " + instrumentNumber + ") : " + instrument.name());
-            } else {
-                // Retrieve the <instrument-name> from MusicXML
-                String instrumentName = handler.getInstrumentName(partId.split("\\.")[0]); // remove staff number
-                if (instrumentName != null) {
-                    instrument = Instrument.getInstrumentByName(instrumentName); // Convert String to enum
-                }
+            Instrument instrument;
+            try {
+                instrument = voiceList.get(i++);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Warning : voiceList size is inf to tracklist number");
+                instrument = Instrument.PURE_TONE;
             }
 
             Staff staff = new Staff(instrument);
             for (Note note : notes) {
-                if (note == null) continue;
-                staff.add(note);
+                if (note != null) staff.add(note);
             }
             staffs.add(staff);
         }
 
-        // creating score containing all staffs
+        // Create score and synthesizer
         Score score = new Score(staffs);
-
-        // creating musicSynthesizer for all voice
         MusicSynthesizer mixedSynth = new MixedMusicSynthesizer(score, handler.getTempo());
 
-        // synth and read
+        // Synthesize and optionally play/save
         mixedSynth.synthesize();
-        mixedSynth.play();
+        if (play) mixedSynth.play();
+
+        if (outputFile != null) {
+            System.out.println("Saving output to " + outputFile.getAbsolutePath());
+            // TODO: implement file export
+        }
+
+        System.out.println("Finished!");
+        return 0;
     }
 
+    private Instrument getInstrumentFromUser(String instrumentNameFromXML) {
+        Instrument instrument;
+
+        System.out.print("instrument (or empty to get it automatically): ");
+        String line = scanner.nextLine();
+        if (line.isEmpty()) instrument = Instrument.getInstrumentByName(instrumentNameFromXML);
+        else instrument = Instrument.getInstrumentByName(line);
+
+        return instrument;
+    }
+
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new LenSymphony()).execute(args);
+        System.exit(exitCode);
+    }
 }
