@@ -31,11 +31,19 @@ public final class LenSymphony implements Callable<Integer> {
     @Option(names = {"-i", "--input"}, description = "Input MusicXML file.")
     private File inputFile;
 
+    private static final String PATH_FOLDER_MUSIC = "examples/";
+    private static final String EXTENSION_MUSIC_FILE = ".xml";
+
     @Option(names = {"-o", "--output"}, description = "Output file for synthesized sound (optional).")
     private File outputFile;
 
     @Option(names = {"-p", "--play"}, description = "Play the music in real time.")
     private Boolean play;
+
+    /**
+     * Decision if play is let empty
+     */
+    private boolean defaultPlay = true;
 
     @Option(names = {"-v", "--voice"}, description = "Voice-to-instrument mapping (format: id:instrument).", split = ",")
     private List<String> voiceMappings;
@@ -48,38 +56,30 @@ public final class LenSymphony implements Callable<Integer> {
         Scanner scanner = new Scanner(System.in);
 
         // Ask for missing input file
-        if (inputFile == null) {
-            System.out.print("Enter path to input MusicXML file: ");
-            inputFile = new File(scanner.nextLine());
-        }
+        System.out.print("Enter path to input MusicXML file: ");
+        inputFile = new File(PATH_FOLDER_MUSIC + scanner.nextLine() + EXTENSION_MUSIC_FILE);
 
         if (!inputFile.exists()) {
             System.err.println("File does not exist: " + inputFile.getAbsolutePath());
             return 1;
         }
 
-        // Ask for missing output file
-        if (outputFile == null) {
-            System.out.print("Enter path to output file (or leave empty to skip): ");
-            String out = scanner.nextLine();
-            outputFile = out.isEmpty() ? null : new File(out);
-        }
+        System.out.print("Enter path to output file (or leave empty to skip): ");
+        String out = scanner.nextLine();
+        outputFile = out.isEmpty() ? null : new File(out);
 
         // Ask for play option
-        if (play == null) {
-            System.out.print("Play in real time? (y/n): ");
-            play = scanner.nextLine().trim().equalsIgnoreCase("y");
-        }
+        System.out.print("Play in real time? (y/n): ");
+        play = scanner.nextLine().trim().equalsIgnoreCase("y");
+
 
         // Ask for voice mappings if not provided
-        if (voiceMappings == null) {
-            voiceMappings = new ArrayList<>();
-            System.out.println("Enter voice mappings (format: id:INSTRUMENT), one per line. Empty line to finish:");
-            while (true) {
-                String line = scanner.nextLine();
-                if (line.isEmpty()) break;
-                voiceMappings.add(line);
-            }
+        voiceMappings = new ArrayList<>();
+        System.out.println("Enter voice mappings (format: id:INSTRUMENT), one per line. Empty line to finish:");
+        while (true) {
+            String line = scanner.nextLine();
+            if (line.isEmpty()) break;
+            voiceMappings.add(line);
         }
 
         // Parse voice mappings
@@ -125,11 +125,11 @@ public final class LenSymphony implements Callable<Integer> {
         if (play) mixedSynth.play();
 
         if (outputFile != null) {
-            System.out.println("💾 Saving output to " + outputFile.getAbsolutePath());
+            System.out.println("Saving output to " + outputFile.getAbsolutePath());
             // TODO: implement file export
         }
 
-        System.out.println("✅ Finished!");
+        System.out.println("Finished!");
         return 0;
     }
 
