@@ -19,6 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class TestNotePitch {
 
+    /**
+     * Test reference pitch.
+     */
     @Test
     @DisplayName("A4 should have a frequency of 440 Hz")
     void testReferencePitch() {
@@ -26,6 +29,9 @@ class TestNotePitch {
         assertEquals(440.0, a4.frequency(), 1e-9, "A4 must be 440 Hz");
     }
 
+    /**
+     * Test equal temperament ratio.
+     */
     @Test
     @DisplayName("Frequencies should follow equal temperament ratios (semitone ratio)")
     void testEqualTemperamentRatio() {
@@ -36,6 +42,9 @@ class TestNotePitch {
         assertEquals(expectedRatio, actualRatio, 1e-6, "Consecutive semitone ratio must be 2^(1/12)");
     }
 
+    /**
+     * Test sharp and flat change frequency.
+     */
     @Test
     @DisplayName("Sharp and flat should change frequency in expected direction")
     void testSharpAndFlatChangeFrequency() {
@@ -47,6 +56,9 @@ class TestNotePitch {
         assertTrue(b3.frequency() < c4.frequency(), "B3 should be lower than C4");
     }
 
+    /**
+     * Test octave transition on sharp.
+     */
     @Test
     @DisplayName("Altering across octave boundaries should produce expected pitch")
     void testOctaveTransitionOnSharp() {
@@ -58,6 +70,9 @@ class TestNotePitch {
                 "B4 sharp must equal C5 frequency (octave transition)");
     }
 
+    /**
+     * Test octave transition on flat.
+     */
     @Test
     @DisplayName("Flat across octave underflow should produce expected pitch")
     void testOctaveTransitionOnFlat() {
@@ -69,6 +84,9 @@ class TestNotePitch {
                 "C4 flat must equal B3 frequency (octave underflow)");
     }
 
+    /**
+     * Test caching behavior.
+     */
     @Test
     @DisplayName("of() should return same instance for identical pitch class + octave")
     void testCachingBehavior() {
@@ -77,6 +95,9 @@ class TestNotePitch {
         assertSame(first, second, "of() should reuse cached instances for identical inputs");
     }
 
+    /**
+     * Test invalid octave throws.
+     */
     @Test
     @DisplayName("Requesting a pitch outside octave bounds should throw")
     void testInvalidOctaveThrows() {

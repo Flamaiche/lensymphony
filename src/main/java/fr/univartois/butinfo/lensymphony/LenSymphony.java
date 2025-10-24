@@ -45,7 +45,6 @@ import fr.univartois.butinfo.lensymphony.synthesizer.MusicSynthesizer;
  * This file must be provided as a command line argument to the application.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public final class LenSymphony {
@@ -96,9 +95,7 @@ public final class LenSymphony {
     /**
      * The main method of the application.
      *
-     * @param args The command line arguments, which must contain exactly the path to the
-     *        MusicXML file to play.
-     *
+     * @param args The command line arguments, which must contain exactly the path to the        MusicXML file to play.
      * @throws Exception If any error occurs.
      */
     public static void main(String[] args) throws Exception {

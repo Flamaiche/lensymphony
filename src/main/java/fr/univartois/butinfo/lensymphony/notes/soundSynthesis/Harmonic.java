@@ -11,6 +11,11 @@ public class Harmonic implements NoteSynthesizer {
 
     private final NoteSynthesizer harmonics;
 
+    /**
+     * Instantiates a new Harmonic.
+     *
+     * @param octave the octave
+     */
     public Harmonic(int octave) {
         harmonics = new HarmonicsDecorator(PureTone.getINSTANCE(), octave);
     }

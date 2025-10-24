@@ -7,12 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link NoteValue} enumeration.
- *
+ * <p>
  * These tests ensure correct behavior of {@link NoteValue#fromString(String)} and
  * {@link NoteValue#duration(int)} methods.
  */
 class TestNoteValue {
 
+    /**
+     * Test from string valid types.
+     */
     @Test
     @DisplayName("fromString should correctly map valid type names")
     void testFromString_ValidTypes() {
@@ -27,6 +30,9 @@ class TestNoteValue {
         assertEquals(NoteValue.TWO_HUNDRED_FIFTY_SIXTH, NoteValue.fromString("256th"));
     }
 
+    /**
+     * Test from string case insensitive.
+     */
     @Test
     @DisplayName("fromString should be case-insensitive")
     void testFromString_CaseInsensitive() {
@@ -35,6 +41,9 @@ class TestNoteValue {
         assertEquals(NoteValue.EIGHTH, NoteValue.fromString("EIGHTH"));
     }
 
+    /**
+     * Test from string invalid type.
+     */
     @Test
     @DisplayName("fromString should throw an exception for invalid types")
     void testFromString_InvalidType() {
@@ -42,6 +51,9 @@ class TestNoteValue {
         assertThrows(IllegalArgumentException.class, () -> NoteValue.fromString("1/4"));
     }
 
+    /**
+     * Test duration computation.
+     */
     @Test
     @DisplayName("duration should correctly compute duration based on tempo")
     void testDuration_Computation() {
@@ -54,6 +66,9 @@ class TestNoteValue {
         assertEquals(125, NoteValue.SIXTEENTH.duration(120));
     }
 
+    /**
+     * Test duration different tempos.
+     */
     @Test
     @DisplayName("duration should adjust correctly with different tempos")
     void testDuration_DifferentTempos() {
@@ -66,6 +81,9 @@ class TestNoteValue {
         assertEquals(500, NoteValue.HALF.duration(240));
     }
 
+    /**
+     * Test duration extreme values.
+     */
     @Test
     @DisplayName("duration should return 0 for extreme tempos (sanity check)")
     void testDuration_ExtremeValues() {

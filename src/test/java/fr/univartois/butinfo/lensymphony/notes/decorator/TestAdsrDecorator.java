@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link AdsrDecorator}.
- *
+ * <p>
  * These tests cover 100% of the lines and branches of the AdsrDecorator class.
  * They verify that the ADSR envelope is applied correctly to synthesized audio samples,
  * including all phases: Attack, Decay, Sustain, and Release.

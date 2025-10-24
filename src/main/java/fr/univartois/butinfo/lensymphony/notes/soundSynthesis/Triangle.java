@@ -12,6 +12,11 @@ public class Triangle implements NoteSynthesizer {
 
     private Triangle() {}
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static Triangle getINSTANCE() {
         return INSTANCE;
     }
