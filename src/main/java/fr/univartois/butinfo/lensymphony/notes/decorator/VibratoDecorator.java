@@ -9,7 +9,6 @@ import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
  * It is characterized by its depth and speed (frequency in Hz)
  * Author: Jabir Danoun
  */
-
 public class VibratoDecorator extends DecoratorNoteSynthesizer{
 
     /** Depth of the vibrato */
@@ -23,11 +22,10 @@ public class VibratoDecorator extends DecoratorNoteSynthesizer{
     /**
      * Creates a VibratoDecorator for the given synthesizer.
      *
-     * @param base the base NoteSynthesizer to decorate
+     * @param base  the base NoteSynthesizer to decorate
      * @param depth the depth of the vibrato
      * @param speed the speed (frequency in Hz) of the vibrato
      */
-
     public VibratoDecorator(NoteSynthesizer base, double depth, double speed) {
         super(base);
         this.depth = depth;
@@ -39,7 +37,6 @@ public class VibratoDecorator extends DecoratorNoteSynthesizer{
      *
      * @param base the base NoteSynthesizer to decorate
      */
-
     public VibratoDecorator(NoteSynthesizer base) {
         super(base);
         this.depth = .5;
@@ -69,16 +66,18 @@ public class VibratoDecorator extends DecoratorNoteSynthesizer{
         return vibratoSound;
     }
 
-    /** Returns the depth of the vibrato. */
 
-
+    /**
+     * Returns the depth of the vibrato.  @return  the depth
+     */
     public double getDepth() {
         return depth;
     }
 
-    /** Returns the speed of the vibrato. */
 
-
+    /**
+     * Returns the speed of the vibrato.  @return  the speed
+     */
     public double getSpeed() {
         return speed;
     }

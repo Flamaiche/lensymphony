@@ -25,8 +25,14 @@ import fr.univartois.butinfo.lensymphony.synthesizer.*;
  */
 public enum Instrument {
 
+    /**
+     * Pure tone instrument.
+     */
     PURE_TONE(PureTone.getINSTANCE()),
 
+    /**
+     * The Contrabass.
+     */
     CONTRABASS(
             new ComplexHarmonicsDecorator(
                     new AdsrDecorator(
@@ -39,6 +45,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Violin.
+     */
     VIOLIN(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -49,21 +58,45 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Guitar.
+     */
     GUITAR(
             new VibratoDecorator(
-                    new AdsrDecorator(
-                            new ComplexHarmonicsDecorator(
-                                    PureTone.getINSTANCE(),
-                                    8,
-                                    i -> i,
-                                    (i, t) -> 1.5 * i
+                    new ComplexHarmonicsDecorator(
+                            new AdsrDecorator(
+                                    new Harmonic(8),       // 8 harmoniques comme la guitare
+                                    0.008, 0.05, 0.2, 2.5  // ADSR de la guitare originale
                             ),
-                            0.008, 0.05, 0.2, 2.5
+                            6,                       // nombre d’harmoniques
+                            i -> i + 1,              // fréquence légèrement plus haute → moins grave
+                            (i, t) -> 1.0 / (i + 1)  // décroissance plus rapide → moins de graves dominants
                     ),
-                    0.02, 3
+                    0.02, 3                      // vibrato léger comme sur la guitare originale
             )
     ),
 
+    /**
+     * The Bass guitar.
+     */
+    BASS_GUITAR(
+            new VibratoDecorator(
+                    new ComplexHarmonicsDecorator(
+                            new AdsrDecorator(
+                                    new Harmonic(4),       // moins d'harmoniques → son bas
+                                    0.005, 0.02, 0.3, 0.2  // attaque rapide, sustain court, release court
+                            ),
+                            4,                        // 4 harmoniques maximum
+                            i -> i,                   // fréquence harmonique (int)
+                            (i, t) -> (i == 0 ? 5.0 : 0.3 / (i + 1)) * Math.exp(-0.25 * t)  // fondamentale dominante
+                    ),
+                    0.002, 0.3                   // vibrato très léger
+            )
+    ),
+
+    /**
+     * The Piano.
+     */
     PIANO(
             new AdsrDecorator(
                     new ComplexHarmonicsDecorator(
@@ -76,6 +109,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Flute.
+     */
     FLUTE(
             new VibratoDecorator(
                     new WhiteNoiseDecorator(
@@ -94,6 +130,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Piccolo.
+     */
     PICCOLO(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -104,6 +143,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Clarinet.
+     */
     CLARINET(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -119,6 +161,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Alto saxophone.
+     */
     ALTO_SAXOPHONE(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -134,6 +179,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Tenor saxophone.
+     */
     TENOR_SAXOPHONE(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -149,6 +197,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Trumpet.
+     */
     TRUMPET(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -164,6 +215,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Horn in f.
+     */
     HORN_IN_F(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -179,6 +233,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Euphonium.
+     */
     EUPHONIUM(
             new AdsrDecorator(
                     new ComplexHarmonicsDecorator(
@@ -191,6 +248,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Trombone.
+     */
     TROMBONE(
             new VibratoDecorator(
                     new AdsrDecorator(
@@ -206,6 +266,9 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * The Tuba.
+     */
     TUBA(
             new AdsrDecorator(
                     new ComplexHarmonicsDecorator(
@@ -218,23 +281,43 @@ public enum Instrument {
             )
     ),
 
+    /**
+     * Cymbal instrument.
+     */
     CYMBAL(
             CymbalSynthesizer.getINSTANCE()
     ),
 
+    /**
+     * Snare drum instrument.
+     */
     SNARE_DRUM(
             SnareDrum.getInstance()
     ),
 
+    /**
+     * Bass drum instrument.
+     */
     BASS_DRUM(
             BassDrumSynthesizer.getInstance()
     ),
 
+    /**
+     * Timbales instrument.
+     */
     TIMBALES(
             Timbales.getInstance()
     ),
 
-    TRIANGLE(new AdsrDecorator(Triangle.getINSTANCE(), 0.05, 0.1, 1, 0.5));
+    /**
+     * The Triangle.
+     */
+    TRIANGLE(new AdsrDecorator(Triangle.getINSTANCE(), 0.05, 0.1, 1, 0.5)),
+
+    /**
+     * Xylophone instrument.
+     */
+    XYLOPHONE(XylophoneSynthesizer.getINSTANCE());
 
     /** The final synthesizer after all decorators are applied. */
     private final NoteSynthesizer synthesizer;

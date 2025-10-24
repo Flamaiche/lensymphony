@@ -16,16 +16,25 @@ class TestHarmonic {
 
     private Harmonic harmonic;
 
+    /**
+     * Sets up.
+     */
     @BeforeEach
     void setUp() {
         harmonic = new Harmonic(10);
     }
 
+    /**
+     * Test constructor with octave.
+     */
     @Test
     void testConstructorWithOctave() {
         assertNotNull(harmonic, "Harmonic should be instantiated");
     }
 
+    /**
+     * Test synthesize not null.
+     */
     @Test
     void testSynthesizeNotNull() {
         // Création d'une note musicale : pitch = C4, valeur = QUARTER

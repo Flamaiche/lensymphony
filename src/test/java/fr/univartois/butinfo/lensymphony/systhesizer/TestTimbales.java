@@ -7,20 +7,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
  * Unit tests for the Timbales class.
  * Tests singleton behavior, envelope computation, raw sample generation,
  * and synthesis with different notes and volume levels.
  * Author: Jabir
  */
-
-
 class TestTimbales {
 
     /**
      * Tests that Timbales is a singleton.
      */
-
     @Test
     void testSingleton() {
         Timbales t1 = Timbales.getInstance();
@@ -33,7 +31,6 @@ class TestTimbales {
      * It verifies that the generated raw audio sample for a given note and time
      * is within the expected range [-1, 1].
      */
-
     @Test
     void testComputeRawSample() {
         Timbales timbales = Timbales.getInstance();
@@ -55,7 +52,6 @@ class TestTimbales {
      * - For attack (t < a), the envelope should linearly scale as t / a.
      * - For decay (t >= a), the envelope should follow the exponential decay formula.
      */
-
     @Test
     void testEnvelope() {
         Timbales timbales = Timbales.getInstance();
@@ -66,13 +62,13 @@ class TestTimbales {
         double decay = timbales.envelope(0.05);
         assertEquals(Math.exp((0.01 - 0.05) / 0.2), decay, 1e-12);
     }
+
     /**
      * Tests the synthesize method of the Timbales class.
      * Verifies that the generated audio samples for a given note:
      * - Produce an array of the expected length based on the note duration.
      * - All sample values remain within the valid range [-1, 1].
      */
-
     @Test
     void testSynthesize() {
         Timbales timbales = Timbales.getInstance();

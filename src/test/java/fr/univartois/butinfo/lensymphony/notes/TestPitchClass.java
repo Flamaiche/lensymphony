@@ -7,11 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link PitchClass} enumeration.
- *
+ * <p>
  * These tests verify the mapping behavior of {@link PitchClass#fromName(String)}.
  */
 class TestPitchClass {
 
+    /**
+     * Test from name valid notes.
+     */
     @Test
     @DisplayName("Valid pitch names are correctly mapped")
     void testFromName_ValidNotes() {
@@ -34,6 +37,9 @@ class TestPitchClass {
         assertEquals(PitchClass.B, PitchClass.fromName("B"));
     }
 
+    /**
+     * Test from name case insensitive.
+     */
     @Test
     @DisplayName("Method is case-insensitive")
     void testFromName_CaseInsensitive() {
@@ -43,6 +49,9 @@ class TestPitchClass {
         assertEquals(PitchClass.G_SHARP_A_FLAT, PitchClass.fromName("g#"));
     }
 
+    /**
+     * Test from name invalid name.
+     */
     @Test
     @DisplayName("Invalid pitch names throw IllegalArgumentException")
     void testFromName_InvalidName() {
@@ -50,6 +59,9 @@ class TestPitchClass {
         assertThrows(IllegalArgumentException.class, () -> PitchClass.fromName("Z#"));
     }
 
+    /**
+     * Test from name null input.
+     */
     @Test
     @DisplayName("Null input throws NullPointerException")
     void testFromName_NullInput() {

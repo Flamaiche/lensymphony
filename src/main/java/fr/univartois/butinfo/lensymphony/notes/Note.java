@@ -28,7 +28,6 @@ package fr.univartois.butinfo.lensymphony.notes;
  * their frequency and duration (w.r.t. a given tempo).
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public interface Note {
@@ -45,7 +44,6 @@ public interface Note {
      * minute (BPM).
      *
      * @param tempo The tempo in beats per minute (BPM).
-     *
      * @return The duration of this note, in milliseconds.
      */
     int getDuration(int tempo);

@@ -10,11 +10,17 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The type Test music xml sax parser.
+ */
 class TestMusicXMLSaxParser {
 
     private MusicXMLSaxParser parser;
     private AbstractNoteFactory factory;
 
+    /**
+     * Sets .
+     */
     @BeforeEach
     void setup() {
         // Implémentation minimale pour les tests
@@ -67,6 +73,12 @@ class TestMusicXMLSaxParser {
     private static class SimpleAttributes implements Attributes {
         private final Map<String, String> values = new HashMap<>();
 
+        /**
+         * Sets value.
+         *
+         * @param key   the key
+         * @param value the value
+         */
         void setValue(String key, String value) {
             values.put(key, value);
         }
@@ -90,6 +102,9 @@ class TestMusicXMLSaxParser {
         @Override public String getValue(String s, String s1) {return "";}
     }
 
+    /**
+     * Test tempo reading.
+     */
     @Test
     void testTempoReading() {
         SimpleAttributes attr = new SimpleAttributes();
@@ -100,6 +115,9 @@ class TestMusicXMLSaxParser {
         assertEquals(120, parser.getTempo(), "Tempo should be read correctly from <sound>");
     }
 
+    /**
+     * Test instrument name mapping.
+     */
     @Test
     void testInstrumentNameMapping() {
         SimpleAttributes attr = new SimpleAttributes();

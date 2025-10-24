@@ -41,7 +41,6 @@ import javax.sound.sampled.SourceDataLine;
  * of notes.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public interface MusicSynthesizer {
@@ -74,8 +73,7 @@ public interface MusicSynthesizer {
      * array.
      *
      * @return The synthesized audio data as a byte array.
-     *
-     * @see #synthesize()
+     * @see #synthesize() #synthesize()
      */
     default byte[] getAudioData() {
         double[] samples = getSamples();
@@ -95,8 +93,7 @@ public interface MusicSynthesizer {
      * anything.
      *
      * @throws LineUnavailableException If an audio line cannot be opened.
-     *
-     * @see #synthesize()
+     * @see #synthesize() #synthesize()
      */
     default void play() throws LineUnavailableException {
         AudioFormat format = new AudioFormat(SAMPLE_RATE, Short.SIZE, 1, true, false);
@@ -114,10 +111,8 @@ public interface MusicSynthesizer {
      * If the audio stream has not been synthesized yet, the resulting file will be empty.
      *
      * @param filename The name of the WAV file to save the audio stream to.
-     *
      * @throws IOException If an I/O error occurs while writing the file.
-     *
-     * @see #synthesize()
+     * @see #synthesize() #synthesize()
      */
     default void save(String filename) throws IOException {
         AudioFormat format = new AudioFormat(SAMPLE_RATE, Short.SIZE, 1, true, false);
