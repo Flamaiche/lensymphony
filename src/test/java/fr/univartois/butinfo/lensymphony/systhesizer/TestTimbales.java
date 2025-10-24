@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 /**
  * Unit tests for the Timbales class.
  * Tests singleton behavior, envelope computation, raw sample generation,
@@ -27,9 +26,7 @@ class TestTimbales {
     }
 
     /**
-     * Tests the computeRawSample method of the Timbales class.
-     * It verifies that the generated raw audio sample for a given note and time
-     * is within the expected range [-1, 1].
+     * Tests that computeRawSample generates a value within [-1, 1].
      */
     @Test
     void testComputeRawSample() {
@@ -47,10 +44,37 @@ class TestTimbales {
     }
 
     /**
-     * Tests the envelope method of the Timbales class.
-     * Verifies that the envelope correctly computes both the attack and decay phases:
-     * - For attack (t < a), the envelope should linearly scale as t / a.
-     * - For decay (t >= a), the envelope should follow the exponential decay formula.
+     * Tests that computeRawSample returns 0.0 when duration is zero or negative.
+     */
+    @Test
+    void testComputeRawSampleWithZeroOrNegativeDuration() {
+        Timbales timbales = Timbales.getInstance();
+
+        Note zeroDuration = new Note() {
+            @Override
+            public int getDuration(int tempo) { return 0; }
+            @Override
+            public double getFrequency() { return 440; }
+        };
+
+        Note negativeDuration = new Note() {
+            @Override
+            public int getDuration(int tempo) { return -100; }
+            @Override
+            public double getFrequency() { return 440; }
+        };
+
+        int tempo = 120;
+
+        double sampleZero = timbales.computeRawSample(zeroDuration, 0.1, tempo);
+        double sampleNegative = timbales.computeRawSample(negativeDuration, 0.1, tempo);
+
+        assertEquals(0.0, sampleZero, 1e-12);
+        assertEquals(0.0, sampleNegative, 1e-12);
+    }
+
+    /**
+     * Tests the envelope computation for attack and decay phases.
      */
     @Test
     void testEnvelope() {
@@ -64,10 +88,7 @@ class TestTimbales {
     }
 
     /**
-     * Tests the synthesize method of the Timbales class.
-     * Verifies that the generated audio samples for a given note:
-     * - Produce an array of the expected length based on the note duration.
-     * - All sample values remain within the valid range [-1, 1].
+     * Tests that synthesize generates valid samples in [-1, 1].
      */
     @Test
     void testSynthesize() {
