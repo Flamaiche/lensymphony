@@ -16,23 +16,23 @@ hide empty members
 ' Note representations '
 ' -------------------- '
 
-enum NoteValue {
-    + {static} WHOLE
-    + {static} HALF
-    + {static} QUARTER
-    + {static} EIGHTH
-    + {static} SIXTEENTH
-    + {static} THIRTY_SECOND
-    + {static} SIXTY_FOURTH
-    + {static} ONE_HUNDRED_TWENTY_EIGHTH
-    + {static} TWO_HUNDRED_FIFTY_SIXTH
-    - fractionOfWhole
-    - type
-
-    ~ NoteValue(fractionOfWhole: double, type: String)
-    + duration(tempo: int): int
-    + {static} fromString(type: String): NoteValue
-}
+    enum NoteValue {
+        + {static} WHOLE
+        + {static} HALF
+        + {static} QUARTER
+        + {static} EIGHTH
+        + {static} SIXTEENTH
+        + {static} THIRTY_SECOND
+        + {static} SIXTY_FOURTH
+        + {static} ONE_HUNDRED_TWENTY_EIGHTH
+        + {static} TWO_HUNDRED_FIFTY_SIXTH
+        - fractionOfWhole
+        - type
+    
+        ~ NoteValue(fractionOfWhole: double, type: String)
+        + duration(tempo: int): int
+        + {static} fromString(type: String): NoteValue
+    }
 
 enum PitchClass {
     + {static} C
@@ -67,6 +67,18 @@ class NotePitch {
     + frequency(): double
 }
 
+class NoteFactory implements AbstractNoteFactory{
+    - {static} INSTANCE : NoteFactory
+    - NoteFactory()
+    + getInstance() : NoteFactory
+    + createRest(value: NoteValue) : Note
+    + createNote(pitch : NotePitch,value : NoteValue) : Note
+    + createDottedNote(note : Note)
+    + createFermataOn(note : Note)
+    + createTiedNotes(notes : Note[]) : Note 
+    + createTiedNotes(notes : List<Note>) : Note
+}    
+
 interface Note {
     + {abstract} getFrequency(): double
     + {abstract} getDuration(tempo: int): int
@@ -91,7 +103,7 @@ class MusicalNote implements Note {
 
 abstract class DecoratorNoteSynthesizer implements NoteSynthesizer {
     * base: NoteSynthesizer
-    + DecoratorNoteSynthesizer(base: NoteSynthesizer)
+    * DecoratorNoteSynthesizer(base: NoteSynthesizer)
     + synthesize(note: Note, tempo: int, volume: double): double[]
     * abstract applyEffect(samples : double [] ,note: Note,tempo : int , volume : double) : double []  
 }
@@ -109,13 +121,15 @@ class AdsrDecorator extends DecoratorNoteSynthesizer{
      - r : double
      +AdsrDecorator(base: NoteSynthesizer,a:double,d:double,s:double,r:double)
      * applyEffect(samples: double[], note: Note, tempo: int,volume : double): double[]
+     * getEnvelopeValue(currentTime : double,totalTime : double): double
 
 }
 
 class WhiteNoiseDecorator extends DecoratorNoteSynthesizer {
     - noiseLevel: double
+    - {static} rand : Random
     + WhiteNoiseDecorator(base: NoteSynthesizer, noiseLevel: double)
-    # applyEffect(samples: double[], note: Note, tempo: int, volume: double): double[]
+    * applyEffect(samples: double[], note: Note, tempo: int, volume: double): double[]
 }
 
 class ComplexHarmonicsDecorator extends DecoratorNoteSynthesizer {
@@ -123,7 +137,7 @@ class ComplexHarmonicsDecorator extends DecoratorNoteSynthesizer {
     - frequencyMultiplierFunction: IntUnaryOperator
     - harmonicAmplitudeFunction: BiFunction<Integer, Double, Double>
     + ComplexHarmonicsDecorator(base: NoteSynthesizer, numHarmonics: int, frequencyMultiplierFunction: IntUnaryOperator, harmonicAmplitudeFunction: BiFunction<Integer, Double, Double>)
-    # applyEffect(samples: double[], note: Note, tempo: int, volume: double): double[]
+    * applyEffect(samples: double[], note: Note, tempo: int, volume: double): double[]
 }
 
 class VibratoDecorator extends DecoratorNoteSynthesizer {
@@ -197,7 +211,7 @@ interface NoteSynthesizer {
 }
 
 class PureTone implements NoteSynthesizer {
-    - static final INSTANCE : PureTone
+    - {static} INSTANCE : PureTone
     - PureTone()
     + static getINSTANCE() : PureTone
     + synthesize(note : Note, tempo : int, volume : double) : double[]
@@ -206,7 +220,6 @@ class PureTone implements NoteSynthesizer {
 
 class Harmonic implements NoteSynthesizer {
     - harmonics : NoteSynthesizer
-    --
     + Harmonic(octave : int)
     + synthesize(note : Note, tempo : int, volume : double) : double[]
 }
@@ -220,10 +233,6 @@ enum Instrument {
     + GUITAR
     + PIANO
     + FLUTE
-    + TRIANGLE
-    + BASS_DRUM
-    + SNARE_DRUM
-    + CYMBAL
     + PICCOLO
     + CLARINET
     + ALTO_SAXOPHONE
@@ -233,17 +242,29 @@ enum Instrument {
     + EUPHONIUM
     + TROMBONE
     + TUBA
+    + CYMBAL
+    + SNARE_DRUM
+    + BASS_DRUM
+    + TIMBALES
     + TRIANGLE
-
+    
     - synthesizer: NoteSynthesizer
-
+    + Instrument(synthesizer: NoteSynthesizer) 
     + getSynthesizer(): NoteSynthesizer
     + getInstrumentByName(instrumentName: String): Instrument
 }
 
+class Triangle implements NoteSynthesizer{
+    - {static} INSTANCE : Triangle
+    - Triangle ()
+    + synthesize(note : Note,tempo : int, volume : double ): double[]
+
 
 class Staff implements Iterable<Note> {
-    + Staff(notes: List<Note>)
+    - notes : ArrayList<Note>
+    - instrument : Instrument
+    + Staff(instrument: Instrument)
+    + add (note: Note) : void
     + iterator(): Iterator<Note>
     + getInstrument(): Instrument
 }
@@ -259,33 +280,31 @@ Score o-- "*" Staff
 interface MusicSynthesizer {
     + {abstract} synthesize(): void
     + {abstract} getSamples(): double[]
+    + {abstract} getTempo(): int
     + {abstract} getAudioData(): byte[]
     + {abstract} play(): void
     + {abstract} save(filename: String): void
 }
 
 class MixedMusicSynthesizer implements MusicSynthesizer {
-    - score: Score
     - tempo: int
-    - samples: double[]
+    - synthesizers : List<MusicSynthesizer>
     + MixedMusicSynthesizer(score: Score, tempo: int)
     + synthesize(): void
     + getSamples(): double[]
-    + getAudioData(): byte[]
-    + play(): void
-    + save(filename: String): void
+    + getTempo() : int
 }
 
 class SimpleMusicSynthesizer implements MusicSynthesizer {
     - {static} DEFAULT_VOLUME: double
+    - tempo: int
     - notes: Iterable<Note>
     - synthesizer: NoteSynthesizer
-    - tempo: int
     - samples: double[]
-
     + SimpleMusicSynthesizer(tempo: int, notes: Iterable<Note>, synthetizer: NoteSynthesizer)
     + synthesize(): void
     + getSamples(): double[]
+    + getTempo() : int 
 }
 
 
@@ -294,31 +313,43 @@ abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
     - d : double
     + AbstractPercussionSynthesizer(a: double, d: double)
     + synthesize(note: Note, tempo: int, volume: double): double[]
-    + abstract computeRawSample(note: Note, t: double): double
     + envelope(t: double): double
+    + abstract computeRawSample(note: Note, t: double): double
 }
 
-class Timbales {
+class BassDrumSynthesizer extends AbstractPercussionSynthesizer{
+    - {static} INSTANCE : BassDrumSynthesizer
+    - {static} F_START : double
+    - {static} F_END : double
+    - BassDrumSynthesizer()
+    + getInstance(): BassDrumSynthesizer
+    + computeRawSample(note: Note, t: double : tempo : int ): double
+    + envelope(t:double):double
+}
+
+class CymbalSynthesizer extends AbstractPercussionSynthesizer {
+     - {static} INSTANCE : Timbales
+     - {static} rand : Random
+     - CymbalSynthesizer()
+     + getInstance(): CymbalSynthesizer
+     + computeRawSample(note: Note, t: double : tempo : int ): double         
+}    
+
+class Timbales extends AbstractPercussionSynthesizer {
     - {static} INSTANCE : Timbales
     - Timbales()
-    + static getInstance(): Timbales
-    + computeRawSample(note: Note, t: double): double
+    + {static} getInstance(): Timbales
+    + computeRawSample(note: Note, t: double : tempo : int ): double
 }
 
-class SnareDrum {
+class SnareDrum extends AbstractPercussionSynthesizer {
+    - rand : Random
     - {static} INSTANCE : SnareDrum
     - SnareDrum()
-    + static getInstance(): SnareDrum
-    + computeRawSample(note: Note, t: double): double
+    + {static} getInstance(): SnareDrum
+    + computeRawSample(note: Note, t: double,tempo : int): double
     + envelope(t: double): double
 }
-
-
-AbstractPercussionSynthesizer <|-- Timbales
-AbstractPercussionSynthesizer <|-- SnareDrum
-
-SimpleMusicSynthesizer o-- "*" Note
-SimpleMusicSynthesizer o-- "1" NoteSynthesizer
 
 ' ------------ '
 ' Main classes '
@@ -327,12 +358,15 @@ SimpleMusicSynthesizer o-- "1" NoteSynthesizer
 class Example {
     - {static} noteFactory: AbstractNoteFactory
     - {static} noteSynthesizer: NoteSynthesizer
+    - Example()
     + {static} main(args: String[]): void
 }
 
 class LenSymphony {
     - {static} noteFactory: AbstractNoteFactory
-    - {static} noteSynthesizer: NoteSynthesizer
+    - LenSymphony()
+    - {static} CHOICE_INSTRUMENT_MANUALLY : boolean
+    - {static} instruments : Instrument[]
     + {static} main(args: String[]): void
 }
 
@@ -361,24 +395,24 @@ LenSymphony --> MixedMusicSynthesizer : << uses >>
 | Representation of a point on a note                    | Decorator             | Matheo Popieul  |
 | Representation of a tie between notes                  | Composite             | Jabir Danoun    |
 | Representation of a staff                              | Iterator              | Hugo Richard    |
-| Traversal of notes/silences in a staff                 |                       |                 |
+| Traversal of notes/silences in a staff                 | Iterator              | Hugo Richard    |
 | Representation of a musical piece                      | Iterator              | Malik Babahamou |
 | Representation of a fermata on a note                  | Decorator             | Jabir Danoun    |
-| Creation of musical elements (notes, silences)         |                       |                 |
+| Creation of musical elements (notes, silences)         | Strategy              | Jabir Danoun    |
 | Generation of the "pure" sound for a note              | Strategy              | Hugo Richard    |
 | Addition of harmonics to the sound of a note           | Decorator             | Matheo Popieul  |
 | Application of an ADSR envelope to the sound of a note | Decorator             | Matheo Popieul  |
 | Application of a vibrato to the sound of a note        | Decorator             | Jabir Danoun    |
 | Addition of random noise to the sound of a note        | Decorator             | Malik Babahamou |
-| Synthesis of the bass drum sound                       |                       |                 |
+| Synthesis of the bass drum sound                       | Singleton             | Matheo Popieul  |
 | Synthesis of the snare drum sound                      | Singleton             | Jabir Danoun    |
-| Synthesis of the cymbal sound                          |                       |                 |
-| Synthesis of the triangle sound                        |                       |                 |
+| Synthesis of the cymbal sound                          | Singleton             | Matheo Popieul  |
+| Synthesis of the triangle sound                        | Singleton             | Hugo Richard    |
 | Synthesis of the timpani sound                         | Singleton             | Jabir Danoun    |
-| Synthesis of the xylophone sound                       |                       |                 |
-| Definition of virtual instruments                      |                       |                 |
-| Synthesis of the ensemble piece sound                  |                       |                 |
-| Command line management                                |                       |                 |
+| Synthesis of the xylophone sound                       | Singleton             | Hugo Richard    |
+| Definition of virtual instruments                      | Singleton             | Malik Babahamou |
+| Synthesis of the ensemble piece sound                  |                       | Les 4 membres   |
+| Command line management                                |                       | Malik Babahamou |
 
 ## Team
 
