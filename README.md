@@ -259,7 +259,7 @@ class Triangle implements NoteSynthesizer{
     - Triangle ()
     + synthesize(note : Note,tempo : int, volume : double ): double[]
 
-
+}
 class Staff implements Iterable<Note> {
     - notes : ArrayList<Note>
     - instrument : Instrument
