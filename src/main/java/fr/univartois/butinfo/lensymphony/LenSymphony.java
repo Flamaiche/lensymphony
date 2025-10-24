@@ -59,10 +59,11 @@ public final class LenSymphony implements Callable<Integer> {
     private List<Instrument> voiceMappings;
 
     private static final AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
-    private final Map<String, Instrument> voiceInstruments = new HashMap<>();
 
     @Override
     public Integer call() throws Exception {
+
+        // TODO Remove useless var and use the -v/--voice for instrument instead current solution
 
         // Ask for input file
         System.out.print("Enter name to input (in : examples/ [ur-input] .xml) file: ");
@@ -89,15 +90,16 @@ public final class LenSymphony implements Callable<Integer> {
         if (playIn.isEmpty()) play = defaultPlay;
         else play = playIn.trim().equalsIgnoreCase("y");
 
-        // Ask for voice mappings if not provided
-        voiceMappings = new ArrayList<Instrument>();
-        System.out.println("Enter voice mappings (format: INSTRUMENT), one per line. Empty line to finish:");
-
         // Parse MusicXML
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
         MusicXMLSaxParser handler = new MusicXMLSaxParser(noteFactory);
         saxParser.parse(inputFile, handler);
+
+        // Ask for voice mappings if not provided
+        voiceMappings = new ArrayList<Instrument>();
+        System.out.println("Enter voice mappings (format: INSTRUMENT), one per line. Empty line to finish:");
+
 
         // Build staffs
         int trackNumber = 1;
