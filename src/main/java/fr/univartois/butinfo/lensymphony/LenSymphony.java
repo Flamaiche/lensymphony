@@ -20,7 +20,18 @@ import java.util.concurrent.Callable;
 /**
  * LenSymphony - Interactive CLI using Picocli.
  *
- * If a required option is missing, the program will prompt the user for input.
+ * This class provides a command-line interface for synthesizing and optionally
+ * playing MusicXML files. If a required option is not provided via command-line
+ * arguments, the program will prompt the user to enter the value interactively.
+ *
+ * Options:
+ *  -i, --input   : Input MusicXML file.
+ *  -o, --output  : Output file for synthesized sound (optional).
+ *  -p, --play    : Play the music in real time.
+ *  -v, --voice   : Voice-to-track mapping (format: instrument_name).
+ *
+ * Example usage:
+ * java -jar LenSymphony.jar -i song.xml -o -p -v PIANO,VIOLIN
  */
 @Command(name = "lensymphony",
         mixinStandardHelpOptions = true,
@@ -50,9 +61,6 @@ public final class LenSymphony implements Callable<Integer> {
     @Option(names = {"-p", "--play"}, description = "Play the music in real time.")
     private Boolean play;
 
-    /**
-     * Decision if play is let empty
-     */
     private final boolean defaultPlay = true;
 
     @Option(names = {"-v", "--voice"}, description = "Voice-to-track (format: instrument_name).", split = ",")
@@ -86,7 +94,6 @@ public final class LenSymphony implements Callable<Integer> {
             if (output) outputFile = new File(PATH_OUTPUT + input);
         }
 
-
         if (play == null) {
             // Ask for play option
             System.out.print("Play in real time? (y/n): ");
@@ -114,7 +121,6 @@ public final class LenSymphony implements Callable<Integer> {
                 voiceList.add(instrument);
             }
         }
-
 
         // Build staffs
         List<Staff> staffs = new ArrayList<>();
