@@ -56,14 +56,12 @@ public final class LenSymphony implements Callable<Integer> {
     private final boolean defaultPlay = true;
 
     @Option(names = {"-v", "--voice"}, description = "Voice-to-instrument mapping (format: id:instrument).", split = ",")
-    private List<Instrument> voiceMappings;
+    private List<Instrument> voiceList;
 
     private static final AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
 
     @Override
     public Integer call() throws Exception {
-
-        // TODO Remove useless var and use the -v/--voice for instrument instead current solution
 
         // Ask for input file
         System.out.print("Enter name to input (in : examples/ [ur-input] .xml) file: ");
@@ -97,20 +95,26 @@ public final class LenSymphony implements Callable<Integer> {
         saxParser.parse(inputFile, handler);
 
         // Ask for voice mappings if not provided
-        voiceMappings = new ArrayList<Instrument>();
+        voiceList = new ArrayList<>();
         System.out.println("Enter voice mappings (format: INSTRUMENT), one per line. Empty line to finish:");
+        int trackNumber = 1;
+        for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
+            String partId = entry.getKey();
+            System.out.print("Track (" + trackNumber++ + ") - ");
+            String instrumentNameFromXML = handler.getInstrumentName(partId.split("\\.")[0]);
+            Instrument instrument = getInstrumentFromUser(instrumentNameFromXML);
+            voiceList.add(instrument);
+        }
 
 
         // Build staffs
-        int trackNumber = 1;
         List<Staff> staffs = new ArrayList<>();
+        int i = 0;
         for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
             String partId = entry.getKey();
             List<Note> notes = entry.getValue();
 
-            System.out.print("Track (" + trackNumber++ + ") - ");
-            String instrumentNameFromXML = handler.getInstrumentName(partId.split("\\.")[0]);
-            Instrument instrument = getInstrumentFromUser(instrumentNameFromXML);
+            Instrument instrument = voiceList.get(i++);
 
             Staff staff = new Staff(instrument);
             for (Note note : notes) {
