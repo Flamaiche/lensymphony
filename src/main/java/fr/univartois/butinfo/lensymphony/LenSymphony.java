@@ -64,6 +64,9 @@ public final class LenSymphony implements Callable<Integer> {
     @Option(names = {"-o", "--output"}, description = "Output file for synthesized sound (optional).")
     private Boolean output;
 
+    /** Extension of MusicXML output files. */
+    private static final String EXTENSION_OUTPUT_FILE = ".wav";
+
     /** Default value for the output flag. */
     private final boolean defaultOutput = false;
 
@@ -182,7 +185,7 @@ public final class LenSymphony implements Callable<Integer> {
 
         if (outputFile != null) {
             System.out.println("Saving output to " + outputFile.getAbsolutePath());
-            // TODO: implement file export
+            mixedSynth.save(outputFile.getAbsolutePath() + EXTENSION_OUTPUT_FILE);
         }
 
         System.out.println("Finished!");
