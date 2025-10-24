@@ -231,6 +231,7 @@ enum Instrument {
     + CONTRABASS
     + VIOLIN
     + GUITAR
+    + BASS_GUITAR
     + PIANO
     + FLUTE
     + PICCOLO
@@ -247,6 +248,7 @@ enum Instrument {
     + BASS_DRUM
     + TIMBALES
     + TRIANGLE
+    + XYLOPHONE
     
     - synthesizer: NoteSynthesizer
     + Instrument(synthesizer: NoteSynthesizer) 
@@ -296,15 +298,16 @@ class MixedMusicSynthesizer implements MusicSynthesizer {
 }
 
 class SimpleMusicSynthesizer implements MusicSynthesizer {
-    - {static} DEFAULT_VOLUME: double
     - tempo: int
+    - volume : double
     - notes: Iterable<Note>
     - synthesizer: NoteSynthesizer
     - samples: double[]
-    + SimpleMusicSynthesizer(tempo: int, notes: Iterable<Note>, synthetizer: NoteSynthesizer)
+    + SimpleMusicSynthesizer(tempo: int, notes: Iterable<Note>, synthetizer: NoteSynthesizer,volume: double)
     + synthesize(): void
     + getSamples(): double[]
-    + getTempo() : int 
+    + getTempo() : int
+    + getVolume(): double 
 }
 
 
@@ -342,6 +345,14 @@ class Timbales extends AbstractPercussionSynthesizer {
     + computeRawSample(note: Note, t: double : tempo : int ): double
 }
 
+class XylophoneSynthesizer extends AbstractPercussionSynthesizer{
+    - {static} INSTANCE : XylophoneSynthesizer
+    - {static} N_HARMONICS : int
+    - XylophoneSynthesizer()
+    + {static} getInstance() : XylophoneSynthesizer
+    + computeRawSample(note: Note, t: double : tempo : int ): double
+}
+
 class SnareDrum extends AbstractPercussionSynthesizer {
     - rand : Random
     - {static} INSTANCE : SnareDrum
@@ -363,10 +374,22 @@ class Example {
 }
 
 class LenSymphony {
+    - scanner : Scanner
+    - inputFile : File
+    - defaultFile : String
+    - {static} PATH_FOLDER_MUSIC : String
+    - {static} EXTENSION_MUSIC_FILE : String
+    - output : Boolean
+    - {static} EXTENSION_OUTPUT_FILE : String
+    - defaultOutput : Boolean
+    - outputFile : File
+    - {static} PATH_OUTPUT : String
+    - play : Boolean
+    - defaultPlay : Boolean
+    - voiceList : List<Instrument>
     - {static} noteFactory: AbstractNoteFactory
-    - LenSymphony()
-    - {static} CHOICE_INSTRUMENT_MANUALLY : boolean
-    - {static} instruments : Instrument[]
+    + call() : Integer
+    - getInstrumentFromUser(instrumentNameFromXML: String) : Instrument
     + {static} main(args: String[]): void
 }
 
@@ -411,8 +434,8 @@ LenSymphony --> MixedMusicSynthesizer : << uses >>
 | Synthesis of the timpani sound                         | Singleton             | Jabir Danoun    |
 | Synthesis of the xylophone sound                       | Singleton             | Hugo Richard    |
 | Definition of virtual instruments                      | Singleton             | Malik Babahamou |
-| Synthesis of the ensemble piece sound                  |                       | Les 4 membres   |
-| Command line management                                |                       | Malik Babahamou |
+| Synthesis of the ensemble piece sound                  | Composite             | Les 4 membres   |
+| Command line management                                | Singleton             | Malik Babahamou |
 
 ## Team
 
