@@ -105,7 +105,7 @@ public final class Example {
                 noteFactory.createNote(NotePitch.of(PitchClass.G, 4), NoteValue.HALF));
 
         // Synthesizing and playing the melody.
-        MusicSynthesizer musicSynthetizer = new SimpleMusicSynthesizer(100, notes, noteSynthesizer);
+        MusicSynthesizer musicSynthetizer = new SimpleMusicSynthesizer(100, notes, noteSynthesizer, 0.5);
         musicSynthetizer.synthesize();
         musicSynthetizer.play();
     }

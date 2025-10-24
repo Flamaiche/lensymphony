@@ -18,20 +18,25 @@ import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
- * LenSymphony - Interactive CLI using Picocli.
+ * LenSymphony provides a command-line interface (CLI) for synthesizing and optionally
+ * playing MusicXML files. It supports both command-line arguments and interactive
+ * prompts for missing information.
  *
- * This class provides a command-line interface for synthesizing and optionally
- * playing MusicXML files. If a required option is not provided via command-line
- * arguments, the program will prompt the user to enter the value interactively.
+ * <p>Options:
+ * <ul>
+ *   <li>-i / --input : Path to input MusicXML file.</li>
+ *   <li>-o / --output : Flag to save synthesized output to a file.</li>
+ *   <li>-p / --play : Flag to play the music in real time.</li>
+ *   <li>-v / --voice : Comma-separated list of instruments for each track.</li>
+ * </ul>
  *
- * Options:
- *  -i, --input   : Input MusicXML file.
- *  -o, --output  : Output file for synthesized sound (optional).
- *  -p, --play    : Play the music in real time.
- *  -v, --voice   : Voice-to-track mapping (format: instrument_name).
+ * <p>If an option is not provided as an argument, the program will prompt the user
+ * to enter the value interactively.
  *
- * Example usage:
+ * <p>Example usage:
+ * <pre>
  * java -jar LenSymphony.jar -i song.xml -o -p -v PIANO,VIOLIN
+ * </pre>
  */
 @Command(name = "lensymphony",
         mixinStandardHelpOptions = true,
@@ -39,35 +44,59 @@ import java.util.concurrent.Callable;
         description = "Synthesizes and optionally plays a MusicXML file.")
 public final class LenSymphony implements Callable<Integer> {
 
+    /** Scanner used to read interactive input from the console. */
     private final Scanner scanner = new Scanner(System.in);
 
+    /** Input MusicXML file. */
     @Option(names = {"-i", "--input"}, description = "Input MusicXML file.")
     private File inputFile;
 
+    /** Default file name if none is provided interactively. */
     private final String defaultFile = "take-my-breath";
 
+    /** Path to the folder containing music examples. */
     private static final String PATH_FOLDER_MUSIC = "examples/";
+
+    /** Extension of MusicXML files. */
     private static final String EXTENSION_MUSIC_FILE = ".xml";
 
+    /** Output file flag. */
     @Option(names = {"-o", "--output"}, description = "Output file for synthesized sound (optional).")
     private Boolean output;
 
+    /** Default value for the output flag. */
     private final boolean defaultOutput = false;
 
+    /** File object for the output. */
     private File outputFile;
 
+    /** Default path for output files. */
     private static final String PATH_OUTPUT = PATH_FOLDER_MUSIC + "output/";
 
+    /** Flag to play music in real time. */
     @Option(names = {"-p", "--play"}, description = "Play the music in real time.")
     private Boolean play;
 
+    /** Default play value if not provided interactively. */
     private final boolean defaultPlay = true;
 
+    /** List of instruments to associate with each track. */
     @Option(names = {"-v", "--voice"}, description = "Voice-to-track (format: instrument_name).", split = ",")
     private List<Instrument> voiceList;
 
+    /** Singleton instance of the note factory. */
     private static final AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
 
+    /**
+     * Main callable method invoked by Picocli.
+     *
+     * <p>This method checks for missing arguments and prompts the user interactively
+     * if needed, parses the MusicXML file, constructs staffs with instruments, and
+     * synthesizes and optionally plays or saves the music.
+     *
+     * @return exit code 0 if successful, 1 if the input file does not exist.
+     * @throws Exception if parsing or synthesis fails.
+     */
     @Override
     public Integer call() throws Exception {
 
@@ -102,7 +131,7 @@ public final class LenSymphony implements Callable<Integer> {
             else play = playIn.trim().equalsIgnoreCase("y");
         }
 
-        // Parse MusicXML
+        // Parse MusicXML file
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
         MusicXMLSaxParser handler = new MusicXMLSaxParser(noteFactory);
@@ -122,7 +151,7 @@ public final class LenSymphony implements Callable<Integer> {
             }
         }
 
-        // Build staffs
+        // Build staffs for each track
         List<Staff> staffs = new ArrayList<>();
         int i = 0;
         for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
@@ -132,7 +161,7 @@ public final class LenSymphony implements Callable<Integer> {
             try {
                 instrument = voiceList.get(i++);
             } catch (IndexOutOfBoundsException e) {
-                System.out.println("Warning : voiceList size is inf to tracklist number");
+                System.out.println("Warning : voiceList size is smaller than the number of tracks");
                 instrument = Instrument.PURE_TONE;
             }
 
@@ -147,7 +176,7 @@ public final class LenSymphony implements Callable<Integer> {
         Score score = new Score(staffs);
         MusicSynthesizer mixedSynth = new MixedMusicSynthesizer(score, handler.getTempo());
 
-        // Synthesize and optionally play/save
+        // Synthesize and optionally play or save
         mixedSynth.synthesize();
         if (play) mixedSynth.play();
 
@@ -160,17 +189,24 @@ public final class LenSymphony implements Callable<Integer> {
         return 0;
     }
 
+    /**
+     * Prompts the user to enter an instrument for a track.
+     *
+     * @param instrumentNameFromXML the default instrument name from the XML file
+     * @return the Instrument selected by the user, or the default if left empty
+     */
     private Instrument getInstrumentFromUser(String instrumentNameFromXML) {
-        Instrument instrument;
-
         System.out.print("instrument (or empty to get it automatically): ");
         String line = scanner.nextLine();
-        if (line.isEmpty()) instrument = Instrument.getInstrumentByName(instrumentNameFromXML);
-        else instrument = Instrument.getInstrumentByName(line);
-
-        return instrument;
+        if (line.isEmpty()) return Instrument.getInstrumentByName(instrumentNameFromXML);
+        else return Instrument.getInstrumentByName(line);
     }
 
+    /**
+     * Main entry point for the CLI application.
+     *
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         int exitCode = new CommandLine(new LenSymphony()).execute(args);
         System.exit(exitCode);

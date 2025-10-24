@@ -42,7 +42,8 @@ public class MixedMusicSynthesizer implements MusicSynthesizer {
     public MixedMusicSynthesizer(Score score, int tempo) {
         this.tempo = tempo;
         for (Staff staff : score) {
-            synthesizers.add(new SimpleMusicSynthesizer(tempo, staff, staff.getInstrument().getSynthesizer()));
+            // TODO : ajout du volume en fonction de la track list
+            synthesizers.add(new SimpleMusicSynthesizer(tempo, staff, staff.getInstrument().getSynthesizer(), 0.5));
         }
     }
 
