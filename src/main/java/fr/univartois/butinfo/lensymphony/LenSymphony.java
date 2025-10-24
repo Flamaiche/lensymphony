@@ -28,14 +28,24 @@ import java.util.concurrent.Callable;
         description = "Synthesizes and optionally plays a MusicXML file.")
 public final class LenSymphony implements Callable<Integer> {
 
+    private final Scanner scanner = new Scanner(System.in);
+
     @Option(names = {"-i", "--input"}, description = "Input MusicXML file.")
     private File inputFile;
+
+    private final String defaultFile = "take-my-breath";
 
     private static final String PATH_FOLDER_MUSIC = "examples/";
     private static final String EXTENSION_MUSIC_FILE = ".xml";
 
     @Option(names = {"-o", "--output"}, description = "Output file for synthesized sound (optional).")
+    private boolean output;
+
+    private final boolean defaultOutput = false;
+
     private File outputFile;
+
+    private static final String PATH_OUTPUT = PATH_FOLDER_MUSIC + "output/";
 
     @Option(names = {"-p", "--play"}, description = "Play the music in real time.")
     private Boolean play;
@@ -43,54 +53,45 @@ public final class LenSymphony implements Callable<Integer> {
     /**
      * Decision if play is let empty
      */
-    private boolean defaultPlay = true;
+    private final boolean defaultPlay = true;
 
     @Option(names = {"-v", "--voice"}, description = "Voice-to-instrument mapping (format: id:instrument).", split = ",")
-    private List<String> voiceMappings;
+    private List<Instrument> voiceMappings;
 
     private static final AbstractNoteFactory noteFactory = NoteFactory.getINSTANCE();
     private final Map<String, Instrument> voiceInstruments = new HashMap<>();
 
     @Override
     public Integer call() throws Exception {
-        Scanner scanner = new Scanner(System.in);
 
-        // Ask for missing input file
-        System.out.print("Enter path to input MusicXML file: ");
-        inputFile = new File(PATH_FOLDER_MUSIC + scanner.nextLine() + EXTENSION_MUSIC_FILE);
+        // Ask for input file
+        System.out.print("Enter name to input (in : examples/ [ur-input] .xml) file: ");
+        String input = scanner.nextLine();
+        if (input.isEmpty()) input = defaultFile;
+        inputFile = new File(PATH_FOLDER_MUSIC + input + EXTENSION_MUSIC_FILE);
 
         if (!inputFile.exists()) {
             System.err.println("File does not exist: " + inputFile.getAbsolutePath());
             return 1;
         }
 
-        System.out.print("Enter path to output file (or leave empty to skip): ");
+        // Ask for output file
+        System.out.print("Output file ? (y/n): ");
         String out = scanner.nextLine();
-        outputFile = out.isEmpty() ? null : new File(out);
+        if (out.isEmpty()) output = defaultOutput;
+        else output = out.trim().equalsIgnoreCase("y");
+        if (output) outputFile = new File(PATH_OUTPUT + input);
+
 
         // Ask for play option
         System.out.print("Play in real time? (y/n): ");
-        play = scanner.nextLine().trim().equalsIgnoreCase("y");
-
+        String playIn = scanner.nextLine();
+        if (playIn.isEmpty()) play = defaultPlay;
+        else play = playIn.trim().equalsIgnoreCase("y");
 
         // Ask for voice mappings if not provided
-        voiceMappings = new ArrayList<>();
-        System.out.println("Enter voice mappings (format: id:INSTRUMENT), one per line. Empty line to finish:");
-        while (true) {
-            String line = scanner.nextLine();
-            if (line.isEmpty()) break;
-            voiceMappings.add(line);
-        }
-
-        // Parse voice mappings
-        for (String mapping : voiceMappings) {
-            String[] parts = mapping.split(":");
-            if (parts.length == 2) {
-                voiceInstruments.put(parts[0], Instrument.getInstrumentByName(parts[1]));
-            } else {
-                System.err.println("⚠️  Invalid voice mapping: " + mapping);
-            }
-        }
+        voiceMappings = new ArrayList<Instrument>();
+        System.out.println("Enter voice mappings (format: INSTRUMENT), one per line. Empty line to finish:");
 
         // Parse MusicXML
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -99,15 +100,15 @@ public final class LenSymphony implements Callable<Integer> {
         saxParser.parse(inputFile, handler);
 
         // Build staffs
+        int trackNumber = 1;
         List<Staff> staffs = new ArrayList<>();
         for (Map.Entry<String, List<Note>> entry : handler.getParts().entrySet()) {
             String partId = entry.getKey();
             List<Note> notes = entry.getValue();
 
-            Instrument instrument = voiceInstruments.getOrDefault(
-                    partId,
-                    Instrument.getInstrumentByName(handler.getInstrumentName(partId.split("\\.")[0]))
-            );
+            System.out.print("Track (" + trackNumber++ + ") - ");
+            String instrumentNameFromXML = handler.getInstrumentName(partId.split("\\.")[0]);
+            Instrument instrument = getInstrumentFromUser(instrumentNameFromXML);
 
             Staff staff = new Staff(instrument);
             for (Note note : notes) {
@@ -131,6 +132,17 @@ public final class LenSymphony implements Callable<Integer> {
 
         System.out.println("Finished!");
         return 0;
+    }
+
+    private Instrument getInstrumentFromUser(String instrumentNameFromXML) {
+        Instrument instrument;
+
+        System.out.print("instrument (or empty to get it automatically): ");
+        String line = scanner.nextLine();
+        if (line.isEmpty()) instrument = Instrument.getInstrumentByName(instrumentNameFromXML);
+        else instrument = Instrument.getInstrumentByName(line);
+
+        return instrument;
     }
 
     public static void main(String[] args) {
