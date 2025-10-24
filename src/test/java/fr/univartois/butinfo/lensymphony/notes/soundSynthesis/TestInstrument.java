@@ -1,5 +1,9 @@
 package fr.univartois.butinfo.lensymphony.notes.soundSynthesis;
 
+import fr.univartois.butinfo.lensymphony.notes.NotePitch;
+import fr.univartois.butinfo.lensymphony.notes.NoteValue;
+import fr.univartois.butinfo.lensymphony.notes.PitchClass;
+import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
 import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +44,22 @@ public class TestInstrument {
         for (Instrument instrument : Instrument.values()) {
             assertNotNull(instrument.getSynthesizer(),
                     () -> "The synthesizer of " + instrument.name() + " must not be null.");
+        }
+    }
+
+    /**
+     * Test all instruments can synthesize.
+     */
+    @Test
+    void testAllInstrumentsCanSynthesize() {
+        MusicalNote note = new MusicalNote(NotePitch.of(PitchClass.A, 4), NoteValue.QUARTER);
+        double volume = 0.8;
+        int tempo = 120;
+
+        for (Instrument instrument : Instrument.values()) {
+            double[] samples = instrument.getSynthesizer().synthesize(note, tempo, volume);
+            assertNotNull(samples, "Synthesizer returned null for " + instrument.name());
+            assertTrue(samples.length > 0, "No samples generated for " + instrument.name());
         }
     }
 
