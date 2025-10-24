@@ -37,15 +37,17 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
  */
 public final class SimpleMusicSynthesizer implements MusicSynthesizer {
 
-    /**
-     * The default volume level for the notes.
-     */
-    private static final double DEFAULT_VOLUME = 0.5;
 
     /**
      * The tempo of the music in beats per minute (BPM).
      */
     private final int tempo;
+
+    /**
+     * The volume level for the notes (between 0.0 and 1.0).
+     */
+    private final double volume;
+
 
     /**
      * The sequence of notes to play in the audio stream.
@@ -69,10 +71,11 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
      * @param notes       The notes to play in the audio stream.
      * @param synthetizer The note synthesizer used to generate the audio samples.
      */
-    public SimpleMusicSynthesizer(int tempo, Iterable<Note> notes, NoteSynthesizer synthetizer) {
+    public SimpleMusicSynthesizer(int tempo, Iterable<Note> notes, NoteSynthesizer synthetizer, double volume) {
         this.tempo = tempo;
         this.notes = notes;
         this.synthesizer = synthetizer;
+        this.volume = volume;
         this.samples = new double[0];
     }
 
@@ -85,7 +88,7 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
     public void synthesize() {
         for (Note note : notes) {
             // Synthesizing the sound samples for this note.
-            double[] noteSamples = synthesizer.synthesize(note, tempo, DEFAULT_VOLUME);
+            double[] noteSamples = synthesizer.synthesize(note, tempo, volume);
 
             // Appending the samples to the overall audio stream.
             int previousLength = samples.length;
@@ -112,6 +115,10 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
     @Override
     public int getTempo() {
         return tempo;
+    }
+
+    public double getVolume() {
+        return volume;
     }
 
 }
