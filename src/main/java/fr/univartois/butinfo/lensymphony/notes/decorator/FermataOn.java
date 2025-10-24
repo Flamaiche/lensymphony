@@ -5,9 +5,9 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
 /**
  * Represents a note with a fermata  applied.
  * The note is played longer than its original duration.
+ *
  * @author Jabir Danoun
  */
-
 public class FermataOn extends DecoratorNote {
 
     /**
@@ -16,7 +16,6 @@ public class FermataOn extends DecoratorNote {
      * @param note the note to decorate with a fermata
      * @throws NullPointerException if the note is null
      */
-
     public FermataOn(Note note) {
         super(note);
         if (note == null){

@@ -11,7 +11,13 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
  */
 public abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
 
+    /**
+     * The A.
+     */
     protected final double a;
+    /**
+     * The D.
+     */
     protected final double d;
 
     /**
@@ -48,7 +54,6 @@ public abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
      * @param t time in seconds
      * @return envelope value
      */
-
     public double envelope(double t) {
         if (t < a) return t / a;
         return Math.exp((a - t) / d);
@@ -60,7 +65,7 @@ public abstract class AbstractPercussionSynthesizer implements NoteSynthesizer {
      *
      * @param note  the note
      * @param t     time in seconds
-     * @param tempo
+     * @param tempo the tempo
      * @return raw sample value
      */
     public abstract double computeRawSample(Note note, double t, int tempo);

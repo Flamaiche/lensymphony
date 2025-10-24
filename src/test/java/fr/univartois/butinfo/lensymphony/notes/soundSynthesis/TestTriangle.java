@@ -7,20 +7,19 @@ import fr.univartois.butinfo.lensymphony.notes.element.MusicalNote;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * The type Test pure tone.
+ * The type Test triangle.
  */
-class TestPureTone {
+class TestTriangle {
 
     /**
      * Test singleton instance.
      */
     @Test
     void testSingletonInstance() {
-        PureTone instance1 = PureTone.getINSTANCE();
-        PureTone instance2 = PureTone.getINSTANCE();
+        Triangle instance1 = Triangle.getINSTANCE();
+        Triangle instance2 = Triangle.getINSTANCE();
 
         assertNotNull(instance1, "The instance should not be null");
         assertSame(instance1, instance2, "Both instances should be the same (singleton)");
@@ -31,7 +30,7 @@ class TestPureTone {
      */
     @Test
     void testSynthesizeProducesSamples() {
-        PureTone instance = PureTone.getINSTANCE();
+        Triangle triangle = Triangle.getINSTANCE();
 
         MusicalNote note = new MusicalNote(NotePitch.of(PitchClass.A, 4),
                 NoteValue.QUARTER);
@@ -39,7 +38,7 @@ class TestPureTone {
         double volume = 0.8;
         int tempo = 120;
 
-        double[] samples = instance.synthesize(note, tempo, volume);
+        double[] samples = triangle.synthesize(note, tempo, volume);
 
         assertNotNull(samples, "The generated samples should not be null");
         assertTrue(samples.length > 0, "There should be at least one sample");

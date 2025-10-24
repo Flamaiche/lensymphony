@@ -25,8 +25,7 @@ public class Score implements Iterable<Staff> {
     /**
      * Creates a new {@code Score} instance with the specified list of staves.
      *
-     * @param staffs The list of staves that compose this score.
-     *               It must not be {@code null}.
+     * @param staffs The list of staves that compose this score.               It must not be {@code null}.
      */
     public Score(List<Staff> staffs) {
         this.staffs = staffs;

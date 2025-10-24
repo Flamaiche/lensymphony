@@ -33,7 +33,6 @@ import java.util.Map;
  * Each NotePitch instance is unique for a given pitch class and octave combination.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public final class NotePitch {
@@ -82,8 +81,7 @@ public final class NotePitch {
      * Retrieves the NotePitch instance for the given pitch class and octave.
      *
      * @param pitchClass The pitch class of the note (C, D, E, etc.).
-     * @param octave The octave of the note (0 to 8).
-     *
+     * @param octave     The octave of the note (0 to 8).
      * @return The NotePitch instance for the given pitch class and octave.
      */
     public static NotePitch of(PitchClass pitchClass, int octave) {
@@ -94,9 +92,8 @@ public final class NotePitch {
      * Retrieves the NotePitch instance for the given pitch class, octave and alteration.
      *
      * @param pitchClass The pitch class of the note (C, D, E, etc.).
-     * @param octave The octave of the note (0 to 8).
+     * @param octave     The octave of the note (0 to 8).
      * @param alteration The alteration of the note (number of semitones to add or remove).
-     *
      * @return The NotePitch instance for the given pitch class and octave.
      */
     public static NotePitch of(PitchClass pitchClass, int octave, int alteration) {
@@ -136,7 +133,6 @@ public final class NotePitch {
      * Alters this pitch by the given number of semitones.
      *
      * @param alteration The number of semitones to add (positive) or remove (negative).
-     *
      * @return The altered NotePitch instance.
      */
     public NotePitch alter(int alteration) {
@@ -148,8 +144,7 @@ public final class NotePitch {
      * This corresponds to a flat alteration.
      *
      * @return The altered NotePitch instance.
-     *
-     * @see #alter(int)
+     * @see #alter(int) #alter(int)
      */
     public NotePitch flat() {
         return alter(-1);
@@ -160,8 +155,7 @@ public final class NotePitch {
      * This corresponds to a sharp alteration.
      *
      * @return The altered NotePitch instance.
-     *
-     * @see #alter(int)
+     * @see #alter(int) #alter(int)
      */
     public NotePitch sharp() {
         return alter(1);

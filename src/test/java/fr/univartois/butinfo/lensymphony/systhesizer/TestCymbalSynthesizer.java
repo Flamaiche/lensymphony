@@ -36,7 +36,6 @@ class TestCymbalSynthesizer {
      * Tests that {@link AbstractPercussionSynthesizer#computeRawSample(Note, double, int)} returns
      * a value within the expected range for a given time.
      */
-
     @Test
     void testComputeRawSample() {
         CymbalSynthesizer synth = CymbalSynthesizer.getINSTANCE();

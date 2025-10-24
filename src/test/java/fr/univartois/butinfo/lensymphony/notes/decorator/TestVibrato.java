@@ -19,7 +19,6 @@ public class TestVibrato {
      * by the base synthesizer. Ensures that the resulting samples
      * are not all identical to the original base samples.
      */
-
     @Test
     void testVibratoEffectApplied() {
         Note note = new Note() {
@@ -48,7 +47,6 @@ public class TestVibrato {
      * Tests that the default constructor of VibratoDecorator
      * sets the depth and speed to 5.
      */
-
     @Test
     void testDefaultConstructorValues() {
         NoteSynthesizer baseSynth = (n, tempo, volume) -> new double[]{1.0};
@@ -60,7 +58,6 @@ public class TestVibrato {
     /**
      * Tests the getter methods of VibratoDecorator for depth and speed.
      */
-
     @Test
     void testGetters() {
         NoteSynthesizer baseSynth = (n, tempo, volume) -> new double[]{1.0};
@@ -74,7 +71,6 @@ public class TestVibrato {
      * samples array produced by the base synthesizer.
      * The result should also be an empty array.
      */
-
     @Test
     void testEmptySamples() {
         NoteSynthesizer baseSynth = (n, tempo, volume) -> new double[]{};

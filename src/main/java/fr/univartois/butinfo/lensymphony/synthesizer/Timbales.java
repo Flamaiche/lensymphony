@@ -18,7 +18,6 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
  * Author: Jabir Danoun
  * Version: 1.0
  */
-
 public class Timbales extends AbstractPercussionSynthesizer {
 
     /** Unique instance of the timbales */
@@ -34,7 +33,6 @@ public class Timbales extends AbstractPercussionSynthesizer {
      *
      * @return the singleton instance
      */
-
     public static Timbales getInstance() {
         return INSTANCE;
     }

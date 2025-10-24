@@ -33,7 +33,6 @@ import fr.univartois.butinfo.lensymphony.notes.Note;
  * The audio stream can be played or saved to a WAV file.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public final class SimpleMusicSynthesizer implements MusicSynthesizer {
@@ -66,8 +65,8 @@ public final class SimpleMusicSynthesizer implements MusicSynthesizer {
     /**
      * Creates a new MusicSynthesizer.
      *
-     * @param tempo The tempo of the music in beats per minute (BPM).
-     * @param notes The notes to play in the audio stream.
+     * @param tempo       The tempo of the music in beats per minute (BPM).
+     * @param notes       The notes to play in the audio stream.
      * @param synthetizer The note synthesizer used to generate the audio samples.
      */
     public SimpleMusicSynthesizer(int tempo, Iterable<Note> notes, NoteSynthesizer synthetizer) {

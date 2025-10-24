@@ -28,7 +28,6 @@ package fr.univartois.butinfo.lensymphony.notes;
  * Basically, it represents the possible names for a note, independently of its octave.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public enum PitchClass {
@@ -98,9 +97,7 @@ public enum PitchClass {
      * The name is case-insensitive and can be either the sharp or flat representation of
      * the note.
      *
-     * @param name The name of the pitch class (e.g., {@code "C"}, {@code "C#"},
-     *        {@code "Db"}, etc.).
-     *
+     * @param name The name of the pitch class (e.g., {@code "C"}, {@code "C#"},        {@code "Db"}, etc.).
      * @return The PitchClass corresponding to the given name.
      */
     public static PitchClass fromName(String name) {

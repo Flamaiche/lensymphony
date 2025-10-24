@@ -32,7 +32,6 @@ package fr.univartois.butinfo.lensymphony.notes;
  * formats.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public enum NoteValue {
@@ -108,7 +107,6 @@ public enum NoteValue {
      * beats per minute (BPM).
      *
      * @param tempo The tempo in beats per minute (BPM).
-     *
      * @return The duration of the note in milliseconds.
      */
     public int duration(int tempo) {
@@ -120,9 +118,7 @@ public enum NoteValue {
      * Returns the NoteValue corresponding to the given string type.
      *
      * @param type The string type of the note value.
-     *
      * @return The NoteValue corresponding to the given string type.
-     *
      * @throws IllegalArgumentException If no NoteValue with the given type exists.
      */
     public static NoteValue fromString(String type) {
