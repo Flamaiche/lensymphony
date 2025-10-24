@@ -19,8 +19,6 @@ import java.util.Random;
  * Author: Jabir Danoun
  * Version: 1.0
  */
-
-
 public final class SnareDrum extends AbstractPercussionSynthesizer {
     private final Random rand = new Random();
 
@@ -38,9 +36,9 @@ public final class SnareDrum extends AbstractPercussionSynthesizer {
 
     /**
      * Returns the unique instance of the snare drum.
+     *
      * @return the singleton instance of SnareDrum
      */
-
     public static SnareDrum getInstance() {
         return INSTANCE;
     }

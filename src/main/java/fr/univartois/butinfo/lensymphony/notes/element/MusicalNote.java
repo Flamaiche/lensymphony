@@ -9,7 +9,6 @@ import fr.univartois.butinfo.lensymphony.notes.NoteValue;
  *
  * @author Jabir Danoun
  */
-
 public class MusicalNote implements Note {
 
     /**
@@ -24,14 +23,13 @@ public class MusicalNote implements Note {
 
     private final NoteValue noteValue;
 
+
     /**
      * Constructs a musical note with the given pitch and note value.
      *
-     * @param pitch the pitch of the note
+     * @param pitch     the pitch of the note
      * @param noteValue the value (duration) of the note
      */
-
-
     public MusicalNote(NotePitch pitch, NoteValue noteValue) {
         this.pitch = pitch;
         this.noteValue = noteValue;

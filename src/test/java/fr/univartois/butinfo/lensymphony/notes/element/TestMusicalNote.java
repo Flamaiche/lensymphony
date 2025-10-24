@@ -15,14 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Jabir
  */
-
 public class TestMusicalNote {
 
     /**
      * Tests that a MusicalNote object can be created and has the correct
      * frequency and duration.
      */
-
     @Test
     void testCreateNote() {
         NotePitch pitch = NotePitch.of(PitchClass.C, 4);
@@ -37,7 +35,6 @@ public class TestMusicalNote {
      * Tests that different NoteValues result in different durations
      * for the same pitch.
      */
-
     @Test
     void testDifferentNoteValues() {
         NotePitch pitch = NotePitch.of(PitchClass.A, 4);
@@ -51,7 +48,6 @@ public class TestMusicalNote {
      * Tests that getFrequency() returns the correct frequency
      * from the NotePitch.
      */
-
     @Test
     void testGetFrequency() {
         NotePitch pitch = NotePitch.of(PitchClass.C, 4);
@@ -65,7 +61,6 @@ public class TestMusicalNote {
      * Tests that getDuration() returns the correct duration
      * from the NoteValue given a specific tempo.
      */
-
     @Test
     void testGetDuration() {
         NotePitch pitch = NotePitch.of(PitchClass.A, 4);

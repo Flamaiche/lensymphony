@@ -17,14 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @author Jabir
  */
-
 public class TestTiedNotes {
 
     /**
      * Tests that a TiedNotes object correctly calculates the frequency
      * and total duration from a list of notes.
      */
-
     @Test
     void testTiedNotesFrequencyAndDuration() {
         NotePitch pitch = NotePitch.of(PitchClass.C, 4);
@@ -40,6 +38,7 @@ public class TestTiedNotes {
         int expectedDuration = note1.getDuration(tempo) + note2.getDuration(tempo);
         assertEquals(expectedDuration, tied.getDuration(tempo));
     }
+
     /**
      * Tests that constructing a TiedNotes object with an empty list
      * throws an IllegalArgumentException.
@@ -58,7 +57,6 @@ public class TestTiedNotes {
      * Tests that constructing a TiedNotes object with a null list
      * throws an IllegalArgumentException.
      */
-
     @Test
     void testTiedNotesNullListThrowsException() {
         IllegalArgumentException thrown = assertThrows(

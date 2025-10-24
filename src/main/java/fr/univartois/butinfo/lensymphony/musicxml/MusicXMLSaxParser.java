@@ -46,7 +46,6 @@ import fr.univartois.butinfo.lensymphony.notes.PitchClass;
  * sufficiently rich representation of a piece of music to be played by the synthesizer.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public final class MusicXMLSaxParser extends DefaultHandler {
@@ -460,7 +459,6 @@ public final class MusicXMLSaxParser extends DefaultHandler {
      * Gives the list of notes for a given part.
      *
      * @param partId The ID of the part.
-     *
      * @return The list of notes for the given part.
      */
     public List<Note> getNotes(String partId) {

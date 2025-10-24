@@ -19,6 +19,11 @@ public class BassDrumSynthesizer extends AbstractPercussionSynthesizer {
         super(0.01, 0.3);
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static BassDrumSynthesizer getInstance() {
         return INSTANCE;
     }

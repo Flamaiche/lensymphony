@@ -9,7 +9,6 @@ import java.util.List;
  *
  * @author Jabir Danoun
  */
-
 public class TiedNotes implements Note {
 
     /**
@@ -23,7 +22,6 @@ public class TiedNotes implements Note {
      * @param tiedNotes the notes to tie together
      * @throws IllegalArgumentException if the list is null or empty
      */
-
     public TiedNotes(List<Note> tiedNotes) {
         if (tiedNotes == null || tiedNotes.isEmpty()) {
             throw new IllegalArgumentException("Tied notes list cannot be null or empty");

@@ -36,7 +36,6 @@ import fr.univartois.butinfo.lensymphony.synthesizer.NoteSynthesizer;
  * the library.
  *
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public final class Example {
@@ -62,7 +61,6 @@ public final class Example {
      * Executes the example, and plays a simple melody.
      *
      * @param args The command line arguments (not used).
-     *
      * @throws Exception If an error occurs during synthesis or playback.
      */
     public static void main(String[] args) throws Exception {
